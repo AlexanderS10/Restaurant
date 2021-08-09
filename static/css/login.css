@@ -1,0 +1,39 @@
+body {
+    color: white;
+    font-family: "Montserrat Alternates", sans-serif;
+    background: url(../images/landing/slide/view1.jpeg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+  
+ .container{
+    border-radius: 2%;
+   background-color: rgba(0, 0, 0, 0.74);  
+ }
+ .login-container{
+    background-color: #532c2570;
+  
+  height: 100%;
+  }
+ h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat Alternates", sans-serif;
+  }
+  .vertical-center {
+    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh; /* These two lines are counted as one :-)       */
+  
+    display: flex;
+    align-items: center;
+  }
+  h1{
+      color: #FF5733;
+  }
+  p{
+      color: white;
+  }
+  label{
+      color: white;
+  }
+  
