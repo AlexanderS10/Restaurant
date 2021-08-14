@@ -36,4 +36,16 @@ body {
   label{
       color: white;
   }
-  
+  .back-home{
+    background: transparent !important;
+    border-radius: 50px;
+ 
+    -webkit-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+    border: 2px solid #FF5733 ;
+  }
+  .back-home:hover{
+    border: #FF5733 2px solid;
+    border-radius: 50px;
+    background: #FF5733 !important;
+  }

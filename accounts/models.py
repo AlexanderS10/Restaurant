@@ -12,6 +12,7 @@ class MyAccountManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, first_name=first_name, last_name=last_name, phone_number=phone_number, **other_fields)
         user.set_password(password)
+        other_fields.setdefault('is_active', True)
         other_fields.setdefault('is_customer',True)
         user.save()
         return user
@@ -49,14 +50,15 @@ class CustomUser (AbstractBaseUser, PermissionsMixin):
         verbose_name='first name', max_length=30, blank=True)
     last_name = models.CharField(
         verbose_name='last name', max_length=30, blank=True)
-    phone_number = PhoneNumberField()
+    phone_number = PhoneNumberField(region='US')
     date_joined = models.DateTimeField(
         verbose_name="date joined", auto_now_add=True)
-    is_admin = models.BooleanField(default=False, verbose_name="Is the user an admin")
-    is_staff = models.BooleanField(default=False, verbose_name="Is the user staff")
-    is_active = models.BooleanField(default=False, verbose_name="")
-    is_customer = models.BooleanField(default=False, verbose_name="Is the user a customer")
-    is_superuser = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False, verbose_name="Admin")
+    is_staff = models.BooleanField(default=False, verbose_name="Staff")
+    is_active = models.BooleanField(default=False, verbose_name="Active")
+    is_customer = models.BooleanField(default=False, verbose_name="Customer")
+    is_superuser = models.BooleanField(default=False, verbose_name="Superuser")
+    comments = models.TextField(blank=True)
     profile_image = NullBooleanField
     objects= MyAccountManager()
     USERNAME_FIELD = 'email'
@@ -79,7 +81,15 @@ def get_full_name(self):
 def get_short_name(self):
     return self.first_name
 
+def is_user_superuser(self):
+    return self.is_superuser
 
+def is_user_customer(self):
+    return self.is_customer
+
+def is_user_staff(self):
+    return self.is_staff
+    
 def __str__(self):
     return self.username
 
