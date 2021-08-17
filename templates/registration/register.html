@@ -47,7 +47,7 @@
                             <div class="emailAddressLog ">
                                 <label data-error="wrong" data-success="right" for="modalLRInput10" >Phone Number:</label>
                                 <div class="input-group mb-3">
-                                    <i class="bi bi-phone input-group-text"></i> 
+                                    <i class="bi bi-phone-fill input-group-text"></i> 
                                     {{form.phone_number}}
                                 </div>
                             </div>
@@ -73,18 +73,21 @@
                                 </p>
                             {% endif %}
                              {%for message in messages%}
-                                <p class=" label label-danger" style = "color:red">
+                                {% comment %} <p class=" label label-danger" style = "color:red">
                                     {{message}}
-                                </p>
+                                </p> {% endcomment %}
+                                <div class="alert alert-danger col-12 mb-3 alert-custom" role="alert">
+                                    {{message}}
+                                </div>
                             {%endfor%} 
-                            {%if next%}
+                            {% comment %} {%if next%}
                                 {%if user.is_authenticated%}
                                     <p>Your account does not have access, please login with an account that has access.</p>
                                 {%else%}
                                     <p>Please login to see this page</p>
                                 {%endif%}
-                            {%endif%}
-                            <button type="submit" class="btn btn-primary col-12 mb-3" value="login">Log in</button>
+                            {%endif%} {% endcomment %}
+                            <button type="submit" class="btn btn-success col-12 mb-3" value="login"><i class="bi bi-person-plus"> Register</i></button>
                             <input type="hidden" name="next" value="{{ next }}" />
                         </form>
                         <p class="login-card-footer-text">Already have an account? <a href="{% url 'login' %}"

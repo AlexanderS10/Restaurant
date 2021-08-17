@@ -49,3 +49,7 @@ body {
     border-radius: 50px;
     background: #FF5733 !important;
   }
+
+  .alert-custom{
+    line-height: 1;
+  }

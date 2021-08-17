@@ -37,23 +37,21 @@
                                     {% comment %} <input required type="password" id="id_password" class="form-control validate"  contenteditable="true" autocomplete="current-password" name="password"> {% endcomment %}
                                 </div>
                             </div>
-                            {% if form.errors %}
+                            
+                            {% comment %} {% if form.errors %}
                                 <p class=" label label-danger" style = "color:red">
                                     Invalid Username or Password
                                 </p>
-                            {% endif %}
+                            {% endif %} {% endcomment %}
                              {%for message in messages%}
-                                <p class=" label label-danger" style = "color:red">
+                                <div class="alert alert-danger alert-custom col-12 mb-4" role="alert">
                                     {{message}}
-                                </p>
+                                </div>
+                                {% comment %} <p class=" label label-danger" style = "color:red">
+                                    {{message}}
+                                </p> {% endcomment %}
                             {%endfor%} 
-                            {%if next%}
-                                {%if user.is_authenticated%}
-                                    <p>Your account does not have access, please login with an account that has access.</p>
-                                {%else%}
-                                    <p>Please login to see this page</p>
-                                {%endif%}
-                            {%endif%}
+                            
                             <button type="submit" class="btn btn-primary col-12 mb-3" value="login">Log in</button>
                             <input type="hidden" name="next" value="{{ next }}" />
                         </form>
