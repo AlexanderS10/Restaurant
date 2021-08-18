@@ -68,8 +68,9 @@
 
   <!--
     MODAL REGISTER OR LOG IN FORM
+    Not implemented due to the use of views and use of messages
   -->
-  <div class="modal fade" id="modalLRForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  {% comment %} <div class="modal fade" id="modalLRForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
     <div class="modal-dialog cascading-modal" role="document">
       <!--Content-->
@@ -171,7 +172,7 @@
       <!--/.Content-->
     </div>
   </div>
-  <!--Modal: Login / Register Form-->
+  <!--Modal: Login / Register Form--> {% endcomment %}
 
 
 
@@ -188,7 +189,7 @@
           <div class="carousel-item active" style="background: url('{%static 'images/landing/slide/view1.jpeg'%}');">
             <div class="carousel-container">
               <div class="carousel-content">
-                <h2 class="animate__animated animate__fadeInDown"><span>Delicious</span> Restaurant</h2>
+                <h2 class="animate__animated animate__fadeInDown"><span>Restaurant</span></h2>
                 <p class="animate__animated animate__fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi
                   ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea
                   voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
@@ -254,9 +255,8 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Why choose <span>Our Restaurant</span></h2>
-          <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae
-            autem.</p>
+          <h2><span>Our Restaurant</span></h2>
+          <p>Features why you can confidently choose us can be summarized in the following:</p>
         </div>
 
         <div class="row">
@@ -264,25 +264,26 @@
           <div class="col-lg-4">
             <div class="box">
               <span>01</span>
-              <h4>Lorem Ipsum</h4>
-              <p>Ulamco laboris nisi ut aliquip ex ea commodo consequat. Et consectetur ducimus vero placeat</p>
+              <h4>Amazing Views</h4>
+              <p>Our restaurant posseses natural and carefully worked areas to give you the best views and relaxing feel.  </p>
             </div>
           </div>
 
           <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="box">
               <span>02</span>
-              <h4>Repellat Nihil</h4>
-              <p>Dolorem est fugiat occaecati voluptate velit esse. Dicta veritatis dolor quod et vel dire leno para
-                dest</p>
+              <h4>Excellent Service</h4>
+              <p>Our staff has years of experience and training to provide the best service possible where you can feel comfortable
+              and welcomed.</p>
             </div>
           </div>
 
           <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="box">
               <span>03</span>
-              <h4> Ad ad velit qui</h4>
-              <p>Molestiae officiis omnis illo asperiores. Aut doloribus vitae sunt debitis quo vel nam quis</p>
+              <h4>Outstanding food and drinks</h4>
+              <p>With our excellent chefs and kitchen staff the result is food that is extraordinary. We go beyong with our fantastic deserts and menu options which you can find 
+              below our most popular options.</p>
             </div>
           </div>
 
@@ -298,9 +299,8 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Check our tasty <span>Menu</span></h2>
+          <h2>Check our tasty menu<span></span></h2>
         </div>
-
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-center">
             <ul id="menu-flters">
@@ -308,6 +308,7 @@
               <li data-filter=".filter-starters">Starters</li>
               <li data-filter=".filter-salads">Salads</li>
               <li data-filter=".filter-specialty">Specialty</li>
+              <li data-filter=".filter-deserts">Deserts</li>
             </ul>
           </div>
         </div>
@@ -373,7 +374,7 @@
               <a href="#">Greek Salad</a>
             </div>
             <div class="menu-ingredients">
-              Fresh spinach, crisp romaine, tomatoes, and Greek olives
+              Lorem, deren, trataro, filede, nerada
             </div>
           </div>
 
@@ -382,7 +383,7 @@
               <a href="#">Spinach Salad</a>
             </div>
             <div class="menu-ingredients">
-              Fresh spinach with mushrooms, hard boiled egg, and warm bacon vinaigrette
+              Lorem, deren, trataro, filede, nerada
             </div>
           </div>
 
@@ -391,7 +392,15 @@
               <a href="#">Lobster Roll</a>
             </div>
             <div class="menu-ingredients">
-              Plump lobster meat, mayo and crisp lettuce on a toasted bulky roll
+              Lorem, deren, trataro, filede, nerada
+            </div>
+          </div>
+          <div class="col-lg-6 menu-item filter-deserts">
+            <div class="menu-content">
+              <a href="#">Date Cake</a>
+            </div>
+            <div class="menu-ingredients">
+              Lorem, deren, trataro, filede, nerada
             </div>
           </div>
 
@@ -407,7 +416,7 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Check our <span>Specials</span></h2>
+          <h2><span>Take a look at our special dishes</span></h2>
           <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae
             autem.</p>
         </div>
@@ -621,9 +630,10 @@
         </div>
 
       </div>
-    </section><!-- End Events Section -->
+    </section>
+    <!-- END EVENTS SECTION-->
 
-    <!-- ======= Book A Table Section ======= -->
+    <!-- BOOK A RAPID TABLE SECTION -->
     <section id="book-a-table" class="book-a-table">
       <div class="container">
 
@@ -680,14 +690,15 @@
         </form>
 
       </div>
-    </section><!-- End Book A Table Section -->
+    </section>
+    <!-- END RAPID TABLE BOOKING -->
 
-    <!-- ======= Gallery Section ======= -->
+    <!-- GALLERY SECTION -->
     <section id="gallery" class="gallery">
       <div class="container-fluid">
 
         <div class="section-title">
-          <h2>Some photos from <span>Our Restaurant</span></h2>
+          <h2><span>Some images of our restaurant</span></h2>
           <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae
             autem.</p>
         </div>
@@ -704,56 +715,56 @@
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="{%static 'images/landing/gallery/gallery-2.jpg'%}" class="gallery-lightbox">
-                <img src="{%static 'images/landing/gallery/gallery-2.jpg'%}" alt="" class="img-fluid">
+              <a href="{%static 'images/landing/gallery/gallery-2.jpeg'%}" class="gallery-lightbox">
+                <img src="{%static 'images/landing/gallery/gallery-2.jpeg'%}" alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="{%static 'images/landing/gallery/gallery-3.jpg'%}" class="gallery-lightbox">
-                <img src="{%static 'images/landing/gallery/gallery-3.jpg'%}" alt="" class="img-fluid">
+              <a href="{%static 'images/landing/gallery/gallery-3.jpeg'%}" class="gallery-lightbox">
+                <img src="{%static 'images/landing/gallery/gallery-3.jpeg'%}" alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="{%static 'images/landing/gallery/gallery-4.jpg'%}" class="gallery-lightbox">
-                <img src="{%static 'images/landing/gallery/gallery-4.jpg'%}" alt="" class="img-fluid">
+              <a href="{%static 'images/landing/gallery/gallery-4.jpeg'%}" class="gallery-lightbox">
+                <img src="{%static 'images/landing/gallery/gallery-4.jpeg'%}" alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="{%static 'images/landing/gallery/gallery-5.jpg'%}" class="gallery-lightbox">
-                <img src="{%static 'images/landing/gallery/gallery-5.jpg'%}" alt="" class="img-fluid">
+              <a href="{%static 'images/landing/gallery/gallery-5.jpeg'%}" class="gallery-lightbox">
+                <img src="{%static 'images/landing/gallery/gallery-5.jpeg'%}" alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="{%static 'images/landing/gallery/gallery-6.jpg'%}" class="gallery-lightbox">
-                <img src="{%static 'images/landing/gallery/gallery-6.jpg'%}" alt="" class="img-fluid">
+              <a href="{%static 'images/landing/gallery/gallery-6.jpeg'%}" class="gallery-lightbox">
+                <img src="{%static 'images/landing/gallery/gallery-6.jpeg'%}" alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="{%static 'images/landing/gallery/gallery-7.jpg'%}" class="gallery-lightbox">
-                <img src="{%static 'images/landing/gallery/gallery-7.jpg'%}" alt="" class="img-fluid">
+              <a href="{%static 'images/landing/gallery/gallery-7.jpeg'%}" class="gallery-lightbox">
+                <img src="{%static 'images/landing/gallery/gallery-7.jpeg'%}" alt="" class="img-fluid">
               </a>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="{%static 'images/landing/gallery/gallery-8.jpg'%}" class="gallery-lightbox">
-                <img src="{%static 'images/landing/gallery/gallery-8.jpg'%}" alt="" class="img-fluid">
+              <a href="{%static 'images/landing/gallery/gallery-8.jpeg'%}" class="gallery-lightbox">
+                <img src="{%static 'images/landing/gallery/gallery-8.jpeg'%}" alt="" class="img-fluid">
               </a>
             </div>
           </div>
@@ -761,14 +772,15 @@
         </div>
 
       </div>
-    </section><!-- End Gallery Section -->
+    </section>
+    <!-- END GALLERY-->
 
-    <!-- ======= Chefs Section ======= -->
-    <section id="chefs" class="chefs">
+    <!-- STAFF AND CHEF SECTION-->
+    <section id="management" class="management">
       <div class="container">
 
         <div class="section-title">
-          <h2>Our Proffesional <span>Chefs</span></h2>
+          <h2><span>Staff Management</span></h2>
           <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae
             autem.</p>
         </div>
@@ -781,12 +793,6 @@
               <div class="member-info">
                 <h4>Walter White</h4>
                 <span>Master Chef</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -797,12 +803,6 @@
               <div class="member-info">
                 <h4>Sarah Jhonson</h4>
                 <span>Patissier</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -813,12 +813,6 @@
               <div class="member-info">
                 <h4>William Anderson</h4>
                 <span>Cook</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
               </div>
             </div>
           </div>
@@ -826,7 +820,8 @@
         </div>
 
       </div>
-    </section><!-- End Chefs Section -->
+    </section>
+    <!--END STAFF AND CHEFS SECTION-->>
 
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">

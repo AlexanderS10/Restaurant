@@ -30,7 +30,7 @@ def admin_view(request):
         if not current_user.is_superuser:
             messages.error(request,"You do not have access to this page")
             return redirect('login')
-        return render(request,"profiles/administration.html")
+        return render(request,"profiles/admin.html")
     else:
         messages.error(request,"You need to be logged in to access this page")
         return redirect('login')

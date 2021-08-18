@@ -362,7 +362,7 @@ Navigation Menu
 /*
 *
   modal for the log in part
-*
+* Not implemented as I am not an expert in views and I am not sure how to get it to work properly
 */
 .modal-content{
   background-color: rgba(26, 26, 27, 0.89);
@@ -403,7 +403,7 @@ li.nav-item.register-tab .active{
 
 /*
 *
-# Hero Section
+ Hero Section
 *
 */
 #hero {
@@ -1238,14 +1238,14 @@ Here is the why our system section
 /*--------------------------------------------------------------
 # Chefs
 --------------------------------------------------------------*/
-.chefs {
+.management {
   background: url("../images/landing/chefs-bg.jpg") center center no-repeat;
   background-size: cover;
   padding: 60px 0;
   position: relative;
 }
 
-.chefs::before {
+.management::before {
   content: '';
   position: absolute;
   left: 0;
@@ -1256,22 +1256,22 @@ Here is the why our system section
   z-index: 9;
 }
 
-.chefs .container {
+.management .container {
   position: relative;
   z-index: 10;
 }
 
-.chefs .member {
+.management .member {
   text-align: center;
   margin-bottom: 80px;
   position: relative;
 }
 
-.chefs .member .pic {
+.management .member .pic {
   overflow: hidden;
 }
 
-.chefs .member .member-info {
+.management .member .member-info {
   position: absolute;
   bottom: -80px;
   left: 20px;
@@ -1284,7 +1284,7 @@ Here is the why our system section
   transition: max-height 0.5s ease-in-out;
 }
 
-.chefs .member h4 {
+.management .member h4 {
   font-weight: 500;
   margin-bottom: 10px;
   font-size: 16px;
@@ -1294,7 +1294,7 @@ Here is the why our system section
   font-family: "Poppins", sans-serif;
 }
 
-.chefs .member h4::after {
+.management .member h4::after {
   content: '';
   position: absolute;
   display: block;
@@ -1305,38 +1305,38 @@ Here is the why our system section
   left: calc(50% - 25px);
 }
 
-.chefs .member span {
+.management .member span {
   font-style: italic;
   display: block;
   font-size: 13px;
 }
 
-.chefs .member .social {
+.management .member .social {
   margin-top: 15px;
 }
 
-.chefs .member .social a {
+.management .member .social a {
   transition: color 0.3s;
   color: #7a7368;
 }
 
-.chefs .member .social a:hover {
+.management .member .social a:hover {
   color: #FF5733 ;
 }
 
-.chefs .member .social i {
+.management .member .social i {
   font-size: 16px;
   margin: 0 2px;
 }
 
 @media (max-width: 992px) {
-  .chefs .member {
+  .management .member {
     margin-bottom: 110px;
   }
 }
 
 @media (min-width: 1024px) {
-  .chefs {
+  .management {
     background-attachment: fixed;
   }
 }

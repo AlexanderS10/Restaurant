@@ -38,13 +38,11 @@
                                 </div>
                             </div>
                             
-                            {% comment %} {% if form.errors %}
-                                <p class=" label label-danger" style = "color:red">
-                                    Invalid Username or Password
-                                </p>
-                            {% endif %} {% endcomment %}
+                            {% comment %} <div class="alert alert-danger col-12 alert-custom" role="alert">
+                                    Error message is here
+                                </div> {% endcomment %}
                              {%for message in messages%}
-                                <div class="alert alert-danger alert-custom col-12 mb-4" role="alert">
+                                <div class="alert alert-danger col-12 alert-custom" role="alert">
                                     {{message}}
                                 </div>
                                 {% comment %} <p class=" label label-danger" style = "color:red">

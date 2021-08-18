@@ -50,6 +50,17 @@ body {
     background: #FF5733 !important;
   }
 
-  .alert-custom{
+  .alert{
     line-height: 1;
   }
+  
+  ul.errorlist{
+    padding: 0;
+    margin-bottom: 0;
+  }
+  li{
+    margin: 0;
+    text-align: left;
+    list-style-type: none;
+    margin-bottom: 0;
+    }
