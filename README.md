@@ -24,6 +24,7 @@ Some requirements for logging and registration:
   - If a user forgets their password then they can access the forgot password page where they will input their email so the system can send them their password.
     although this can be a security issue using a link is unnecessary as for both cases if an impostor tries to reset the password means they have hold of the
     user's email.
+
 User features.
   - Users can upload a profile image for aethetic reasons.
   - Users can change their information any time except their email.
