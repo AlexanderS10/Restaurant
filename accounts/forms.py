@@ -4,7 +4,6 @@ from accounts.models import CustomUser
 from django import forms
 from django.core.validators import RegexValidator
 from django.contrib.auth import get_user_model
-from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 User = get_user_model()

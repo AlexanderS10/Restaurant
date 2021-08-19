@@ -25,7 +25,7 @@ Some requirements for logging and registration:
     although this can be a security issue using a link is unnecessary as for both cases if an impostor tries to reset the password means they have hold of the
     user's email.
 
-User features.
+User features:
   - Users can upload a profile image for aethetic reasons.
   - Users can change their information any time except their email.
   - Customer will have access to a calendar that they can select and then be redirected to room and tables of their desire. It is still uncertain 
