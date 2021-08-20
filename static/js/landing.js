@@ -230,7 +230,7 @@
     /**
      * Testimonials slider
      */
-    new Swiper('.testimonials-slider', {
+    new Swiper('.reviews-slider', {
       speed: 600,
       loop: true,
       autoplay: {
