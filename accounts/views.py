@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.core.checks import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -63,3 +64,27 @@ def register_view(request):
     return render(request,'registration/register.html',context)
 def home_view(request):
     return render(request,"home.html",context={})
+=======
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+# Create your views here.
+from .models import *
+
+def login_view(request):
+    print(request.POST)
+    return render(request,'accounts/login.html',{})
+def home_view(request):
+    return render(request,"home.html",context={})
+# def home_view(request):
+#     if 'login_form' in request.POST:
+#         form = AuthenticationForm(request, data=request.POST or none)
+#         if form.is_valid():
+#             user_=form.get_user()
+#             login(request, user_)
+#             return redirect("/")
+#     elif 'registration_form' in request.POST:
+#         form = null
+>>>>>>> 5b60c24 (Added new images)

@@ -1,0 +1,90 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Template</title>
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i"
+        rel="stylesheet">
+    <link href="{%static 'css/login.css'%}" rel="stylesheet" />
+    <link href="{%static 'assets/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet" />
+    <link href="{%static 'assets/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+    <link href="{%static 'assets/boxicons/css/boxicons.min.css'%}" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="login-container vertical-center ">
+        <div class="container col-md-3 px-0">
+            <div class="row no-gutters px-0">
+                <div class="col-md">
+                    <div class="card-body">
+                        <div class="brand-wrapper">
+                            <h1> Restaurant </h1>
+                        </div>
+                        <p class="login-card-description">Sign into your account</p>
+                        <form action="" class="mx-3" method="post">
+                        {% csrf_token %}
+                            <div class="emailAddressLog">
+                                <label data-error="wrong" data-success="right" for="modalLRInput10" class="mt-3">Email
+                                    Address:</label>
+                                <div class="input-group mb-3">
+                                    <i class="bi bi-envelope-fill input-group-text"></i>
+                                    <input type="text" id="modalInputEmail" class="form-control validate" name="username">
+                                </div>
+                            </div>
+                            <div class="passwordLog mb-4">
+                                <label data-error="wrong" data-success="right" for="modalLRInput11">Password:</label>
+                                <div class="input-group">
+                                    <i class="bi bi-lock-fill input-group-text"></i>
+                                    <input type="password" id="modalInputPassword" class="form-control validate" name="password">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary col-12 mb-3" value="OK">Log in</button>
+                        </form>
+                        <a href="#!" class="forgot-password-link">Forgot password?</a>
+                        <p class="login-card-footer-text">Don't have an account? <a href="#!"
+                                class="text-reset">Register here</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="card login-card">
+        <img src="assets/images/login.jpg" alt="login" class="login-card-img">
+        <div class="card-body">
+          <h2 class="login-card-title">Login</h2>
+          <p class="login-card-description">Sign in to your account to continue.</p>
+          <form action="#!">
+            <div class="form-group">
+              <label for="email" class="sr-only">Email</label>
+              <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label for="password" class="sr-only">Password</label>
+              <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+            </div>
+            <div class="form-prompt-wrapper">
+              <div class="custom-control custom-checkbox login-card-check-box">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                <label class="custom-control-label" for="customCheck1">Remember me</label>
+              </div>              
+              <a href="#!" class="text-reset">Forgot password?</a>
+            </div>
+            <input name="login" id="login" class="btn btn-block login-btn mb-4" type="button" value="Login">
+          </form>
+          <p class="login-card-footer-text">Don't have an account? <a href="#!" class="text-reset">Register here</a></p>
+        </div>
+      </div> -->
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
