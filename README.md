@@ -1,6 +1,6 @@
 # Restaurant
 Due to issues with my db I restarted the project in a new branch. 
-This project will be used to learn more python and django at the same time, features can be changed or added over time as I acquire the experience. I will also learn how to use git and github hence the new branch creation and multiple unnecessary commits. The system will include as many as realistic use cases and features but also unnecessary ones that can teach me more about the framework. I will most likely also use a front end framework to make things easier when displaying items. 
+This project will be used to learn more python and django at the same time, features can be changed or added over time as I acquire the experience. I will also learn how to use git and github hence the new branch creation and multiple unnecessary or contradicting commits. The system will include as many as realistic use cases and features but also unnecessary ones that can teach me more about the framework. I will most likely also use a front end framework to make things easier when displaying items. 
 The purpose is to have a fully functional website for a restaurant where there will be three types of users: Customer, Staff and Admin. 
 For security when loggin in I will use django and python provided functions and change them to my needs to keep it as secure as possible.
 Each user will have different permissions with admin having total control over the users and all the restaurant.
