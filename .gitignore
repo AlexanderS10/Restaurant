@@ -23,7 +23,6 @@ accounts/migrations/__pycache__/0002_auto_20210810_1801.cpython-39.pyc
 profiles/__pycache__/__init__.cpython-39.pyc
 profiles/__pycache__/views.cpython-39.pyc
 <<<<<<< HEAD
-<<<<<<< HEAD
 >>>>>>> parent of 536b766 (Merge branch 'main' of https://github.com/AlexanderS10/Restaurant)
 =======
 # accounts/__pycache__
@@ -36,5 +35,3 @@ profiles/__pycache__/views.cpython-39.pyc
 =======
 profiles/__init__.py
 >>>>>>> parent of 3084503 (updated ignore file)
-=======
->>>>>>> parent of 536b766 (Merge branch 'main' of https://github.com/AlexanderS10/Restaurant)
