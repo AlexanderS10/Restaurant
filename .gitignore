@@ -1,8 +1,8 @@
 restaurant/
 manage.py
-# accounts/__pycache__
-# accounts/migrations
-# accounts/__init__.py
-# profiles/__pycache__
-# profiles/migrations
-# profiles/__init__.py
+accounts/__pycache__
+accounts/migrations
+accounts/__init__.py
+profiles/__pycache__
+profiles/migrations
+profiles/__init__.py
