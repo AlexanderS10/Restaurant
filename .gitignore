@@ -6,6 +6,7 @@ accounts/__init__.py
 profiles/__pycache__
 profiles/migrations
 <<<<<<< HEAD
+<<<<<<< HEAD
 profiles/__init__.py
 =======
 profiles/__init__.py
@@ -31,3 +32,6 @@ profiles/__pycache__/views.cpython-39.pyc
 # profiles/migrations
 # profiles/__init__.py
 >>>>>>> parent of dbd68fb (Revert "Merge branch 'main' of https://github.com/AlexanderS10/Restaurant")
+=======
+profiles/__init__.py
+>>>>>>> parent of 3084503 (updated ignore file)
