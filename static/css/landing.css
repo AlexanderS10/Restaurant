@@ -362,11 +362,7 @@ Navigation Menu
 /*
 *
   modal for the log in part
-<<<<<<< HEAD
 * Not implemented as I am not an expert in views and I am not sure how to get it to work properly
-=======
-*
->>>>>>> 5b60c24 (Added new images)
 */
 .modal-content{
   background-color: rgba(26, 26, 27, 0.89);
@@ -407,11 +403,7 @@ li.nav-item.register-tab .active{
 
 /*
 *
-<<<<<<< HEAD
  Hero Section
-=======
-# Hero Section
->>>>>>> 5b60c24 (Added new images)
 *
 */
 #hero {
