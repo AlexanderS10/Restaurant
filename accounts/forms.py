@@ -4,6 +4,7 @@ from accounts.models import CustomUser
 from django import forms
 from django.core.validators import RegexValidator
 from django.contrib.auth import get_user_model
+from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 User = get_user_model()
@@ -21,7 +22,6 @@ User = get_user_model()
 #     }))
 
 class LoginForm(forms.Form):
-
     email = forms.EmailField(required=True, max_length=100, widget=forms.EmailInput(attrs={
         'class': 'form-control validate',
         'id': 'id_username'
@@ -30,11 +30,12 @@ class LoginForm(forms.Form):
         'class': 'form-control validate',
         'id': 'id_password'
     }))
+    #Verify if the email entered returns an existing user if not then an error will be printed
     def clean_email(self):
         email = self.cleaned_data.get("email")
         qs = User.objects.filter(email__iexact=email)
         if not qs.exists():
-            raise forms.ValidationError("This is an invalid user.")
+            raise forms.ValidationError("Incorrect Username or Password")
         return email
 class RegisterForm(forms.Form):
     class Meta:
@@ -58,20 +59,21 @@ class RegisterForm(forms.Form):
     }))
     password1 = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput(attrs={
         'class': 'form-control validate',
-        'id': 'id_password'
+        'id': 'id_password' 
     }))
     password2 = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput(attrs={
         'class': 'form-control validate',
         'id': 'id_password2'
     }))
-
-    def clean_email(self):#If a new user is trying to use an already registered email then it won't work
+    #If a new user is trying to use an already registered email then it will print an error
+    def clean_email(self):
         email = self.cleaned_data.get("email")
         qs = User.objects.filter(email__iexact=email)
         if qs.exists():
             raise forms.ValidationError("Email Address already in use.")
         return email
-    def clean(self):#Here I will validate the passwords being the same otherwise an error will be printed
+    #Here it will be validated if the two passwords are the same otherwise an error will be shown
+    def clean(self):
         cleaned_data = super().clean()
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")

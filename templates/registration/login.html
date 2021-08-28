@@ -17,7 +17,7 @@
                             <h1> Restaurant </h1>
                         </div>
                         <p class="login-card-description">Sign into your account</p>
-                        <a type="button" class="btn btn-secondary back-home" href= "{%url ''%}"><i class="bi bi-house-fill"></i></a>
+                        <a  class="btn btn-secondary back-home" href= "{%url ''%}"><i class="bi bi-house-fill"></i></a>
                         <form action="{%url 'login'%}" class="mx-3" method="post">
                         {% csrf_token %}
                             <div class="emailAddressLog">
@@ -38,22 +38,22 @@
                                 </div>
                             </div>
                             
-                            {% comment %} <div class="alert alert-danger col-12 alert-custom" role="alert">
-                                    Error message is here
-                                </div> {% endcomment %}
                              {%for message in messages%}
                                 <div class="alert alert-danger col-12 alert-custom" role="alert">
                                     {{message}}
                                 </div>
-                                {% comment %} <p class=" label label-danger" style = "color:red">
-                                    {{message}}
-                                </p> {% endcomment %}
-                            {%endfor%} 
+                                
+                            {%endfor%}  
+                            {% if form.errors %}
+                                <div class="alert alert-danger col-12 alert-custom">
+                                    {{form.errors.email}}<!--Here the error for the emal address beingin use is printed-->
+                                </div>
+                            {% endif %}
                             
                             <button type="submit" class="btn btn-primary col-12 mb-3" value="login">Log in</button>
                             <input type="hidden" name="next" value="{{ next }}" />
                         </form>
-                        <a href="#!" class="forgot-password-link">Forgot password?</a>
+                        <a href="{% url 'password_reset'%}" class="forgot-password-link">Forgot password?</a>
                         <p class="login-card-footer-text">Don't have an account? <a href="{% url 'register' %}"
                                 class="text-reset">Register here</a></p>
                     </div>

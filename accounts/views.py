@@ -9,6 +9,10 @@ from .forms import *
 from .models import *
 from django.contrib import messages
 
+    #With the reset password I would have tried two methods of views, one where I create my own which is the following  case
+    #while the reset passwords with email is the use of the included views which is the more secure approach in my opinion as it will have more security features than the ones 
+    #I can do at this moment but still I tried both methods. At the same time I found three different methods to personalize the default forms: create own, use javascript
+    # and use django-widgets-tweaks.
 def login_view(request):
     form = LoginForm(request.POST or None)
     #Here if a user is already logged in and is not anonymous if tries the login page it will redirect them to their portal as they are already logged in
@@ -22,7 +26,7 @@ def login_view(request):
             return redirect("/staff")
         elif current_user.is_anonymous:
             return redirect("login")
-    # If the info provided does match with a user, redirect them to their portal otherwise throw an error
+    # If the info provided does match with a user's password, redirect them to their portal otherwise throw an error
     elif form.is_valid():
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
