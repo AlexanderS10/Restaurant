@@ -18,6 +18,7 @@ def login_view(request):
     #Here if a user is already logged in and is not anonymous if tries the login page it will redirect them to their portal as they are already logged in
     if request.user is not None and request.user.is_anonymous==False: 
         current_user = request.user
+        id = current_user.id
         if current_user.is_customer:
             return redirect("/customer")
         elif current_user.is_staff:

@@ -17,8 +17,7 @@
                         <h1> Restaurant </h1>
                     </div>
                     <p class="login-card-description">Register here</p>
-                    <a class="btn btn-secondary back-home" href="{%url ''%}"><i
-                            class="bi bi-house-fill"></i></a>
+                    <a class="btn btn-secondary back-home" href="{%url ''%}"><i class="bi bi-house-fill"></i></a>
 
                     <form action="{%url 'register'%}" class="mx-3" method="post">
                         {% csrf_token %}
@@ -59,9 +58,6 @@
                             <div class="input-group mb-3">
                                 <i class="bi bi-lock-fill input-group-text"></i>
                                 {{form.password1}}
-                                {% comment %} <input required type="password" id="id_password"
-                                    class="form-control validate" contenteditable="true" autocomplete="current-password"
-                                    name="password"> {% endcomment %}
                             </div>
                         </div>
                         <div class="passwordLog ">
@@ -70,18 +66,17 @@
                             <div class="input-group mb-3">
                                 <i class="bi bi-lock-fill input-group-text"></i>
                                 {{form.password2}}
-                                {% comment %} <input required type="password" id="id_password"
-                                    class="form-control validate" contenteditable="true" autocomplete="current-password"
-                                    name="password"> {% endcomment %}
                             </div>
                         </div>
-                       
+
                         {% if form.errors %}
                         <div class="alert alert-danger col-12 alert-custom">
-                            {% for error in form.non_field_errors %}<!--Here is the errors for both passwords not being the same is printed-->
-                                {{ error }}
+                            {% for error in form.non_field_errors %}
+                            <!--Here is the errors for both passwords not being the same is printed-->
+                            {{ error }}
                             {% endfor %}
-                            {{form.errors.email}}<!--Here the error for the email address being in use is printed-->
+                            {{form.errors.email}}
+                            <!--Here the error for the email address being in use is printed-->
                         </div>
                         {% endif %}
                         <button type="submit" class="btn btn-success col-12 mb-3" value="login"><i
@@ -95,7 +90,7 @@
         </div>
         {%endblock%}
 
-        <ul class="errorlist">
+        {% comment %} <ul class="errorlist">
             <li>email<ul class="errorlist">
                     <li>Email Address already in use.</li>
                 </ul>
@@ -104,4 +99,4 @@
                     <li>Passwords do not match.</li>
                 </ul>
             </li>
-        </ul>
+        </ul> {% endcomment %}
