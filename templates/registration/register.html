@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{%load static%}
+{%block headers%}
+<link
+    href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i"
+    rel="stylesheet">
+<link href="{%static 'css/login.css'%}" rel="stylesheet" />
+{%endblock%}
+{%block title%}Register{%endblock%}
+{%block content%}
+<div class="login-container vertical-center ">
+    <div class="container col-md-3 px-0">
+        <div class="row no-gutters px-0">
+            <div class="col-md">
+                <div class="card-body">
+                    <div class="brand-wrapper">
+                        <h1> Restaurant </h1>
+                    </div>
+                    <p class="login-card-description">Register here</p>
+                    <a class="btn btn-secondary back-home" href="{%url ''%}"><i class="bi bi-house-fill"></i></a>
+
+                    <form action="{%url 'register'%}" class="mx-3" method="post">
+                        {% csrf_token %}
+                        <div class="emailAddressLog">
+                            <label data-error="wrong" data-success="right" for="modalLRInput10" class="mt-3">Email
+                                Address:</label>
+                            <div class="input-group mb-3">
+                                <i class="bi bi-envelope-fill input-group-text"></i>
+                                {{form.email}}
+                                {% comment %} <input type="text" class="form-control validate" name="username"
+                                    autocapitalize="none" autocomplete="username" autofocus="" id="id_username"
+                                    maxlength="60" required=""> {% endcomment %}
+                            </div>
+                        </div>
+                        <div class="emailAddressLog">
+                            <label data-error="wrong" data-success="right" for="modalLRInput10">First Name:</label>
+                            <div class="input-group mb-3">
+                                <i class="bi bi-person-fill input-group-text"></i>
+                                {{form.first_name}}
+                            </div>
+                        </div>
+                        <div class="emailAddressLog ">
+                            <label data-error="wrong" data-success="right" for="modalLRInput10">Last Name:</label>
+                            <div class="input-group mb-3">
+                                <i class="bi bi-person-fill input-group-text"></i>
+                                {{form.last_name}}
+                            </div>
+                        </div>
+                        <div class="emailAddressLog ">
+                            <label data-error="wrong" data-success="right" for="modalLRInput10">Phone Number:</label>
+                            <div class="input-group mb-3">
+                                <i class="bi bi-phone-fill input-group-text"></i>
+                                {{form.phone_number}}
+                            </div>
+                        </div>
+                        <div class="passwordLog ">
+                            <label data-error="wrong" data-success="right" for="modalLRInput11">Password:</label>
+                            <div class="input-group mb-3">
+                                <i class="bi bi-lock-fill input-group-text"></i>
+                                {{form.password1}}
+                            </div>
+                        </div>
+                        <div class="passwordLog ">
+                            <label data-error="wrong" data-success="right" for="modalLRInput11">Confirm
+                                Password:</label>
+                            <div class="input-group mb-3">
+                                <i class="bi bi-lock-fill input-group-text"></i>
+                                {{form.password2}}
+                            </div>
+                        </div>
+
+                        {% if form.errors %}
+                        <div class="alert alert-danger col-12 alert-custom">
+                            {% for error in form.non_field_errors %}
+                            <!--Here is the errors for both passwords not being the same is printed-->
+                            {{ error }}
+                            {% endfor %}
+                            {{form.errors.email}}
+                            <!--Here the error for the email address being in use is printed-->
+                        </div>
+                        {% endif %}
+                        <button type="submit" class="btn btn-success col-12 mb-3" value="login"><i
+                                class="bi bi-person-plus"> Register</i></button>
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </form>
+                    <p class="login-card-footer-text">Already have an account? <a href="{% url 'login' %}"
+                            class="text-reset">Login here</a></p>
+                </div>
+            </div>
+        </div>
+        {%endblock%}
+
+        {% comment %} <ul class="errorlist">
+            <li>email<ul class="errorlist">
+                    <li>Email Address already in use.</li>
+                </ul>
+            </li>
+            <li>__all__<ul class="errorlist nonfield">
+                    <li>Passwords do not match.</li>
+                </ul>
+            </li>
+        </ul> {% endcomment %}

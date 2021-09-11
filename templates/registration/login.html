@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{%load static%}
+{%block headers%}
+    <link
+        href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i"
+        rel="stylesheet">
+    <link href="{%static 'css/login.css'%}" rel="stylesheet" />
+{%endblock%}
+{%block title%}Login{%endblock%}
+{%block content%}
+<div class="login-container vertical-center ">
+        <div class="container col-md-3 px-0">
+            <div class="row no-gutters px-0">
+                <div class="col-md">
+                    <div class="card-body">
+                        <div class="brand-wrapper">
+                            <h1> Restaurant </h1>
+                        </div>
+                        <p class="login-card-description">Sign into your account</p>
+                        <a  class="btn btn-secondary back-home" href= "{%url ''%}"><i class="bi bi-house-fill"></i></a>
+                        <form action="{%url 'login'%}" class="mx-3" method="post">
+                        {% csrf_token %}
+                            <div class="emailAddressLog">
+                                <label data-error="wrong" data-success="right" for="modalLRInput10" class="mt-3">Email
+                                    Address:</label>
+                                <div class="input-group mb-3">
+                                    <i class="bi bi-envelope-fill input-group-text"></i>
+                                    {{form.email}}
+                                    {% comment %} <input type="text" class="form-control validate" name="username" autocapitalize="none" autocomplete="username" autofocus="" id="id_username" maxlength="60" required=""> {% endcomment %}
+                                </div>
+                            </div>
+                            <div class="passwordLog mb-4">
+                                <label data-error="wrong" data-success="right" for="modalLRInput11">Password:</label>
+                                <div class="input-group">
+                                    <i class="bi bi-lock-fill input-group-text"></i>
+                                    {{form.password}}
+                                    {% comment %} <input required type="password" id="id_password" class="form-control validate"  contenteditable="true" autocomplete="current-password" name="password"> {% endcomment %}
+                                </div>
+                            </div>
+                            
+                             {%for message in messages%}
+                                <div class="alert alert-danger col-12 alert-custom" role="alert">
+                                    {{message}}
+                                </div>
+                                
+                            {%endfor%}  
+                            {% if form.errors %}
+                                <div class="alert alert-danger col-12 alert-custom">
+                                    {{form.errors.email}}<!--Here the error for the emal address beingin use is printed-->
+                                </div>
+                            {% endif %}
+                            
+                            <button type="submit" class="btn btn-primary col-12 mb-3" value="login">Log in</button>
+                            <input type="hidden" name="next" value="{{ next }}" />
+                        </form>
+                        <a href="{% url 'password_reset'%}" class="forgot-password-link">Forgot password?</a>
+                        <p class="login-card-footer-text">Don't have an account? <a href="{% url 'register' %}" class="text-reset">Register here</a></p>
+                    </div>
+                </div>
+            </div>
+{%endblock%}    
