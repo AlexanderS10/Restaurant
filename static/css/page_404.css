@@ -1,0 +1,30 @@
+body{
+    background-color: rgb(255, 255, 255);
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat Alternates", sans-serif;
+  }
+.container{
+    top: 0; 
+    right: 0; 
+    bottom: 0; 
+    left: 0;
+    text-align: center ;
+}
+.back-home{
+    color: #FF5733 !important;
+    background: transparent !important;
+    border-radius: 50px;
+    -webkit-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+    border: 2px solid #FF5733 ;
+  }
+.back-home:hover{
+    border: #FF5733 2px solid;
+    border-radius: 50px;
+    background: #FF5733 !important;
+    color: white !important;
+}
+h1{
+    color:#76a6ef;
+}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{%load static%}
+{%block headers%}
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@1,300;1,500&display=swap"
+    rel="stylesheet">
+
+<link href="{%static 'css/page_404.css'%}" rel="stylesheet" />
+{%endblock%}
+{%block title%}Not Found!{%endblock%}
+{%block content%}
+<div class = "container">
+    <div class = "col-12">
+        <h1 class="py-5 d-flex justify-content-center">Oooops!!! this page does not exists</h1>
+    </div>
+    <div class = "image-container justify-content-center">
+        <img src="{%static 'images/404.png'%}" alt="" class="img-responsive   ">
+    </div>
+    <div class = " center-block d-block mx-auto">
+        <h1 class="py-5 center-block d-block mx-auto col-12">404 Not Found</h1>
+    </div>
+</div>
+<div class="col-12 d-flex justify-content-center">
+    <a href={%url ''%}>
+        <button class="btn btn-secondary back-home  "><i class="bi bi-house"></i>  Return</button>
+    </a>
+</div>
+{%endblock%}

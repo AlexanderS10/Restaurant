@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib import admin
 from django.urls import path
-from accounts.views import home_view, logout_view, register_view
+from accounts.views import handler404_view, home_view, logout_view, register_view
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -27,9 +27,10 @@ from accounts.forms import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name=""),
-    path('home/', home_view),
+    path('home/', home_view, name='home'),
     path('register/', register_view, name='register'),
     path('login/',login_view, name='login'),
+    # path('accounts/login/'),
     path('customer/',customer_view),
     path('staff/', staff_view),
     path('logout/',logout_view),
@@ -43,7 +44,9 @@ urlpatterns = [
     #Here the user will get the message that they have successfully reset their passwords
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_success.html'), name='password_reset_complete'),
 
-    path('userdetails/', user_details_view)
+    path('userdetails/', user_details_view),
+    path('404/', handler404_view)
 ]
 if settings.DEBUG:
     urlpatterns+=static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+handler404='accounts.views.handler404'

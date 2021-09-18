@@ -68,15 +68,17 @@
                                 {{form.password2}}
                             </div>
                         </div>
-
+                        <!--Here all the errors regarding the form will be printed and saved-->
                         {% if form.errors %}
                         <div class="alert alert-danger col-12 alert-custom">
                             {% for error in form.non_field_errors %}
-                            <!--Here is the errors for both passwords not being the same is printed-->
-                            {{ error }}
+                                {{ error }}
                             {% endfor %}
-                            {{form.errors.email}}
-                            <!--Here the error for the email address being in use is printed-->
+                        </div>
+                        <div class="alert alert-danger col-12 alert-custom">
+                            {% for field in form %}
+                                {{field.errors}}
+                            {% endfor %}
                         </div>
                         {% endif %}
                         <button type="submit" class="btn btn-success col-12 mb-3" value="login"><i
@@ -89,14 +91,3 @@
             </div>
         </div>
         {%endblock%}
-
-        {% comment %} <ul class="errorlist">
-            <li>email<ul class="errorlist">
-                    <li>Email Address already in use.</li>
-                </ul>
-            </li>
-            <li>__all__<ul class="errorlist nonfield">
-                    <li>Passwords do not match.</li>
-                </ul>
-            </li>
-        </ul> {% endcomment %}

@@ -24,20 +24,8 @@ SECRET_KEY = '5fskbbpv+08e34bg+h*xjl&0yky+!x5j!3n^b6!z*2yx@(o!ct'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-DEFAULT_RENDER_CLASSES=[]
-DEBUG = True
-if DEBUG: #This is for development only 
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    DEFAULT_RENDER_CLASSES +=[
-        'rest_framework.render.BrowsableAPIRender',
-    ]
-REST_FRAMEWORK ={
-
-}
-
-ALLOWED_HOSTS = ['127.0.0.1','.cfe.sh','localhost']
-
+ALLOWED_HOSTS = ['127.0.0.1','.cfe.sh','localhost','*']
+LOGIN_URL = "/login"
 
 # Application definition
 
@@ -153,7 +141,35 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static-root')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ALLOWED_ORIGINS = (
-       'http://localhost:3000',
-)
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True #Close the session when the browser used is closed 
+SESSION_COOKIE_AGE = 60 * 60 #The session should end in an hour instead but this should be based on activity instead of a fixed time
+
+DEFAULT_RENDER_CLASSES=[]
+if DEBUG: #This is for development only 
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_RENDER_CLASSES +=[
+        'rest_framework.render.BrowsableAPIRender',
+    ]
+DEFAULT_RENDERER_CLASSES = [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+
+DEFAULT_AUTHENTICATION_CLASSES = [
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.TokenAuthentication'
+]
+REST_FRAMEWORK ={
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.SessionAuthentication',
+   ),
+   'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser'
+   ),
+}
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
+}
+LOGIN_URL = "/login"

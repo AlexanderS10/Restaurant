@@ -5,6 +5,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from phonenumber_field.modelfields import PhoneNumberField
 
 User = get_user_model()
 # class UserLoginForm(AuthenticationForm):
@@ -39,7 +40,7 @@ class LoginForm(forms.Form):
 class RegisterForm(forms.Form):
     class Meta:
         model = User
-        fields = ["email","first_name", "last_name", "phone", "password"]
+        fields = ["email","first_name", "last_name", "phone_number", "password"]
     email = forms.EmailField(required=True, max_length=100, widget=forms.EmailInput(attrs={
         'class': 'form-control validate',
         'id': 'id_username',
@@ -56,6 +57,7 @@ class RegisterForm(forms.Form):
     phone_number = forms.CharField(validators=[phone_regex], required=True, max_length=15, widget=forms.TextInput(attrs={
         "class":"form-control"
     }))
+    #phone_number = PhoneNumberField(region='US')
     password1 = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput(attrs={
         'class': 'form-control validate',
         'id': 'id_password' 
@@ -78,8 +80,8 @@ class RegisterForm(forms.Form):
         password2 = cleaned_data.get("password2")
         if password1 is not None and password1 != password2:
             raise forms.ValidationError("Passwords do not match.")
-        
         return cleaned_data
+    
 
     
     

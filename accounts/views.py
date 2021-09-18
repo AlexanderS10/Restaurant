@@ -1,9 +1,10 @@
+from rest_framework import response
 from restaurant.settings import ALLOWED_HOSTS
 from django.core.checks import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from accounts.models import MyAccountManager
+from django.template import RequestContext
 from django.contrib.auth.forms import AuthenticationForm
 # Create your views here.
 from .forms import *
@@ -71,3 +72,7 @@ def register_view(request):
     return render(request,'registration/register.html',context)
 def home_view(request):
     return render(request,"home.html",context={})
+def handler404(request,exception):
+    return render(request,'pages/404.html',status=404)
+def handler404_view(request):
+    return render(request,'pages/404.html',status=404)
