@@ -37,12 +37,12 @@ class MyAccountManager(BaseUserManager):
             raise ValueError("Staff must not be set as is_superuser=False.")
         return self.create_user(email,first_name,last_name,phone_number,password,**other_fields)
 
-def get_profile_image_filepath(self, filename):
+def get_profile_image_filepath(self):
     return f'profile_images/{self.pk}/{"profile_image.png"}'
 
 
 def get_default_profile_image():
-    return "profile_default.png"
+    return "defaults/profile_default.png"
 # Create your models here.
 class CustomUser (AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
@@ -59,20 +59,10 @@ class CustomUser (AbstractBaseUser, PermissionsMixin):
     is_customer = models.BooleanField(default=False, verbose_name="Customer")
     is_superuser = models.BooleanField(default=False, verbose_name="Superuser")
     comments = models.TextField(blank=True)
-    profile_image = NullBooleanField
+    image = models.ImageField(upload_to = get_profile_image_filepath, null=True, blank = True, default = get_default_profile_image)
     objects= MyAccountManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name','last_name','phone_number']
-
-    #This wiill be used to generate a json for every user without having to type it all over again each time I want to use it 
-    def serialize(self): 
-        return {
-            "id" : self.id,
-            "first_name" : self.first_name,
-            "last_name" : self.last_name,
-            "phone_number" : str(self.phone_number)
-            
-        }
 
 
     def has_perm(self, perm, obj=None):

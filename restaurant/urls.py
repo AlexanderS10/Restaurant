@@ -23,7 +23,6 @@ from django.contrib.auth import views as auth_views
 from accounts.views import login_view
 from profiles.views import *
 from accounts.forms import *
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name=""),
@@ -49,4 +48,5 @@ urlpatterns = [
 ]
 if settings.DEBUG:
     urlpatterns+=static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+    urlpatterns+=static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 handler404='accounts.views.handler404'
