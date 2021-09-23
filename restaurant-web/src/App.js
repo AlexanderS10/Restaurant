@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import './App.css';
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { Calendar } from "react-modern-calendar-datepicker";
-
+import {CalendarComponent} from './customer/calendar'
+// import {WheatherWidget} from './customer/wheatherWidget'
+// import ReactWeather, {useOpenWeather} from 'react-open-weather';
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -14,7 +14,7 @@ function getCookie(name) {
               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
               break;
           }
-      }
+      } 
   }
   return cookieValue;
 }
@@ -35,8 +35,10 @@ function loadUserInfo(callback){
   }
   xhr.send();//Trigger that request
 }
+
 function App() {
   const [info, setinfo] = useState(null)
+  console.log(info)
   useEffect(()=>{
     const myCallBack = (response,status)=>{
       console.log(response,status)
@@ -46,15 +48,10 @@ function App() {
     }
     loadUserInfo(myCallBack)
   },[])
-  const [selectedDay, setSelectedDay] = useState(null);
+  
   return (
-    
-    <Calendar
-       value={selectedDay}
-      onChange={setSelectedDay}
-       shouldHighlightWeekends
-     />
-    
+    // WheatherWidget()
+    CalendarComponent()
   );
 }
 

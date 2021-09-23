@@ -146,31 +146,25 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True #Close the session when the browser used is closed 
-SESSION_COOKIE_AGE = 60 * 60 #The session should end in an hour instead but this should be based on activity instead of a fixed time
-
+# SESSION_COOKIE_AGE = 60 * 60 #The session should end in an hour instead but this should be based on activity instead of a fixed time
 DEFAULT_RENDER_CLASSES=[]
 if DEBUG: #This is for development only 
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_RENDER_CLASSES +=[
-        'rest_framework.render.BrowsableAPIRender',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ]
 DEFAULT_RENDERER_CLASSES = [
-        'rest_framework.renderers.JSONRenderer',
-    ]
+    'rest_framework.renderers.JSONRenderer',
+    'rest_framework.renderers.BrowsableAPIRenderer',
+]
 
 DEFAULT_AUTHENTICATION_CLASSES = [
     'rest_framework.authentication.SessionAuthentication',
     'rest_framework.authentication.TokenAuthentication'
 ]
 REST_FRAMEWORK ={
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-       'rest_framework.authentication.SessionAuthentication',
-   ),
-   'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAdminUser'
-   ),
+    'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
 }
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
-}
+
 LOGIN_URL = "/login"

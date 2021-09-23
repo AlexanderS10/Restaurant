@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib import admin
 from django.urls import path
+from django.urls.conf import include
 from accounts.views import handler404_view, home_view, logout_view, register_view
 from django.conf import settings
 from django.conf.urls.static import static
@@ -32,7 +33,7 @@ urlpatterns = [
     # path('accounts/login/'),
     path('customer/',customer_view),
     path('staff/', staff_view),
-    path('logout/',logout_view),
+    path('logout/',logout_view,name='logout'),
     path('administration/',admin_view),
     #here the users can input the email for the account they want to reset the passaword for
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset.html'), name='password_reset'),
@@ -42,9 +43,10 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'),name='password_reset_confirm'),
     #Here the user will get the message that they have successfully reset their passwords
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_success.html'), name='password_reset_complete'),
-
     path('userdetails/', user_details_view),
-    path('404/', handler404_view)
+    path('api/userdetails/', include('profiles.urls')),
+    path('404/', handler404_view),
+    path('csrf_cookie', GetCSRFToken.as_view()),
 ]
 if settings.DEBUG:
     urlpatterns+=static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
