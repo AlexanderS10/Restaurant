@@ -11,3 +11,49 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.responsive-calendar {
+  /* by setting font-size, all the elements will correspond */
+  font-size: 15px !important; /* default to 10px */
+  border-radius: 8px !important;
+}
+
+@media (max-width: 1500px) {
+  .responsive-calendar {
+    font-size: 11px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .responsive-calendar {
+    font-size: 7px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-calendar {
+    font-size: 6px !important;
+  }
+}
+
+/* Large screens */
+@media (min-width: 2500px) {
+  .responsive-calendar {
+    font-size: 12px !important;
+  }
+}
+.calendar-wrapper, .date-wrapper{
+  display: table;
+  margin: auto;
+}
+
+.wheather-wrapper{
+  width: 50%;
+}
+
+#dateSelected{
+  text-align: center;
+  font-size: large;
+}
+#current-forecast{
+  color: white;
+}

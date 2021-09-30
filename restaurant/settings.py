@@ -24,7 +24,7 @@ SECRET_KEY = '5fskbbpv+08e34bg+h*xjl&0yky+!x5j!3n^b6!z*2yx@(o!ct'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1','.cfe.sh','localhost','*']
+ALLOWED_HOSTS = ['127.0.0.1','.cfe.sh','localhost','localhost:3000']
 LOGIN_URL = "/login"
 
 # Application definition
@@ -46,8 +46,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -141,9 +141,10 @@ TEMP = os.path.join(BASE_DIR, 'media_root/temp')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
+CSRF_TRUSTED_ORIGINS = ['localhost:3000']
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True #Close the session when the browser used is closed 
 # SESSION_COOKIE_AGE = 60 * 60 #The session should end in an hour instead but this should be based on activity instead of a fixed time

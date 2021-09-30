@@ -24,6 +24,7 @@ from django.contrib.auth import views as auth_views
 from accounts.views import login_view
 from profiles.views import *
 from accounts.forms import *
+from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name=""),
@@ -47,6 +48,9 @@ urlpatterns = [
     path('api/userdetails/', include('profiles.urls')),
     path('404/', handler404_view),
     path('csrf_cookie', GetCSRFToken.as_view()),
+    path('csrf/',csrf),
+    path('ping/',ping),
+    path('react/', TemplateView.as_view(template_name = 'react.html')),
 ]
 if settings.DEBUG:
     urlpatterns+=static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

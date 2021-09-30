@@ -14,8 +14,8 @@ export function CalendarComponent(){
     //   console.log("This is the date picked: "+myVariable.datePicked.day)
       return(
         <>
-        <Container>  
-          <div class = "calendar-wrapper ">
+        <Container id = "calendarWidget">  
+          <div className = "calendar-wrapper ">
             <Calendar
             value={selectedDay}
             onChange={setSelectedDay}
@@ -23,9 +23,8 @@ export function CalendarComponent(){
             shouldHighlightWeekends
           />
           </div>
-          <div class = "date-wrapper">
+          <div className = "date-wrapper">
             <p id="date_picked">{myVariable.datePicked.month}/{myVariable.datePicked.day}/{myVariable.datePicked.year}</p>
-            <input type="text" name = "dateSelected" id = "dateSelected" value={date} readonly/>
           </div>
         </Container>
         </>

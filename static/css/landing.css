@@ -826,9 +826,9 @@ section {
   }
 }
 
-/*--------------------------------------------------------------
+/*
 Here is the why our system section 
---------------------------------------------------------------*/
+*/
 .why-us{
   background-color: #532C25;
   color: white;
@@ -878,9 +878,9 @@ Here is the why our system section
   color: #fff;
 }
 
-/*--------------------------------------------------------------
+/*
 # Menu Section
---------------------------------------------------------------*/
+*/
 .menu{
   background-color: #FBD38B;
 }
@@ -959,9 +959,9 @@ Here is the why our system section
   color: #948c81;
 }
 
-/*--------------------------------------------------------------
+/*
 # Specials
---------------------------------------------------------------*/
+*/
 .specials {
   overflow: hidden;
 }
@@ -1025,9 +1025,9 @@ Here is the why our system section
   }
 }
 
-/*--------------------------------------------------------------
+/*
 # Events
---------------------------------------------------------------*/
+*/
 .events {
   background: url(../images/landing/events-bg.jpg) center center no-repeat;
   background-size: cover;
@@ -1119,9 +1119,9 @@ Here is the why our system section
   background-color: #FF5733 ;
 }
 
-/*--------------------------------------------------------------
+/*
 # Book A Table
---------------------------------------------------------------*/
+*/
 .book-a-table .php-email-form {
   width: 100%;
   box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
@@ -1214,9 +1214,9 @@ Here is the why our system section
   background: #ffa012;
 }
 
-/*--------------------------------------------------------------
+/*
 # Gallery
---------------------------------------------------------------*/
+*/
 .gallery {
   padding-bottom: 0;
 }
@@ -1228,7 +1228,7 @@ Here is the why our system section
 }
 
 .gallery .gallery-item img {
-  transition: all ease-in-out 0.4s;
+  transition: all ease-out 0.4s;
 }
 
 .gallery .gallery-item:hover img {

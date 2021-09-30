@@ -18,12 +18,12 @@ function getCookie(name) {
   }
   return cookieValue;
 }
+const csrftoken = getCookie('csrftoken');
+console.log("This is the token: "+csrftoken)
 function loadUserInfo(callback){
   const xhr = new XMLHttpRequest();
-  const csrftoken = getCookie('csrftoken');
-  console.log("This is the token: "+csrftoken)
   const method = 'GET';
-  const url = "http://127.0.0.1:8000/userdetails/";
+  const url = "http://127.0.0.1:8000/csrf";
   xhr.responseType = "json"; // Let the xhr request know that its getting a json 
   xhr.open(method, url); //This opens the request with the method and url entered
   xhr.onload = function(){

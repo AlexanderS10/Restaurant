@@ -5,35 +5,45 @@
     href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i"
     rel="stylesheet">
 <link href="{%static 'css/customer_home.css'%}" rel="stylesheet" />
+{% include 'react/css.html' %}
 {%endblock%}
 {%block title%}Home{%endblock%}
 {%block content%}
 
-<div class="page-wrapper">
-    <header id="header" class="fixed-top d-flex align-items-center ">
-        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-            <div class="logo me-auto">
-                <h1><a href="home.html">Restaurant</a></h1>
-                <!-- If I want to use a image logo instead then I can use the bottom part -->
-                <!-- <a href="index.html"><img src="{%static 'images/landing/logo.png'%}" alt="" class="img-fluid"></a>-->
-            </div>
+<header id="header" class="fixed-top d-flex align-items-center ">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-            <nav id="navbar" class="navbar order-last order-lg-0">
-                <ul>
-                    <li><a class="nav-link scrollto" href="#hero">Home</a></li>
-                    <li><a class="nav-link scrollto" href="#menu">Menu</a></li>
-                    <li><a class="nav-link scrollto" href="#events">Events</a></li>
-                    <li><a class="nav-link scrollto" href="{%url 'logout'%}">Logout</a></li>
-                    <li><a class="nav-link scrollto" href="#contact">User Name</a></li>
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav><!-- .navbar -->
-            {% comment %} <a class="login-btn" href="login" role="button">Log in</a> {% endcomment %}
-
+        <div class="logo me-auto">
+            <h1><a href="{%url ''%}">Restaurant</a></h1>
+            <!-- If I want to use a image logo instead then I can use the bottom part -->
+            <!-- <a href="index.html"><img src="{%static 'images/landing/logo.png'%}" alt="" class="img-fluid"></a>-->
         </div>
-    </header><!-- End Header -->
+        <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li><a class="nav-link scrollto" href="#hero">Home</a></li>
+                <li><a class="nav-link scrollto" href="#menu">Menu</a></li>
+                <li><a class="nav-link scrollto" href="#events">Events</a></li>
+                <li><a class="nav-link scrollto" href="{%url 'logout'%}">Logout</a></li>
+                <li><a class="nav-link scrollto" href="#contact">User Name</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+        {% comment %} <a class="login-btn" href="login" role="button">Log in</a> {% endcomment %}
+
+    </div>
+</header><!-- End Header -->
+<div class = "widgets-wrapper row">
+<!--After looking at how to integrate react js I decided to make django render the components as authentication meant 
+I would have to replace my entire front end which already took me a lot of time. For future applications react will be used since the beginning-->
+    <div id="notifications-wrapper" class="col">
+        <div class = "alert alert-info col-12 notification"> This is the notifications center</div>
+    </div>
+    <div id="calendar-widget" class="col"></div>
+    <div id="weather-widget" class="col"></div>
 </div>
 
+{%include 'react/base_embed.html'%}
+{%include 'react/js.html'%}
 <script src="{%static 'js/customer_home.js'%}"></script>
 {%endblock%}

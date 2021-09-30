@@ -13,6 +13,8 @@ from rest_framework.permissions import IsAuthenticated
 from profiles.serializers import UserSerializer
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
 
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 @api_view(['GET'])
@@ -77,3 +79,8 @@ def admin_view(request):
 class GetCSRFToken(APIView):
     def get(self, request, format=None):
         return Response({'success': 'CSRF cookie set'})
+def csrf(request):
+    return JsonResponse({'csrfToken': get_token(request)})
+
+def ping(request):
+    return JsonResponse({'result': 'OK'})
