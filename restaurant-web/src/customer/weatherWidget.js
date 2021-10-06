@@ -1,4 +1,20 @@
 import ReactWeather, {useOpenWeather} from 'react-open-weather';
+// function weatherBalloon( cityID ) {
+//   var key = '04b880df429434d7b1778907fa79b3ee';
+//   fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID+ '&appid=' + key)  
+//   .then(function(resp) { return resp.json() }) // Convert data to json
+//   .then(function(data) {
+//     //console.log(JSON.stringify(data));
+//     return data;
+//   })
+//   .catch(function() {
+//     // catch any errors
+//   });
+// }
+// window.onload = function() {
+//   weatherBalloon( 6167865 );
+// }
+// console.log(weatherBalloon(6167865 ))
 export function WeatherWidget(){
   const { data, isLoading, errorMessage } = useOpenWeather({
       key: '04b880df429434d7b1778907fa79b3ee',

@@ -68,7 +68,7 @@
 
   <!--
     MODAL REGISTER OR LOG IN FORM
-    Not implemented due to the use of views and use of messages
+    Not implemented due to the use of views and use of error messages however this could be implemented in the future if possible
   -->
   {% comment %} <div class="modal fade" id="modalLRForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
@@ -425,19 +425,19 @@
           <div class="col-lg-3">
             <ul class="nav nav-tabs flex-column">
               <li class="nav-item">
-                <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">Modi sit est</a>
+                <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">Dish 1 Name</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#tab-2">Unde praesentium sed</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#tab-2">Dish 2 Name</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#tab-3">Pariatur explicabo vel</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#tab-3">Dish 3 Name</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#tab-4">Nostrum qui quasi</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#tab-4">Dish 4 Name</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#tab-5">Iusto ut expedita aut</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#tab-5">Dish 5 Name</a>
               </li>
             </ul>
           </div>
@@ -446,15 +446,14 @@
               <div class="tab-pane active show" id="tab-1">
                 <div class="row">
                   <div class="col-lg-8 details order-2 order-lg-1">
-                    <h3>Architecto ut aperiam autem id</h3>
-                    <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde sonata raqer
-                      a videna mareta paulona marka</p>
-                    <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos ipsum ipsa
-                      odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima eveniet eius et quis magni
-                      nihil. Consequatur dolorem quaerat quos qui similique accusamus nostrum rem vero</p>
+                    <h3>Dish Name and Some Description</h3>
+                    <p class="fst-italic">Dish's ingredients or descriptions can be included here for customers to take a look </p>
+                    <p>This can be modifie as needed and if a dish changes there can be a database table dedicated to show this off which can 
+                    be modified by the staff or the admin more securely. If needed this can be an entire new page page for QR code use.
+                    </p>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="{%static 'images/landing/specials-1.jpg'%}" alt="" class="img-fluid">
+                    <img src="{%static 'images/landing/dishes/dish-1.jpeg'%}" alt="" class="img-fluid">
                   </div>
                 </div>
               </div>
@@ -469,7 +468,7 @@
                       beatae accusamus lerode pakto madirna desera vafle de nideran pal</p>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="{%static 'images/landing/specials-2.jpg'%}" alt="" class="img-fluid">
+                    <img src="{%static 'images/landing/dishes/dish-2.jpeg'%}" alt="" class="img-fluid">
                   </div>
                 </div>
               </div>
@@ -484,7 +483,7 @@
                       odit nesciunt fugiat sit ullam. Soluta et harum voluptatem optio quae</p>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="{%static 'images/landing/specials-3.jpg'%}" alt="" class="img-fluid">
+                    <img src="{%static 'images/landing/dishes/dish-3.jpeg'%}" alt="" class="img-fluid">
                   </div>
                 </div>
               </div>
@@ -499,7 +498,7 @@
                       sed qui veritatis aperiam quia a laborum inventore</p>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="{%static 'images/landing/specials-4.jpg'%}" alt="" class="img-fluid">
+                    <img src="{%static 'images/landing/dishes/dish-4.jpeg'%}" alt="" class="img-fluid">
                   </div>
                 </div>
               </div>
@@ -513,7 +512,7 @@
                       molestiae voluptate vel</p>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="{%static 'images/landing/specials-5.jpg'%}" alt="" class="img-fluid">
+                    <img src="{%static 'images/landing/dishes/dish-5.jpg'%}" alt="" class="img-fluid">
                   </div>
                 </div>
               </div>
@@ -538,7 +537,7 @@
             <div class="swiper-slide">
               <div class="row event-item">
                 <div class="col-lg-6">
-                  <img src="{%static 'images/landing/event-birthday.jpg'%}" class="img-fluid" alt="">
+                  <img src="{%static 'images/landing/events/events-3.jpeg'%}" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0 content">
                   <h3>Birthday Parties</h3>
@@ -568,7 +567,7 @@
             <div class="swiper-slide">
               <div class="row event-item">
                 <div class="col-lg-6">
-                  <img src="{%static 'images/landing/event-private.jpg'%}" class="img-fluid" alt="">
+                  <img src="{%static 'images/landing/events/events-2.jpeg'%}" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0 content">
                   <h3>Private Parties</h3>
@@ -598,7 +597,7 @@
             <div class="swiper-slide">
               <div class="row event-item">
                 <div class="col-lg-6">
-                  <img src="{%static 'images/landing/event-custom.jpg'%}" class="img-fluid" alt="">
+                  <img src="{%static 'images/landing/events/events-1.jpeg'%}" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0 content">
                   <h3>Custom Parties</h3>
@@ -780,18 +779,18 @@
       <div class="container">
 
         <div class="section-title">
-          <h2><span>Staff Management</span></h2>
-          <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae
-            autem.</p>
+          <h2><span>Kitchen Staff</span></h2>
+          <p>Meet the people behind every amazing dish and desert that is served to our dear customers. Years of experience and dedication
+          has resulted in a world-class staff.</p>
         </div>
 
         <div class="row">
 
           <div class="col-lg-4 col-md-6">
             <div class="member">
-              <div class="pic"><img src="{%static 'images/landing/chefs/chefs-1.jpg'%}" class="img-fluid" alt=""></div>
+              <div class="pic"><img src="{%static 'images/landing/chefs/chef-1.jpeg'%}" class="img-fluid" alt=""></div>
               <div class="member-info">
-                <h4>Walter White</h4>
+                <h4>Michael Goodman</h4>
                 <span>Master Chef</span>
               </div>
             </div>
@@ -799,20 +798,20 @@
 
           <div class="col-lg-4 col-md-6">
             <div class="member">
-              <div class="pic"><img src="{%static 'images/landing/chefs/chefs-2.jpg'%}" class="img-fluid" alt=""></div>
+              <div class="pic"><img src="{%static 'images/landing/chefs/chef-3.jpeg'%}" class="img-fluid" alt=""></div>
               <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Patissier</span>
+                <h4>Federick Miller</h4>
+                <span>Chef Assistant</span>
               </div>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6">
             <div class="member">
-              <div class="pic"><img src="{%static 'images/landing/chefs/chefs-3.jpg'%}" class="img-fluid" alt=""></div>
+              <div class="pic"><img src="{%static 'images/landing/chefs/chef-2.jpeg'%}" class="img-fluid" alt=""></div>
               <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>Cook</span>
+                <h4>Sarah Davis</h4>
+                <span>Deserts Cook</span>
               </div>
             </div>
           </div>
@@ -832,9 +831,9 @@
 
             <div class="swiper-slide">
               <div class="reviews-item">
-                <img src="{%static 'images/landing/testimonials/testimonials-1.jpg'%}" class="reviews-img" alt="">
-                <h3>Saul Goodman</h3>
-                <h4>Ceo &amp; Founder</h4>
+                <img src="{%static 'images/landing/reviews/profile-1.jpeg'%}" class="reviews-img" alt="">
+                <h3>Hamza Raja</h3>
+                <h4>Business Owner</h4>
                 <div class="stars">
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
                     class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
@@ -850,9 +849,9 @@
             <!-- END REVIEW ITEM -->
             <div class="swiper-slide">
               <div class="reviews-item">
-                <img src="{%static 'images/landing/testimonials/testimonials-2.jpg'%}" class="reviews-img" alt="">
-                <h3>Sara Wilsson</h3>
-                <h4>Designer</h4>
+                <img src="{%static 'images/landing/reviews/profile-2.jpeg'%}" class="reviews-img" alt="">
+                <h3>Adeline Jon</h3>
+                <h4>Software Designer</h4>
                 <div class="stars">
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
                     class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
@@ -868,8 +867,8 @@
             <!-- END REVIEW ITEM -->
             <div class="swiper-slide">
               <div class="reviews-item">
-                <img src="{%static 'images/landing/testimonials/testimonials-3.jpg'%}" class="reviews-img" alt="">
-                <h3>Jena Karlis</h3>
+                <img src="{%static 'images/landing/reviews/profile-3.jpeg'%}" class="reviews-img" alt="">
+                <h3>Elizabeth Russel</h3>
                 <h4>Store Owner</h4>
                 <div class="stars">
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
@@ -886,8 +885,8 @@
             <!-- END REVIEW ITEM -->
             <div class="swiper-slide">
               <div class="reviews-item">
-                <img src="{%static 'images/landing/testimonials/testimonials-4.jpg'%}" class="reviews-img" alt="">
-                <h3>Matt Brandon</h3>
+                <img src="{%static 'images/landing/reviews/profile-4.jpeg'%}" class="reviews-img" alt="">
+                <h3>Sean Goldberg</h3>
                 <h4>Freelancer</h4>
                 <div class="stars">
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
@@ -904,9 +903,9 @@
             <!-- END REVIEW ITEM -->
             <div class="swiper-slide">
               <div class="reviews-item">
-                <img src="{%static 'images/landing/testimonials/testimonials-5.jpg'%}" class="reviews-img" alt="">
-                <h3>John Larson</h3>
-                <h4>Entrepreneur</h4>
+                <img src="{%static 'images/landing/reviews/profile-5.jpeg'%}" class="reviews-img" alt="">
+                <h3>John Smith</h3>
+                <h4>Accountant</h4>
                 <div class="stars">
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
                     class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
@@ -933,7 +932,7 @@
       <div class="container">
 
         <div class="section-title">
-          <h2><span>Contact</span> Us</h2>
+          <h2><span>Reach Us</span></h2>
           <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae
             autem.</p>
         </div>
@@ -946,13 +945,13 @@
             <div class="col-lg-3 col-md-6 info">
               <i class="bi bi-geo-alt"></i>
               <h4>Location:</h4>
-              <p>some street rd<br>City Name, NY </p>
+              <p>Street Name Id<br>City Name, NY </p>
             </div>
 
             <div class="col-lg-3 col-md-6 info mt-4 mt-lg-0">
               <i class="bi bi-clock"></i>
               <h4>Open Hours:</h4>
-              <p>Monday-Sunday:<br>5:30 AM - 10:00 PM</p>
+              <p>Monday-Sunday:<br>5:30 PM - 10:00 PM</p>
             </div>
 
             <div class="col-lg-3 col-md-6 info mt-4 mt-lg-0">
@@ -968,8 +967,9 @@
             </div>
           </div>
         </div>
-
-        <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+        {% comment %} Here a contact form I see it as redundant as there is a lot of information provided on the page already hence if a customer 
+        needs to ask something they can do it from their personal email {% endcomment %}
+        {% comment %} <form action="forms/contact.php" method="post" role="form" class="php-email-form">
           <div class="row">
             <div class="col-md-6 form-group">
               <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
@@ -990,7 +990,7 @@
             <div class="sent-message">Your message has been sent. Thank you!</div>
           </div>
           <div class="text-center"><button type="submit">Send Message</button></div>
-        </form>
+        </form> {% endcomment %}
 
       </div>
     </section><!-- End Contact Section -->

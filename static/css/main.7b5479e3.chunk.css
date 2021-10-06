@@ -23,6 +23,17 @@
         font-size: 11px!important
     }
 }
+@media (max-width:593px) {
+    .responsive-calendar {
+        font-size: 16px!important
+    }
+}
+
+@media (max-width:530px) {
+    .responsive-calendar {
+        font-size: 12px!important
+    }
+}
 
 @media (min-width:2500px) {
     .responsive-calendar {

@@ -83,7 +83,7 @@
     font-size: 10px;
     background: #fff;
     box-shadow: 0 1em 4em rgba(0, 0, 0, .07);
-    border-radius: 1em;
+    border-radius: 8px;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
@@ -134,7 +134,7 @@
     line-height: 0;
     font-size: 1em;
     padding: 3px;
-    position: relative;
+    position: inherit;
     border: none;
     z-index: 1;
     opacity: 1;
@@ -187,7 +187,7 @@
 
 .Calendar__monthYearContainer {
     flex: 1 1;
-    position: relative
+    position: sticky
 }
 
 .Calendar__monthYear {
@@ -671,7 +671,7 @@
 }
 
 .Calendar__footer {
-    position: relative;
+    position: inherit;
     z-index: 1
 }
 

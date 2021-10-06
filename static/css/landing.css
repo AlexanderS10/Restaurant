@@ -554,6 +554,11 @@ li.nav-item.register-tab .active{
     width: 5%;
   }
 }
+@media(max-width:373px){
+  a.btn-menu.animate__animated.animate__fadeInUp.scrollto{
+    margin-bottom: 10px !important;
+  }
+}
 
 /*--------------------------------------------------------------
 # Sections General
@@ -1029,7 +1034,7 @@ Here is the why our system section
 # Events
 */
 .events {
-  background: url(../images/landing/events-bg.jpg) center center no-repeat;
+  background: url(../images/landing/events/events-b.jpeg) center center no-repeat;
   background-size: cover;
   position: relative;
 }
@@ -1239,7 +1244,7 @@ Here is the why our system section
 # Chefs
 --------------------------------------------------------------*/
 .management {
-  background: url("../images/landing/chefs-bg.jpg") center center no-repeat;
+  background: url("../images/landing/chefs/kitchen-1.jpeg") center center no-repeat;
   background-size: cover;
   padding: 60px 0;
   position: relative;
@@ -1346,7 +1351,7 @@ REVIEWS SECTION
 */
 .reviews {
   padding: 80px 0;
-  background: url("../images/landing/reviews-background.jpeg") no-repeat;
+  background: url("../images/landing/reviews/reviews-b.jpeg") no-repeat;
   background-position: center center;
   background-size: cover;
   position: relative;
