@@ -32,7 +32,7 @@ urlpatterns = [
     path('register/', register_view, name='register'),
     path('login/',login_view, name='login'),
     # path('accounts/login/'),
-    path('customer/',customer_view),
+    path('customer/',include('profiles.urls')),
     path('staff/', staff_view),
     path('logout/',logout_view,name='logout'),
     path('administration/',admin_view),
@@ -45,7 +45,6 @@ urlpatterns = [
     #Here the user will get the message that they have successfully reset their passwords
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_success.html'), name='password_reset_complete'),
     path('userdetails/', user_details_view),
-    path('api/userdetails/', include('profiles.urls')),
     path('404/', handler404_view),
     path('csrf_cookie', GetCSRFToken.as_view()),
     path('csrf/',csrf),

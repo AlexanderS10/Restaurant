@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from rest_framework import serializers
-from rest_framework import permissions
+from datetime import datetime
 from rest_framework.views import APIView
 from accounts.models import CustomUser
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
@@ -44,7 +44,23 @@ def user_details_view(request, *args, **kwargs): #REST API for detailing some ba
         status = 404
         return Response(status=404)
 
+#Here the view for customer is defined which will redirect them to their home page
 def customer_view(request, *args, **kwargs ):
+    #Here I will see if the users are selecting an acceptable date. If it is a previous day than the one in the server (which is located where the restaurant is so timezones are 
+    # not a problem) then the system will blcik them from continuing as it is not possible to create a reservation for a day that passed. This same logic will apply to time if the date is the current one.
+    if request.method =="POST":
+        form = request.POST
+        current_date = datetime.now().strftime('%m-%d-%Y-%H:%M:%S')
+        date_post = form["date"]
+        date_use = datetime.strptime(date_post, '%m-%d-%Y')#.strftime('%m-%d-%Y')
+        datetime_server = datetime.now()
+        date_server = datetime_server.strftime('%m-%d-%Y')
+        if date_use.date() == datetime_server.date():
+            print("THE DATES ARE THE SAME!!!!")
+        else:
+            print("THE DATES ARE DIFFERENT!!!")
+        # print("This is the date in the backend ",date_use.date())
+        # print("Date from server: ", datetime_server.date())
     current_user = request.user 
     if current_user.is_authenticated:
         if not current_user.is_customer:
@@ -54,6 +70,8 @@ def customer_view(request, *args, **kwargs ):
     else:
         messages.error(request,"You need to be logged in to access this page")
         return redirect('login')
+
+#Here I define the view for staff
 def staff_view(request):
     current_user = request.user
     if current_user.is_authenticated:

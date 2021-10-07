@@ -30,7 +30,8 @@
                     d = n[1],
                     c = { datePicked: r },
                     j = String(r.month + "/" + r.day + "/" + r.year);
-                return null != r ? Object(o.jsx)(o.Fragment, { children: Object(o.jsxs)(l.a, { id: "calendarWidget", children: [Object(o.jsx)("div", { className: "calendar-wrapper ", children: Object(o.jsx)(s.Calendar, { value: r, onChange: d, calendarClassName: "responsive-calendar", shouldHighlightWeekends: !0 }) }), Object(o.jsxs)("div", { className: "date-wrapper", children: [Object(o.jsxs)("p", { id: "date_picked", children: [c.datePicked.month, "/", c.datePicked.day, "/", c.datePicked.year] })] })] }) }) : Object(o.jsx)(o.Fragment, { children: Object(o.jsx)("div", { children: Object(o.jsx)("h1", { children: "An unexpected error has occurred." }) }) })
+                    //console.log("This is the date from react: "+j);
+                return null != r ? Object(o.jsx)(o.Fragment, { children: Object(o.jsxs)(l.a, { id: "calendarWidget", children: [Object(o.jsx)("div", { className: "calendar-wrapper ", children: Object(o.jsx)(s.Calendar, { value: r, onChange: d, calendarClassName: "responsive-calendar", shouldHighlightWeekends: !0 }) }), Object(o.jsxs)("div", { className: "date-wrapper", children: [Object(o.jsxs)("p", { id: "date_picked", children: [c.datePicked.month, "-", c.datePicked.day, "-", c.datePicked.year] })] })] }) }) : Object(o.jsx)(o.Fragment, { children: Object(o.jsx)("div", { children: Object(o.jsx)("h1", { children: "An unexpected error has occurred." }) }) })
             }
             var h = n(5),
                 u = n.n(h);

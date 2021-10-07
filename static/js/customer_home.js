@@ -42,3 +42,25 @@ navbarToggle.addEventListener("click", toggleNavbarVisibility);
 
 navbarLinksContainer.addEventListener("click", (e) => e.stopPropagation());
 navbarMenu.addEventListener("click", toggleNavbarVisibility);
+
+//Grab the element in the p tag
+let form = document.getElementById("form-date");
+let form2 = document.getElementById("form-date2");
+//console.log(String(inputTemp));
+//console.log("This is the date: "+date);
+
+
+function setDate() {  
+    let date = document.getElementById('date_picked').textContent;
+    console.log(date);
+    document.getElementById("date-set").value=String(date)
+    form.submit();
+    //console.log("This is the date: "+inputTemp);
+}  
+function setDate2() {  
+    let date = document.getElementById('date_picked').textContent;
+    console.log(date);
+    document.getElementById("date-set2").value=String(date)
+    form2.submit();
+    //console.log("This is the date: "+inputTemp);
+}  

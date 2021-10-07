@@ -8,5 +8,7 @@ from django.contrib.auth import views as auth_views
 from profiles.views import *
 from accounts.forms import *
 urlpatterns = [
-    path('<int:user_id>/', user_details),
+    path('api/userdetails/<int:user_id>/', user_details),
+    path('', customer_view, name="customer"),
+    path('',include('bookings.urls'))
 ]

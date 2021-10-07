@@ -37,7 +37,26 @@ I would have to replace my entire front end which already took me a lot of time.
     <div id="notifications-wrapper" class="col">
         <div class = "alert alert-info col-12 notification"> This is the notifications center</div>
     </div>
-    <div id="calendar-widget" class="col"></div>
+    <div class="col calendar-container">
+        <div id="calendar-widget" class="col"></div>
+        <div class = "buttons-group" style="">
+            <form class = "form" id ="form-date" action ="{%url 'customer'%}" method="post">
+            {%csrf_token%}
+                <input type="hidden" name="event" value="true">
+                <input type="hidden" name="date" id="date-set">
+                <button onclick = "setDate()" type="submit" class="form-button button1">Create Event</button> 
+            </form>
+            <form class = "form" id ="form-date2" action ="{%url 'customer'%}" method="post">
+            {%csrf_token%}
+                <input type="hidden" name="event" value="false">
+                <input type="hidden" name="date" id="date-set2">
+                <button onclick = "setDate2()" type="submit" class="form-button button1">Book Table</button> 
+            </form> 
+            {% comment %} <input type="text" name="date" id = "date-set" value="">
+            <button onclick = "setDate()" class="form-button button1">Book Table</button>   {% endcomment %}
+        </div>
+    </div>
+    
     <div id="weather-widget" class="col"></div>
 </div>
 
