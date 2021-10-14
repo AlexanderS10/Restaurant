@@ -9,7 +9,13 @@
 {%endblock%}
 {%block title%}Home{%endblock%}
 {%block content%}
-
+<div class = "error-message">
+    {%for message in messages%}
+        <div class="message alert alert-danger col-xl-4 col-lg-4 col-md-6 col-sm-7 col-xs-12">
+            {{message}}
+        </div>
+    {%endfor%} 
+</div>
 <header id="navbar">
   <nav class="navbar-container container">
     <a href="/" class="home-link">
@@ -23,7 +29,7 @@
     </button>
     <div id="navbar-menu" aria-labelledby="navbar-toggle">
       <ul class="navbar-links">
-        <li class="navbar-item"><a class="navbar-link" href="/about">About</a></li>
+        <li class="navbar-item"><a class="navbar-link username" id="username" href="/about"></a></li>
         <li class="navbar-item"><a class="navbar-link" href="/blog">Blog</a></li>
         <li class="navbar-item"><a class="navbar-link" href="/careers">Careers</a></li>
         <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li>
@@ -40,16 +46,13 @@ I would have to replace my entire front end which already took me a lot of time.
     <div class="col calendar-container">
         <div id="calendar-widget" class="col"></div>
         <div class = "buttons-group" style="">
-            <form class = "form" id ="form-date" action ="{%url 'customer'%}" method="post">
+        {% comment %} action ="{%url 'customer'%}" {% endcomment %}
+            <form class = "form" id ="form-date" method="post"> 
             {%csrf_token%}
-                <input type="hidden" name="event" value="true">
-                <input type="hidden" name="date" id="date-set">
                 <button onclick = "setDate()" type="submit" class="form-button button1">Create Event</button> 
             </form>
-            <form class = "form" id ="form-date2" action ="{%url 'customer'%}" method="post">
+            <form class = "form" id ="form-date2" method="post">
             {%csrf_token%}
-                <input type="hidden" name="event" value="false">
-                <input type="hidden" name="date" id="date-set2">
                 <button onclick = "setDate2()" type="submit" class="form-button button1">Book Table</button> 
             </form> 
             {% comment %} <input type="text" name="date" id = "date-set" value="">

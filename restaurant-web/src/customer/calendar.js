@@ -9,7 +9,7 @@ export function CalendarComponent(){
     const myVariable ={
       datePicked : selectedDay
     };
-    let date = String(selectedDay.month+"/"+selectedDay.day+"/"+selectedDay.year)
+    
     if (selectedDay!=null){//This will only execute if and only if the day is not null 
     //   console.log("This is the date picked: "+myVariable.datePicked.day)
       return(

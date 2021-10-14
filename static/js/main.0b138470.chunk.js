@@ -41,7 +41,7 @@
                     t = e.data,
                     n = e.isLoading,
                     a = e.errorMessage;
-                return null != t && console.log("This is the forecast " + t.current.description), null != t ? Object(o.jsxs)("div", { className: "wheather-wrapper", children: [Object(o.jsx)(u.a, { isLoading: n, errorMessage: a, data: t, lang: "en", locationLabel: "Restaurant City", unitsLabels: { temperature: "F", windSpeed: "Mph" }, showForecast: !0 }), Object(o.jsx)("div", { id: "current-forecast", children: Object(o.jsx)("p", { children: t.current.description }) })] }) : Object(o.jsx)("div", { children: Object(o.jsx)("h1", { children: "Loading..." }) })
+                return null != t , null != t ? Object(o.jsxs)("div", { className: "wheather-wrapper", children: [Object(o.jsx)(u.a, { isLoading: n, errorMessage: a, data: t, lang: "en", locationLabel: "Restaurant City", unitsLabels: { temperature: "F", windSpeed: "Mph" }, showForecast: !0 }), Object(o.jsx)("div", { id: "current-forecast", children: Object(o.jsx)("p", { children: t.current.description }) })] }) : Object(o.jsx)("div", { children: Object(o.jsx)("h1", { children: "Loading..." }) })
             }
             var g = document.getElementById("calendar-widget"),
                 p = document.getElementById("weather-widget");

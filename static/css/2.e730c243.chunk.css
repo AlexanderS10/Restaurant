@@ -37,7 +37,7 @@
 }
 
 .DatePicker__calendarContainer {
-    
+    position: absolute;
     top: calc(100% + 20px);
     left: 50%;
     -webkit-transform: translateX(-50%);
@@ -63,7 +63,7 @@
 }
 
 .DatePicker__calendarArrow {
-    
+    position:absolute;
     width: 0;
     height: 0;
     top: calc(100% + 10px);
@@ -85,6 +85,7 @@
     box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;
     border-radius: 8px;
     -webkit-user-select: none;
+    position: relative;
     -ms-user-select: none;
     user-select: none;
     padding-top: 1.2em;
@@ -134,7 +135,7 @@
     line-height: 0;
     font-size: 1em;
     padding: 3px;
-    position: inherit;
+    position: relative;
     border: none;
     z-index: 1;
     opacity: 1;
@@ -187,7 +188,7 @@
 
 .Calendar__monthYearContainer {
     flex: 1 1;
-    position: sticky
+    position: relative;
 }
 
 .Calendar__monthYear {
@@ -348,6 +349,7 @@
     flex-wrap: wrap;
     position: relative;
     z-index: 2;
+    border-radius: 8px;
     background-color: #fff;
     -webkit-transform: translateY(-150%);
     transform: translateY(-150%);
