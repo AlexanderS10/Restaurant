@@ -50,10 +50,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar-link {
+  
   justify-content: center;
   width: 100%;
   padding: 0.4em 0.8em;
   border-radius: 5px;
+}
+li.navbar-item.user{
+  text-align: -webkit-center;
 }
 
 .navbar-link:is(:focus, :hover) {
@@ -297,15 +301,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .error-message{
+  background: none;
   position:absolute;
   width: 100%;
   justify-content: center;
   display: flex;
-  z-index: 0;
   animation: myAnimation;
   animation-duration: 5000ms;
   animation-fill-mode: forwards;
+  z-index: 3;
 }
 .message{
-  z-index: 3;
+  z-index: auto !important;
+  
+}
+a#username{
+  width: max-content;
 }

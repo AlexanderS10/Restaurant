@@ -20,21 +20,19 @@ console.log("This is the token: "+csrftoken)
 //Therefore, all actions with the request must be done inside the onreadystate or onload
 const xhr = new XMLHttpRequest();
 const method = 'GET';
-const url = "/userdetails";
+const url = "api/userdetails";
 const responseType = "json";
 let user_data = null;
 xhr.responseType = responseType; // Let the xhr request know that its getting a json 
-xhr.onreadystatechange = function(){//onload is a property that is available on mostly modern browsers while onreadystatechange is availabe on all browsers
-    if(this.readyState==4){
-        if(this.status==200){
-            user_data = this.responses
-        }
-        else if (this.status==400){
-            //Here goes the logic if the request is an error however, as the request is on the same server it is not needed. 
-        }
-    }
-}
 xhr.open(method, url, true); //This opens the request with the method and url entered
+xhr.onload = function(){//onload is a property that is available on mostly modern browsers 
+    if(xhr.status!=200){
+
+    }else{
+        console.log(xhr.response)
+    }
+    
+}
 xhr.send(null);//Trigger that request
 const navbarToggle = navbar.querySelector("#navbar-toggle");
 const navbarMenu = document.querySelector("#navbar-menu");

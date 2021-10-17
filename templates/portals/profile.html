@@ -1,0 +1,36 @@
+{%extends 'portals/profile_base.html'%}
+{%load static%}
+{%block headers%}
+    <link href="{%static 'css/customer/customer_profile.css'%}" rel = "stylesheet"/>
+{%endblock%}
+{%block title%}
+{{request.user.first_name}} {{request.user.last_name}}
+{%endblock%}
+{%block content%}
+<header id="navbar">
+    <nav class="navbar-container container">
+        <a href="/" class="home-link">
+            <div class="navbar-logo"></div>
+            Restaurant
+        </a>
+        <button type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu"
+            aria-expanded="false">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div id="navbar-menu" aria-labelledby="navbar-toggle">
+            <ul class="navbar-links">
+                {%with name=request.user.first_name lName=request.user.last_name%}
+                <li class="navbar-item user"><a class="navbar-link username" id="username" href="{%url 'customer'%}">Home</a></li>
+                <li class="navbar-item"><a class="navbar-link" href="../home/#menu">Menu</a></li>
+                <li class="navbar-item"><a class="navbar-link" href="../home/#contact">Contact</a></li>
+                <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li>
+                {%endwith%}
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<script src="{%static 'js/customer/profile.js'%}"></script>
+{%endblock%}

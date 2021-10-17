@@ -29,7 +29,7 @@ def user_details(request, user_id,*args, **kwargs):
 
 @api_view(['GET'])# @authentication_classes((SessionAuthentication))
 @ensure_csrf_cookie
-def user_details_view(request, *args, **kwargs): #REST API for detailing some basic info about the user that is using the system at the moment
+def user_details_api(request, *args, **kwargs): #REST API for detailing some basic info about the user that is using the system at the moment
     current_user = request.user
     id = current_user.id
     status = 200
@@ -50,10 +50,16 @@ def customer_view(request, *args, **kwargs ):
         if not current_user.is_customer:
             messages.error(request,"You do not have access to this page")
             return redirect('login')
-        return render(request, "portals/customer.html")        
+        else:
+            print("user details: ", request.user.first_name)
+            return render(request, "portals/customer/customer.html")        
     else:
         messages.error(request,"You need to be logged in to access this page")
         return redirect('login')
+
+def user_profile_view(request):
+    
+    return render(request, 'portals/profile.html')
 
 #Here I define the view for staff
 def staff_view(request):
@@ -86,3 +92,5 @@ def csrf(request):
 
 def ping(request):
     return JsonResponse({'result': 'OK'})
+def redirect_view(request):
+    return redirect('customer')
