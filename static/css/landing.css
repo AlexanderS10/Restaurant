@@ -1,9 +1,7 @@
-
-/*--------------------------------------------------------------
+/*
 # General
---------------------------------------------------------------*/
+*/
 body {
-  font-family: "Montserrat Alternates", sans-serif;
   color: #444444;
 }
 
@@ -17,13 +15,9 @@ a:hover {
   text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Montserrat Alternates", sans-serif;
-}
-
-/*--------------------------------------------------------------
+/*
 # Back to top button
---------------------------------------------------------------*/
+*/
 .back-to-top {
   position: fixed;
   visibility: hidden;
