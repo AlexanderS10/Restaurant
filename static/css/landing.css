@@ -1,5 +1,7 @@
 /*
+/
 # General
+/
 */
 body {
   color: #444444;
@@ -16,7 +18,9 @@ a:hover {
 }
 
 /*
+/
 # Back to top button
+/
 */
 .back-to-top {
   position: fixed;
@@ -48,9 +52,11 @@ a:hover {
   opacity: 1;
 }
 
-/*--------------------------------------------------------------
+/*
+/
 # Top Bar
---------------------------------------------------------------*/
+/
+*/
 #topbar {
   padding: 0;
   font-size: 15px;
@@ -78,9 +84,11 @@ a:hover {
   padding-left: 5px;
 }
 
-/*--------------------------------------------------------------
+/*
+/
 # Header
---------------------------------------------------------------*/
+/
+*/
 #header {
   top: 50px;
   height: 70px;
@@ -115,9 +123,11 @@ a:hover {
   max-height: 40px;
 }
 
-/*--------------------------------------------------------------
+/*
+/
 # Login button Menu
---------------------------------------------------------------*/
+/
+*/
 .login-btn {
   background: #FF5733;
   color: #fff;
@@ -145,12 +155,14 @@ a:hover {
 }
 
 /*
-*
+/
 Navigation Menu
-*
+/
 */
   /*
+  /
   * Desktop Navigation 
+  /
   */
 .navbar {
   padding: 0;
@@ -254,8 +266,9 @@ Navigation Menu
 }
 
 /*
-*
-* Mobile Navigation 
+/
+Mobile Navigation 
+/
 */
 .mobile-nav-toggle {
   color: #fff;
@@ -354,9 +367,10 @@ Navigation Menu
 }
 
 /*
-*
-  modal for the log in part
-* Not implemented as I am not an expert in views and I am not sure how to get it to work properly
+/
+modal for the log in part
+Not implemented as I am not an expert in views and I am not sure how to get it to work properly
+/
 */
 .modal-content{
   background-color: rgba(26, 26, 27, 0.89);
@@ -389,16 +403,20 @@ li.nav-item.register-tab .active{
   color: white;
 }
 
-/*This will hide the hidden layer of the modal*/
+/*
+/
+This will hide the hidden layer of the modal
+/
+*/
 .tab-content .tab-pane.active{
   background-color: rgba(168, 0, 0, 0);
   border: 0;
 }
 
 /*
-*
- Hero Section
-*
+/
+Hero Section
+/
 */
 #hero {
   width: 100%;
@@ -554,9 +572,11 @@ li.nav-item.register-tab .active{
   }
 }
 
-/*--------------------------------------------------------------
-# Sections General
---------------------------------------------------------------*/
+/*
+/
+Sections General
+/
+*/
 section {
   padding: 60px 0;
 }
@@ -592,9 +612,11 @@ section {
   }
 }
 
-/*--------------------------------------------------------------
-# Breadcrumbs
---------------------------------------------------------------*/
+/*
+/
+Breadcrumbs
+/
+*/
 .breadcrumbs {
   padding: 20px 0;
   background-color: #f2f1ef;
@@ -652,9 +674,11 @@ section {
   }
 }
 
-/*--------------------------------------------------------------
-# About
---------------------------------------------------------------*/
+/*
+/
+About
+/
+*/
 .about {
   background: #fffaf3;
 }
@@ -826,7 +850,9 @@ section {
 }
 
 /*
+/
 Here is the why our system section 
+/
 */
 .why-us{
   background-color: #532C25;
@@ -878,7 +904,9 @@ Here is the why our system section
 }
 
 /*
-# Menu Section
+/
+Menu Section
+/
 */
 .menu{
   background-color: #FBD38B;
@@ -959,16 +987,16 @@ Here is the why our system section
 }
 
 /*
-# Specials
+/
+Specials
+/
 */
 .specials {
   overflow: hidden;
 }
-
 .specials .nav-tabs {
   border: 0;
 }
-
 .specials .nav-link {
   border: 0;
   padding: 12px 15px 12px 0;
@@ -979,40 +1007,32 @@ Here is the why our system section
   font-weight: 600;
   font-size: 15px;
 }
-
 .tab-content .row {
   background-color: white;
 }
-
 .specials .nav-link:hover {
   color: #FF5733 ;
 }
-
 .specials .nav-link.active {
   color: #FF5733 ;
   border-color: #FF5733 ;
 }
-
 .specials .tab-pane.active {
   -webkit-animation: fadeIn 0.5s ease-out;
   animation: fadeIn 0.5s ease-out;
 }
-
 .specials .details h3 {
   font-size: 26px;
   font-weight: 600;
   margin-bottom: 20px;
   color: #433f39;
 }
-
 .specials .details p {
   color: #777777;
 }
-
 .specials .details p:last-child {
   margin-bottom: 0;
 }
-
 @media (max-width: 992px) {
   .specials .nav-link {
     border: 0;
@@ -1023,16 +1043,16 @@ Here is the why our system section
     background: #FF5733 ;
   }
 }
-
 /*
-# Events
+/
+Events
+/
 */
 .events {
   background: url(../images/landing/events/events-b.jpeg) center center no-repeat;
   background-size: cover;
   position: relative;
 }
-
 .events::before {
   content: '';
   background-color: rgba(12, 11, 10, 0.8);
@@ -1042,36 +1062,29 @@ Here is the why our system section
   left: 0;
   bottom: 0;
 }
-
 .events .section-title h2 {
   color: #fff;
 }
-
 .events .container {
   position: relative;
 }
-
 @media (min-width: 1024px) {
   .events {
     background-attachment: fixed;
   }
 }
-
 .events .events-carousel {
   background: rgba(255, 255, 255, 0.08);
   padding: 30px;
 }
-
 .events .event-item {
   color: #fff;
 }
-
 .events .event-item h3 {
   font-weight: 600;
   font-size: 26px;
   color: #FF5733 ;
 }
-
 .events .event-item .price {
   font-size: 26px;
   font-family: "Poppins", sans-serif;
@@ -1119,7 +1132,9 @@ Here is the why our system section
 }
 
 /*
-# Book A Table
+/
+Book A Table
+/
 */
 .book-a-table .php-email-form {
   width: 100%;
@@ -1214,7 +1229,9 @@ Here is the why our system section
 }
 
 /*
-# Gallery
+/
+Gallery
+/
 */
 .gallery {
   padding-bottom: 0;
@@ -1234,9 +1251,11 @@ Here is the why our system section
   transform: scale(1.1);
 }
 
-/*--------------------------------------------------------------
-# Chefs
---------------------------------------------------------------*/
+/*
+/
+Chefs
+/
+*/
 .management {
   background: url("../images/landing/chefs/kitchen-1.jpeg") center center no-repeat;
   background-size: cover;
@@ -1341,7 +1360,9 @@ Here is the why our system section
 }
 
 /*
+/
 REVIEWS SECTION
+/
 */
 .reviews {
   padding: 80px 0;
@@ -1443,9 +1464,11 @@ REVIEWS SECTION
   }
 }
 
-/*--------------------------------------------------------------
-# Contact
---------------------------------------------------------------*/
+/*
+/
+Contact
+/
+*/
 .contact .info-wrap {
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
   padding: 30px;
@@ -1584,9 +1607,11 @@ REVIEWS SECTION
   }
 }
 
-/*--------------------------------------------------------------
-# Footer
---------------------------------------------------------------*/
+/*
+/
+Footer
+/
+*/
 #footer {
   background: #35322d;
   color: #fff;

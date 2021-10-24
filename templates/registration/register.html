@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'portals/profile_base.html' %}
 {%load static%}
 {%block headers%}
 <link
@@ -27,9 +27,6 @@
                             <div class="input-group mb-3">
                                 <i class="bi bi-envelope-fill input-group-text"></i>
                                 {{form.email}}
-                                {% comment %} <input type="text" class="form-control validate" name="username"
-                                    autocapitalize="none" autocomplete="username" autofocus="" id="id_username"
-                                    maxlength="60" required=""> {% endcomment %}
                             </div>
                         </div>
                         <div class="emailAddressLog">
@@ -70,16 +67,13 @@
                         </div>
                         <!--Here all the errors regarding the form will be printed and saved-->
                         {% if form.errors %}
-                        <div class="alert alert-danger col-12 alert-custom">
-                            {% for error in form.non_field_errors %}
-                                {{ error }}
+                            {% for field,errors in form.errors.items %} <!--Errors are a dictionary so here its assigning names to those two colums (field,errors) in the form error as items -->
+                                {% for error in errors %} <!--Here each error is printed as there can be multiple errors-->
+                                    <div class="alert alert-danger col-12 alert-custom">
+                                        {{error}}
+                                    </div>
+                                {% endfor %}
                             {% endfor %}
-                        </div>
-                        <div class="alert alert-danger col-12 alert-custom">
-                            {% for field in form %}
-                                {{field.errors}}
-                            {% endfor %}
-                        </div>
                         {% endif %}
                         <button type="submit" class="btn btn-success col-12 mb-3" value="login"><i
                                 class="bi bi-person-plus"> Register</i></button>
@@ -90,4 +84,7 @@
                 </div>
             </div>
         </div>
-        {%endblock%}
+<script>
+     document.getElementById("id_password1").classList.add("form-control", "validate");      
+</script>
+{%endblock%}

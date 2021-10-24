@@ -6,7 +6,7 @@ from accounts.models import CustomUser
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from profiles.serializers import UserSerializer
+from accounts.serializers import userSerializer
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
@@ -21,7 +21,7 @@ def user_details(request, user_id,*args, **kwargs):
     status = 200
     try:
         obj = CustomUser.objects.get(id=user_id)
-        data = UserSerializer(obj)
+        data = userSerializer(obj)
         return Response(data.data, status=status)
     except:
         status = 404
@@ -35,13 +35,13 @@ def user_details_api(request, *args, **kwargs): #REST API for detailing some bas
     status = 200
     try:
         obj = CustomUser.objects.get(id=id)
-        data = UserSerializer(obj)
+        data = userSerializer(obj)
         return Response(data.data, status=status)
     except:
         status = 404
         return Response(status=404)
 
-#View for customer is defined which will redirect them to their home page
+#CUSTOMER VIEW
 def customer_view(request, *args, **kwargs ):
     #Here I changed the logic of the data validation to be handled by their respective views, original approach was to send the form with two inputs; date and event type
     #I would use that to validate the date here and determine the event. Now instead the forms will be sent to their respective views and managed there which reduces complexity
@@ -56,12 +56,16 @@ def customer_view(request, *args, **kwargs ):
     else:
         messages.error(request,"You need to be logged in to access this page")
         return redirect('login')
-
+#
+#PROFILE VIEW 
+#
 def user_profile_view(request):
-    
+    if request.POST:
+        print(request.POST['name'])
     return render(request, 'portals/profile.html')
-
-#Here I define the view for staff
+#
+#STAFF VIEW
+#
 def staff_view(request):
     current_user = request.user
     if current_user.is_authenticated:
@@ -72,6 +76,9 @@ def staff_view(request):
     else:
         messages.error(request,"You need to be logged in to access this page")
         return redirect('login')
+#
+#ADMIN VIEW
+#
 def admin_view(request):
     current_user = request.user
     if current_user.is_authenticated:

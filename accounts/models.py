@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-from django.db.models.fields import NullBooleanField
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -47,23 +46,22 @@ def get_default_profile_image():
 class CustomUser (AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     first_name = models.CharField(
-        verbose_name='first name', max_length=30, blank=True)
+        verbose_name='first name', max_length=15, blank=True)
     last_name = models.CharField(
-        verbose_name='last name', max_length=30, blank=True)
+        verbose_name='last name', max_length=15, blank=True)
     phone_number = PhoneNumberField(region='US')
     date_joined = models.DateTimeField(
         verbose_name="date joined", auto_now_add=True)
     is_admin = models.BooleanField(default=False, verbose_name="Admin")
     is_staff = models.BooleanField(default=False, verbose_name="Staff")
-    is_active = models.BooleanField(default=False, verbose_name="Active")
-    is_customer = models.BooleanField(default=False, verbose_name="Customer")
+    is_active = models.BooleanField(default=True, verbose_name="Active")
+    is_customer = models.BooleanField(default=True, verbose_name="Customer")
     is_superuser = models.BooleanField(default=False, verbose_name="Superuser")
     comments = models.TextField(blank=True)
     image = models.ImageField(upload_to = get_profile_image_filepath, null=True, blank = True, default = get_default_profile_image)
     objects= MyAccountManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name','last_name','phone_number']
-
 
     def has_perm(self, perm, obj=None):
         return self.is_admin

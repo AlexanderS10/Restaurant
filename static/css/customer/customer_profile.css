@@ -176,6 +176,7 @@ a#username {
     width: max-content;
 }
 .card {
+    padding:10px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -184,13 +185,29 @@ a#username {
     background-color: #fff;
     background-clip: border-box;
     border: 0 solid transparent;
-    border-radius: .25rem;
+    border-radius: 8px;
     margin-bottom: 1.5rem;
-    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
-}
+    box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;}
 .me-2 {
     margin-right: .5rem!important;
 }
-.user-container{
-    margin-top: 20px;
+.user-wrapper{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    padding-top: 10%;
 }
+.submit-button{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.button-options{
+    text-align: center;
+}
+button.btn.btn-primary.px-4{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+

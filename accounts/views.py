@@ -57,17 +57,12 @@ def logout_view(request):
     return redirect("login")
 def register_view(request):
     form = RegisterForm(request.POST or None)
+    form.is_customer = True
     if form.is_valid():
-        email = form.cleaned_data.get("email")
-        password1 = form.cleaned_data.get("password1")
-        first_name = form.cleaned_data.get("first_name")
-        last_name = form.cleaned_data.get("last_name")
-        phone_number = form.cleaned_data.get("phone_number")
-        user = CustomUser.objects.create_user(email, first_name, last_name , phone_number, password1, is_active=True, is_customer=True)
         #Once the user is created redirect them to their portal
-        if user is not None: 
-            login(request,user)
-            return redirect("/customer")
+        user = form.save()
+        login(request,user)
+        return redirect("/customer")
     context = {'form':form}
     return render(request,'registration/register.html',context)
 def home_view(request):

@@ -1,26 +1,12 @@
-from django.contrib.auth.forms import AuthenticationForm
 from django.forms.widgets import PasswordInput, TextInput, Widget
 from accounts.models import CustomUser
 from django import forms
 from django.core.validators import RegexValidator
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.auth.forms import UserCreationForm
+
 
 User = get_user_model()
-# class UserLoginForm(AuthenticationForm):
-#     def __init__(self, *args, **kwargs):
-#         super(UserLoginForm, self).__init__(*args, **kwargs)
-
-#     email = forms.CharField(required=True, max_length=100, widget=forms.TextInput(attrs={
-#             'class': 'form-control validate',
-#             'id': 'id_username'
-#         }))
-#     password = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput(attrs={
-#             'class': 'form-control validate',
-#             'id': 'id_password'
-#     }))
-
 class LoginForm(forms.Form):
     email = forms.EmailField(required=True, max_length=100, widget=forms.EmailInput(attrs={
         'class': 'form-control validate',
@@ -37,10 +23,12 @@ class LoginForm(forms.Form):
         if not qs.exists():
             raise forms.ValidationError("Incorrect Username or Password")
         return email
-class RegisterForm(forms.Form):
+
+class RegisterForm(UserCreationForm):
     class Meta:
-        model = User
-        fields = ["email","first_name", "last_name", "phone_number", "password"]
+        model = CustomUser
+        fields = ["email","first_name", "last_name", "phone_number"]
+        
     email = forms.EmailField(required=True, max_length=100, widget=forms.EmailInput(attrs={
         'class': 'form-control validate',
         'id': 'id_username',
@@ -58,27 +46,25 @@ class RegisterForm(forms.Form):
         "class":"form-control"
     }))
     #phone_number = PhoneNumberField(region='US')
-    password1 = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput(attrs={
-        'class': 'form-control validate',
-        'id': 'id_password' 
-    }))
+  
     password2 = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput(attrs={
         'class': 'form-control validate',
         'id': 'id_password2'
     }))
+
     #If a new user is trying to use an already registered email then it will print an error
     def clean_email(self):
         email = self.cleaned_data.get("email")
         qs = User.objects.filter(email__iexact=email)
         if qs.exists():
-            raise forms.ValidationError("Email Address already in use.")
+            raise forms.ValidationError("Email address already in use.")
         return email
-    #Here it will be validated if the two passwords are the same otherwise an error will be shown
+    #Here it will be validated if the two passwords are the same otherwise an error w ill be shown
     def clean(self):
         cleaned_data = super().clean()
-        password1 = cleaned_data.get("password1")
+        password = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
-        if password1 is not None and password1 != password2:
+        if password is not None and password != password2:
             raise forms.ValidationError("Passwords do not match.")
         return cleaned_data
     
