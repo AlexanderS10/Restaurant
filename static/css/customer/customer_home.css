@@ -40,6 +40,9 @@ body {
   font-weight: 400;
   align-items: center;
 }
+.home-link{
+  font-size: 1.5rem;
+}
 
 .home-link:is(:focus, :hover) {
   color: var(--navbar-text-color-focus);

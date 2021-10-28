@@ -1,7 +1,9 @@
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect
 from django.conf import settings
 from rest_framework.views import APIView
+from accounts.forms import UserSettingsForm
 from accounts.models import CustomUser
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -10,8 +12,9 @@ from accounts.serializers import userSerializer
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from django.middleware.csrf import get_token
-
+from django.contrib.auth.forms import PasswordChangeForm
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 permission_classes = [IsAuthenticated]
 @api_view(['GET'])
@@ -51,7 +54,9 @@ def customer_view(request, *args, **kwargs ):
             messages.error(request,"You do not have access to this page")
             return redirect('login')
         else:
-            print("user details: ", request.user.first_name)
+            if(request.user.image is None):
+                print()
+            print("user details: ", request.user.image)
             return render(request, "portals/customer/customer.html")        
     else:
         messages.error(request,"You need to be logged in to access this page")
@@ -59,10 +64,34 @@ def customer_view(request, *args, **kwargs ):
 #
 #PROFILE VIEW 
 #
+@login_required(login_url='../../login/')
 def user_profile_view(request):
+    user = request.user
+    userSettings = UserSettingsForm(instance=user)
     if request.POST:
-        print(request.POST['name'])
-    return render(request, 'portals/profile.html')
+        userSettings = UserSettingsForm(request.POST, request.FILES,instance=user)
+        if userSettings.is_valid():
+            userSettings.save()
+    form = PasswordChangeForm(request.user)
+    return render(request, 'portals/profile.html',{'form':form, 'settings':userSettings})
+
+#
+#CHANGE PASSWORD
+#
+@login_required(login_url='../../login/')
+def change_password_view(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request,"Your password has been changed successfully")
+            return redirect('profile')
+        else:
+            messages.error(request,"Passwords do not match")
+            return redirect('profile')
+    
+      
 #
 #STAFF VIEW
 #
@@ -89,7 +118,7 @@ def admin_view(request):
     else:
         messages.error(request,"You need to be logged in to access this page")
         return redirect('login')
-
+  
 @method_decorator(ensure_csrf_cookie, name = 'dispatch')
 class GetCSRFToken(APIView):
     def get(self, request, format=None):

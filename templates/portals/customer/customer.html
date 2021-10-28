@@ -19,7 +19,7 @@
 <header id="navbar">
   <nav class="navbar-container container">
     <a href="/" class="home-link">
-      <div class="navbar-logo"></div>
+      {% comment %} <div class="navbar-logo"></div> {% endcomment %}
      Restaurant
     </a>
     <button type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu" aria-expanded="false">
@@ -30,7 +30,12 @@
     <div id="navbar-menu" aria-labelledby="navbar-toggle">
       <ul class="navbar-links">
       {%with name=request.user.first_name lName=request.user.last_name%}
-        <li class="navbar-item user"><a class="navbar-link username" id="username" href="{%url 'profile'%}">{{request.user.first_name}} {{request.user.last_name}}</a></li>
+        <li class="navbar-item user">
+          <a class="navbar-link username" id="username" href="{%url 'profile'%}">
+            <img src="{{request.user.image.url}}" alt="Admin"class="rounded-circle p-1 rest-bg-color" width="35" height="35">
+             {{request.user.first_name}} {{request.user.last_name}}
+          </a>
+        </li>
         <li class="navbar-item"><a class="navbar-link" href="../home/#menu">Menu</a></li>
         <li class="navbar-item"><a class="navbar-link" href="../home/#contact">Contact</a></li>
         <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li>

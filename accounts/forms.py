@@ -1,4 +1,5 @@
-from django.forms.widgets import PasswordInput, TextInput, Widget
+from django.db.models.fields.files import ImageField, ImageFieldFile
+from django.forms import ModelForm
 from accounts.models import CustomUser
 from django import forms
 from django.core.validators import RegexValidator
@@ -68,6 +69,26 @@ class RegisterForm(UserCreationForm):
             raise forms.ValidationError("Passwords do not match.")
         return cleaned_data
     
-
+class UserSettingsForm(ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ["first_name", "last_name", "phone_number","image"]
+    first_name = forms.CharField(required=True, max_length=15, widget=forms.TextInput(attrs={
+        "class":"form-control"
+        }))
+    last_name = forms.CharField(required=True, max_length=15, widget=forms.TextInput(attrs={
+        "class":"form-control"
+    }))
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    #Here I tried to implement the phone number field same as in the model in admin but was not successful. Instead I will allow any input with no message but it will not create the object
+    phone_number = forms.CharField(validators=[phone_regex], required=True, max_length=15, widget=forms.TextInput(attrs={
+        "class":"form-control"
+    }))
+    image = forms.ImageField(widget=forms.FileInput(attrs={"class":"choose-image"}))
     
+class setDefaultProfileImage (ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ["image"]
+        image = forms.ImageField()
     

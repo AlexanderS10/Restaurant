@@ -36,12 +36,12 @@ class MyAccountManager(BaseUserManager):
             raise ValueError("Staff must not be set as is_superuser=False.")
         return self.create_user(email,first_name,last_name,phone_number,password,**other_fields)
 
-def get_profile_image_filepath(self):
+def get_profile_image_filepath(self,a):
+    print(a)
     return f'profile_images/{self.pk}/{"profile_image.png"}'
 
-
 def get_default_profile_image():
-    return "defaults/profile_default.png"
+    return "defaults/profile_default.jpeg"
 # Create your models here.
 class CustomUser (AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
@@ -58,24 +58,21 @@ class CustomUser (AbstractBaseUser, PermissionsMixin):
     is_customer = models.BooleanField(default=True, verbose_name="Customer")
     is_superuser = models.BooleanField(default=False, verbose_name="Superuser")
     comments = models.TextField(blank=True)
-    image = models.ImageField(upload_to = get_profile_image_filepath, null=True, blank = True, default = get_default_profile_image)
+    image = models.ImageField(upload_to = get_profile_image_filepath, default = get_default_profile_image)
     objects= MyAccountManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name','last_name','phone_number']
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
-
-
+    
     def has_module_perms(self, app_label):
         return True
-
 
     def get_full_name(self):
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
-
-
+        
     def get_short_name(self):
         return self.first_name
 

@@ -21,13 +21,11 @@
         </button>
         <div id="navbar-menu" aria-labelledby="navbar-toggle">
             <ul class="navbar-links">
-                {%with name=request.user.first_name lName=request.user.last_name%}
                 <li class="navbar-item user"><a class="navbar-link username" id="username"
                         href="{%url 'customer'%}">Home</a></li>
                 <li class="navbar-item"><a class="navbar-link" href="../home/#menu">Menu</a></li>
                 <li class="navbar-item"><a class="navbar-link" href="../home/#contact">Contact</a></li>
                 <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li>
-                {%endwith%}
             </ul>
         </div>
     </nav>
@@ -40,11 +38,11 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Admin"
-                                    class="rounded-circle p-1 bg-primary" width="110">
+                                <img src="{{request.user.image.url}}" alt="Admin"
+                                    class="rounded-circle p-1 rest-bg-color" width="170" height="170">
                                 <div class="mt-3">
                                     <h4>{{request.user.first_name}} {{request.user.last_name}}</h4>
-                                    <button type="submit" class="btn btn-primary px-4">Edit</button>
+                                    {% comment %} <button type="submit" class="btn rest-btn-color px-4">Edit</button> {% endcomment %}
                                 </div>
                             </div>
                             <hr class="my-4">
@@ -58,14 +56,29 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="card">
-                        <form class="card-body" method="post">
+                        <div class = "card-body card-title">
+                            <h4>Details</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="text" class="form-control" name="first_name" id="email_address" value="" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <!--THE FORM FOR THE USER'S DETAILS CHANGE-->
+                        <form class="card-body" method="post" enctype="multipart/form-data">
                             {%csrf_token%}
                             <div class="row mb-3">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">First Name</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="first_name" id="first_name" value="">
+                                    {% comment %} <input type="text" class="form-control" name="first_name" id="first_name" value=""> {% endcomment %}
+                                    {{settings.first_name}}
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -73,7 +86,8 @@
                                     <h6 class="mb-0">Last Name</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="last_name" id="last_name" value="">
+                                    {% comment %} <input type="text" class="form-control" name="last_name" id="last_name" value=""> {% endcomment %}
+                                    {{settings.last_name}}
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -81,25 +95,97 @@
                                     <h6 class="mb-0">Phone Number</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="phone_number" id="phone_number"
-                                        value="">
+                                    {% comment %} <input type="text" class="form-control" name="phone_number" id="phone_number" value=""> {% endcomment %}
+                                    {{settings.phone_number}}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Profile Picture</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary image-selector">
+                                    {% comment %} <input type="text" class="form-control" name="phone_number" id="phone_number" value=""> {% endcomment %}
+                                    {{settings.image}}
+                                    <label for="id_image" id="file" class="file">Choose a file</label>
+                                    <p class="file-name"></p>
                                 </div>
                             </div>
                             <div class="submit-button">
-                                <div class="col-sm-9 text-secondary submit-button">
-                                    <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+                                <div class="col-sm-9 text-secondary">
+                                    <button type="submit" class="btn btn-primary rest-btn-color px-4">Save Changes</button>
                                 </div>
                             </div>
                         </form>
-                        <div class="button-options">
-                            <button type="submit" class="btn btn-primary px-4" id="change-password">Change
-                                Password</button>
-                        </div>
+                        {% if form.errors %}
+                            {% for field,errors in form.errors.items %} <!--Errors are a dictionary so here its assigning names to those two colums (field,errors) in the form error as items -->
+                                {% for error in errors %} <!--Here each error is printed as there can be multiple errors-->
+                                    <div class="alert alert-danger col-12 alert-custom">
+                                        {{error}}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
                     </div>
-                    <div class="row">
-                        <form>
-                            <input type="text">
+                    <div class="card" id="password-container">
+                    <div class = "card-body card-title">
+                            <h4>Change Password</h4>
+                        </div>
+                        <form class="card-body" method='post' action="{%url 'password-change'%}">
+                            {%csrf_token%}
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Current Password</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <div class="input-group">
+                                        <i class="bi bi-unlock-fill input-group-text"></i>
+                                        {{form.old_password}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">New Password</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <div class="input-group">
+                                        <i class="bi bi-lock-fill input-group-text"></i>
+                                        {{form.new_password1}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Confirm Password</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <div class="input-group">
+                                        <i class="bi bi-lock-fill input-group-text"></i>
+                                        {{form.new_password2}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="submit-button">
+                                <div class="col-sm-9 text-secondary ">
+                                    <button type="submit" class="btn btn-primary rest-btn-color px-4">Submit</button>
+                                </div>
+                            </div>
+                            
                         </form>
+                        {%if messages%}
+                            {%for message in messages%}
+                                {%ifequal message.tags "error"%}
+                                    <div class="alert alert-danger col-12 alert-custom" role="alert">
+                                        {{message}}
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-success col-12 alert-custom" role="alert">
+                                        {{message}}
+                                    </div>
+                                {%endifequal%}
+                            {%endfor%}
+                        {%endif%}
+                        
                     </div>
                 </div>
             </div>

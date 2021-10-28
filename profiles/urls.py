@@ -15,4 +15,5 @@ urlpatterns = [
     path('api/userdetails/', user_details_api),
     path('api/', redirect_view),
     path('profile/', user_profile_view, name='profile'),
+    path('password-change', change_password_view, name ='password-change'),
 ]

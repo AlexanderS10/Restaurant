@@ -31,10 +31,29 @@ xhr.onload = function(){//onload is a property that is available on mostly moder
 
     }else{
         let user_details_api = xhr.response;
-        document.getElementById('first_name').value = String(user_details_api.first_name);
-        document.getElementById('last_name').value = String(user_details_api.last_name);
-        document.getElementById('phone_number').value = String(user_details_api.phone_number);
+        document.getElementById('email_address').value = String(user_details_api.email);
+        // document.getElementById('first_name').value = String(user_details_api.first_name);
+        // document.getElementById('last_name').value = String(user_details_api.last_name);
+        // document.getElementById('phone_number').value = String(user_details_api.phone_number);
         console.log(user_details_api);
     }
 }
 xhr.send(null);//Trigger that request
+/*
+/PASSWORD CHANGE
+*/
+document.getElementById("id_old_password").classList.add("form-control");
+document.getElementById("id_new_password1").classList.add("form-control");
+document.getElementById("id_new_password2").classList.add("form-control");
+
+/*
+/IMAGE INPUT
+*/
+
+let image = document.querySelector('#file');
+image.addEventListener('change', (e)=>{
+    let [file]=e.target.file;
+    let {name:fileName}=file;
+    let fileResult =`${fileName}`;
+    document.querySelector('.file-name').textContent=fileName;
+});
