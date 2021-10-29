@@ -40,7 +40,7 @@ xhr.onload = function(){//onload is a property that is available on mostly moder
         // document.getElementById('first_name').value = String(user_details_api.first_name);
         // document.getElementById('last_name').value = String(user_details_api.last_name);
         // document.getElementById('phone_number').value = String(user_details_api.phone_number);
-        console.log(user_details_api);
+        // console.log(user_details_api);
     }
 }
 xhr.send(null);//Trigger that request

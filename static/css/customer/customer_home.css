@@ -2,7 +2,11 @@ body {
   margin: 0;
 }
 
-
+/*
+  *
+  NAVBAR
+  *
+*/
 :root {
   --navbar-bg-color: hsl(0, 0%, 15%);
   --navbar-text-color: hsl(0, 0%, 85%);
@@ -175,8 +179,7 @@ li.navbar-item.user{
   *
   WIDGETS
   *
-  */
-
+*/
 .widgets-wrapper {
   padding-top: 30px !important;
   padding-bottom: 20px;
@@ -271,6 +274,7 @@ li.navbar-item.user{
   background-color: white; 
   color: black; 
   border: 2px solid #4CAF50;
+  box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;
 }
 .button1:hover {
   background-color: #4CAF50;

@@ -1,1 +1,35 @@
-<h1>This is the booking for a table customer</h1>
+{%extends 'portals/profile_base.html'%}
+{%load static%}
+{%block headers%}
+    <link href="{%static 'css/customer/customer_table.css'%}" rel="stylesheet"/>
+    
+{%endblock%}
+
+{%block title%}Book table{%endblock%}
+
+{%block content%}
+<header id="navbar">
+  <nav class="navbar-container container">
+    <a href="/" class="home-link">
+      {% comment %} <div class="navbar-logo"></div> {% endcomment %}
+     Restaurant
+    </a>
+    <button type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu" aria-expanded="false">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <div id="navbar-menu" aria-labelledby="navbar-toggle">
+      <ul class="navbar-links">
+      {%with name=request.user.first_name lName=request.user.last_name%}
+        <li class="navbar-item"><a class="navbar-link" href="{%url 'customer'%}">Home</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="../home/#menu">Menu</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="../home/#contact">Contact</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li>
+        {%endwith%}
+      </ul>
+    </div>
+  </nav>
+</header>
+<canvas id="mycanvas" width="100" height="100" style="border: 2px solid black;"></canvas>
+{%endblock%}

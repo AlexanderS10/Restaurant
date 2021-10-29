@@ -13,7 +13,7 @@ def book_table_view(request,date_sent):
         messages.error(request,"Cannot create reservation on invalid day")
         return redirect('customer')
 
-    return render(request, 'portals/customer/customer_event_booking.html')
+    return render(request, 'portals/customer/customer_table_booking.html')
 
 def book_event_view(request,date_sent):
     date_use = datetime.strptime(date_sent, '%m-%d-%Y')
