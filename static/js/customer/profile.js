@@ -32,6 +32,11 @@ xhr.onload = function(){//onload is a property that is available on mostly moder
     }else{
         let user_details_api = xhr.response;
         document.getElementById('email_address').value = String(user_details_api.email);
+        let date_joined = new Date(user_details_api.date_joined);
+        let options = {weekday: 'long', year:'numeric', month:'long',day: 'numeric'};
+        let date_display=String(date_joined.toLocaleString('en-US',options)).split(',');
+        document.getElementById("date-joined").textContent = date_display[0]+date_display[1]+","+date_display[2];
+        // console.log("This is the date joined: "+date_joined.toISOString().split('T')[0])
         // document.getElementById('first_name').value = String(user_details_api.first_name);
         // document.getElementById('last_name').value = String(user_details_api.last_name);
         // document.getElementById('phone_number').value = String(user_details_api.phone_number);
@@ -49,11 +54,17 @@ document.getElementById("id_new_password2").classList.add("form-control");
 /*
 /IMAGE INPUT
 */
-
-let image = document.querySelector('#file');
-image.addEventListener('change', (e)=>{
-    let [file]=e.target.file;
-    let {name:fileName}=file;
-    let fileResult =`${fileName}`;
+//Get the input tag
+let imageInput = document.querySelector('#id_image');
+imageInput.addEventListener('change', (e)=>{
+    //Get the selected image
+    let [file]=e.target.files; //destructuring is used to unpack values from arrays or properties from objects into distinct values
+    // console.log(e.target.files)
+    // for (var field in file){
+    //     console.log(field)
+    // }
+    //Get the image name
+    let fileName=file.name;
+    //add the name to the p tag
     document.querySelector('.file-name').textContent=fileName;
 });

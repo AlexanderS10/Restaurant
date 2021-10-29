@@ -171,7 +171,11 @@ li.navbar-item.user {
         height: 100%;
     }
 }
-
+/*
+/
+/USER INFORMATION CARDS
+/
+*/
 a#username {
     width: max-content;
 }
@@ -229,6 +233,11 @@ button.btn.btn-primary.px-4{
     border-width: 2px;
     border-color: #FF5733;
 }
+/*
+/
+/UPLOAD IMAGE BUTTON
+/
+*/
 .image-selector{
     display: flex;
     align-items: baseline;
@@ -236,12 +245,18 @@ button.btn.btn-primary.px-4{
 .choose-image {
 	display: none;
 }
-label {
+#file{
     border: 1px solid #ccc;
-    display: inline-block;
+    border-radius: 8px;
     padding: 6px 12px;
     cursor: pointer;
 }
+#file:hover{
+    background-color: #FF5733;
+    color: white;
+    border-color: #FF5733;
+}
 .file-name{
     margin-left: 5px;
+    font-size: .9rem;
 }

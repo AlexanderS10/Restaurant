@@ -48,7 +48,7 @@
                             <hr class="my-4">
                             <ul class="list-group list-group-flush align-items-center">
                                 <li class="d-flex justify-content-between list-group-item flex-wrap">
-                                    Joined June 30th 2021
+                                    <h6>Joined&nbsp</h6><h6 class="date-joined" id="date-joined"> </h6>
                                 </li>
                             </ul>
                         </div>
@@ -106,7 +106,8 @@
                                 <div class="col-sm-9 text-secondary image-selector">
                                     {% comment %} <input type="text" class="form-control" name="phone_number" id="phone_number" value=""> {% endcomment %}
                                     {{settings.image}}
-                                    <label for="id_image" id="file" class="file">Choose a file</label>
+                                    {% comment %} <input type="checkbox" name="image-clear" id="image-clear_id"> <!--Test if users can modify the html to delete the image-->{% endcomment %}
+                                    <label for="id_image" id="file" class="file"><i class="bi bi-upload"></i> Choose a file</label>
                                     <p class="file-name"></p>
                                 </div>
                             </div>
