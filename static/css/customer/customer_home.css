@@ -1,11 +1,19 @@
 body {
   margin: 0;
+  
 }
-
+.home-page{
+  width: 100%;
+  height: 100%;
+  background: url(../../images/landing/slide/view2.jpeg) center center repeat-y;
+  background-size: cover;
+  position: absolute;
+  overflow: auto;
+}
 /*
-  *
-  NAVBAR
-  *
+*
+NAVBAR
+*
 */
 :root {
   --navbar-bg-color: hsl(0, 0%, 15%);
@@ -22,7 +30,7 @@ body {
   left: 0;
   right: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  position: inherit;
+  position: relative;
 }
 
 .navbar-container {
@@ -174,7 +182,6 @@ li.navbar-item.user{
     height: 100%;
   }
 }
-
 /*
   *
   WIDGETS
@@ -186,7 +193,7 @@ li.navbar-item.user{
   display: flex;
   flex-wrap: wrap !important;
   background: transparent;
-  background-color: turquoise;
+  position: relative;
 }
 .container{
   background: transparent;
@@ -200,12 +207,25 @@ li.navbar-item.user{
   padding: 20px 20px 20px 20px;
   
 }
-.Calendar.-noFocusOutline.responsive-calendar.-ltr{
+.col.calendar-container{
+  padding-top: 0px;
+  background-color: white;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 8px;
   box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;
 }
-
-#weather-widget {
+.container-d0-0-2-6{
+  box-shadow: none !important;
+}
+div#weather-widget{
+  background-color: white;
+  border-radius: 8px;
   margin-right: 20px;
+  box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;
+}
+p{
+  display: none;
 }
 
 #date_picked{
@@ -232,21 +252,25 @@ li.navbar-item.user{
 
 @media(max-width: 1000px) {
   #weather-widget {
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
   }
-}
-
-@media(max-width:1000px) {
   #notifications-wrapper {
-    margin-right: 20px !important;
-    margin-bottom: 20px;
+    margin-right: 10px !important;
+    margin-left: 10px !important;
+    margin-bottom: 10px;
   }
   .calendar-container{
-    margin-bottom: 20px;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
   }
 }
-@media(max-width:361px) {
+@media(max-width:593px) {
+  .calendar-container{
+    margin-bottom: 20px !important;
+  }
+}
+@media(max-width:326px) {
   div#weather-widget{
     overflow: auto;
   }
@@ -254,17 +278,17 @@ li.navbar-item.user{
 
 .buttons-group{
   position: relative;
-  margin-top: 10px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .form-button {
-  background-color: #4CAF50; /* Green */
   border: none;
   color: white;
   padding: 16px 32px;
   text-align: center;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 1.2em;
   margin: 4px 2px;
   transition-duration: 0.4s;
   cursor: pointer;
@@ -274,14 +298,10 @@ li.navbar-item.user{
   background-color: white; 
   color: black; 
   border: 2px solid #4CAF50;
-  box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;
 }
 .button1:hover {
   background-color: #4CAF50;
   color: white;
-}
-.buttons-group{
-  text-align: center;
 }
 .form{
   display: inline-block;

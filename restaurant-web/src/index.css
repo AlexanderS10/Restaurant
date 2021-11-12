@@ -12,48 +12,53 @@ code {
     monospace;
 }
 .responsive-calendar {
-  /* by setting font-size, all the elements will correspond */
-  font-size: 15px !important; /* default to 10px */
-  border-radius: 8px !important;
+  font-size: 13px!important
 }
 
-@media (max-width: 1500px) {
+@media (max-width:1500px) {
   .responsive-calendar {
-    font-size: 11px !important;
+      font-size: 12px!important
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width:1200px) {
   .responsive-calendar {
-    font-size: 7px !important;
+      font-size: 10px!important
+  }
+}
+@media (max-width:1000px) {
+  .responsive-calendar {
+      font-size: 10px!important
+  }
+}
+@media (max-width:768px) {
+  .responsive-calendar {
+      font-size: 11px!important
+  }
+}
+@media (max-width:593px) {
+  .responsive-calendar {
+      font-size: 13px!important
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width:530px) {
   .responsive-calendar {
-    font-size: 6px !important;
+      font-size: 12px!important
   }
 }
-
-/* Large screens */
-@media (min-width: 2500px) {
+@media (max-width:390px) {
   .responsive-calendar {
-    font-size: 12px !important;
+      font-size: 9px!important
   }
 }
-.calendar-wrapper, .date-wrapper{
-  display: table;
-  margin: auto;
+@media (max-width:344px) {
+  .responsive-calendar {
+      font-size: 8px!important
+  }
 }
-
-.wheather-wrapper{
-  width: 50%;
-}
-
-#dateSelected{
-  text-align: center;
-  font-size: large;
-}
-#current-forecast{
-  color: white;
+@media (min-width:2500px) {
+  .responsive-calendar {
+      font-size: 13px!important
+  }
 }

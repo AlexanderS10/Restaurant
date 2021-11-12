@@ -4,7 +4,7 @@
 
 @media (max-width:1500px) {
     .responsive-calendar {
-        font-size: 11px!important
+        font-size: 12px!important
     }
 }
 
@@ -15,7 +15,7 @@
 }
 @media (max-width:1000px) {
     .responsive-calendar {
-        font-size: 12px!important
+        font-size: 10px!important
     }
 }
 @media (max-width:768px) {
@@ -36,12 +36,17 @@
 }
 @media (max-width:390px) {
     .responsive-calendar {
-        font-size: 10px!important
+        font-size: 9px!important
+    }
+}
+@media (max-width:344px) {
+    .responsive-calendar {
+        font-size: 8px!important
     }
 }
 @media (min-width:2500px) {
     .responsive-calendar {
-        font-size: 12px!important
+        font-size: 13px!important
     }
 }
 

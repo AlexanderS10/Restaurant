@@ -191,7 +191,8 @@ a#username {
     border: 0 solid transparent;
     border-radius: 8px;
     margin-bottom: 1.5rem;
-    box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;}
+    box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;
+}
 .me-2 {
     margin-right: .5rem!important;
 }

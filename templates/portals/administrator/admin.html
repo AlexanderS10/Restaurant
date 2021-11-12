@@ -4,7 +4,7 @@
 <link
     href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i"
     rel="stylesheet">
-<link href="{%static 'css/customer/customer_home.css'%}" rel="stylesheet" />
+<link href="{%static 'css/administrator/admin_home.css'%}" rel="stylesheet" />
 {% include 'react/css.html' %}
 {%endblock%}
 {%block title%}Home{%endblock%}
@@ -40,6 +40,7 @@
         </li>
         <li class="navbar-item"><a class="navbar-link" href="../home/#menu">Menu</a></li>
         <li class="navbar-item"><a class="navbar-link" href="../home/#contact">Contact</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Manage Users</a></li>
         <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li>
         {%endwith%}
       </ul>
@@ -74,5 +75,5 @@ I would have to replace my entire front end which already took me a lot of time.
 </div>
 {%include 'react/base_embed.html'%}
 {%include 'react/js.html'%}
-<script src="{%static 'js/customer/customer_home.js'%}"></script>
+<script src="{%static 'js/administrator/admin_home.js'%}"></script>
 {%endblock%}

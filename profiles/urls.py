@@ -8,12 +8,15 @@ from django.contrib.auth import views as auth_views
 from profiles.views import *
 
 urlpatterns = [
-    path('api/userdetails/<int:user_id>/', user_details),
-    path('', customer_view, name="customer"),
-    path('',include('bookings.urls')),
+    path('customer/api/userdetails/<int:user_id>/', user_details),
+    path('customer/', customer_view, name="customer"),
+    path('customer/',include('bookings.urls')),
     #path('<name>/', customer_profile_view),
-    path('api/userdetails/', user_details_api),
-    path('api/', redirect_view),
-    path('profile/', user_profile_view, name='profile'),
+    path('customer/api/userdetails/', user_details_api),
+    path('customer/api/', redirect_view),
+    path('customer/profile/', user_profile_view, name='profile'),
     path('password-change', change_password_view, name ='password-change'),
+    path('administration/',admin_view),
+    path('administration/profile/', user_profile_view, name='profile'),
+    path('administration/api/userdetails/', user_details_api),
 ]

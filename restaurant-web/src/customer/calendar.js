@@ -13,21 +13,16 @@ export function CalendarComponent(){
     if (selectedDay!=null){//This will only execute if and only if the day is not null 
     //   console.log("This is the date picked: "+myVariable.datePicked.day)
       return(
-        <>
+        
         <Container id = "calendarWidget">  
-          <div className = "calendar-wrapper ">
             <Calendar
             value={selectedDay}
             onChange={setSelectedDay}
             calendarClassName = "responsive-calendar"
             shouldHighlightWeekends
           />
-          </div>
-          <div className = "date-wrapper">
-            <p id="date_picked">{myVariable.datePicked.month}/{myVariable.datePicked.day}/{myVariable.datePicked.year}</p>
-          </div>
+          <p id="date_picked">{myVariable.datePicked.month}-{myVariable.datePicked.day}-{myVariable.datePicked.year}</p>
         </Container>
-        </>
       )
     }
     else{//if for some odd reason the calendar default date is empty then an error will be shown

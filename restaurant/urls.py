@@ -32,10 +32,9 @@ urlpatterns = [
     path('register/', register_view, name='register'),
     path('login/',login_view, name='login'),
     # path('accounts/login/'),
-    path('customer/',include('profiles.urls')),
+    path('',include('profiles.urls')),
     path('staff/', staff_view),
     path('logout/',logout_view,name='logout'),
-    path('administration/',admin_view),
     #here the users can input the email for the account they want to reset the passaword for
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset.html'), name='password_reset'),
     #Here is displayed after the user has successfully started the reset proccess
