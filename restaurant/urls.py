@@ -26,7 +26,7 @@ from profiles.views import *
 from accounts.forms import *
 from django.views.generic import TemplateView
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
     path('', home_view, name=""),
     path('home/', home_view, name='home'),
     path('register/', register_view, name='register'),

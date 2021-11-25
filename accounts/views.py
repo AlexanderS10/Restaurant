@@ -26,10 +26,10 @@ def login_view(request):
         id = current_user.id
         if current_user.is_customer and is_safe_url("/customer",ALLOWED_HOSTS):
             return redirect("/customer")
-        elif current_user.is_staff and is_safe_url("/admin",ALLOWED_HOSTS):
-            return redirect("/admin")
-        elif current_user.is_superuser and is_safe_url("/staff",ALLOWED_HOSTS):
+        elif current_user.is_staff and is_safe_url("/staff",ALLOWED_HOSTS):
             return redirect("/staff")
+        elif current_user.is_superuser and is_safe_url("/administration",ALLOWED_HOSTS):
+            return redirect("/administration")
         elif current_user.is_anonymous and is_safe_url("/login",ALLOWED_HOSTS):
             return redirect("/login")
     # If the info provided does match with a user's password, redirect them to their portal otherwise throw an error

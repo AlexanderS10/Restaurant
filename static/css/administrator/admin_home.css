@@ -161,7 +161,7 @@ body {
     padding: 1em;
   }
   
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: 769px) {
     #navbar-toggle, #navbar-toggle[aria-expanded="true"] {
       display: none;
     }
@@ -218,11 +218,14 @@ body {
   .container-d0-0-2-6{
     box-shadow: none !important;
   }
-  div#weather-widget{
+  .weather-container{
     background-color: white;
     border-radius: 8px;
     margin-right: 20px;
     box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;
+  }
+  .weather-alert-wrapper{
+    padding: 10px;
   }
   p{
     display: none;
@@ -251,7 +254,7 @@ body {
   }
   
   @media(max-width: 1000px) {
-    #weather-widget {
+    .weather-container {
       margin-left: 10px !important;
       margin-right: 10px !important;
     }
@@ -270,8 +273,13 @@ body {
       margin-bottom: 20px !important;
     }
   }
+  @media(max-width:889px) {
+    .calendar-container{
+      margin-bottom: 10px !important;
+    }
+  }
   @media(max-width:326px) {
-    div#weather-widget{
+    .weather-container{
       overflow: auto;
     }
   }

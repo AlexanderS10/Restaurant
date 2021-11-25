@@ -68,7 +68,8 @@ class RegisterForm(UserCreationForm):
         if password is not None and password != password2:
             raise forms.ValidationError("Passwords do not match.")
         return cleaned_data
-    
+    #TODO figure out how to have the values of is_customer, is_admin and is_staff be set to False or True in the forms so it can ber later used for different users creation
+
 class UserSettingsForm(ModelForm):
     class Meta:
         model = CustomUser

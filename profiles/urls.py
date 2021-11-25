@@ -1,17 +1,11 @@
 from django.contrib import admin
-from django.contrib import admin
-from django.urls import path, re_path, include
-
-
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
-
-from profiles.views import *
-
+from profiles.views import * 
 urlpatterns = [
     path('customer/api/userdetails/<int:user_id>/', user_details),
     path('customer/', customer_view, name="customer"),
     path('customer/',include('bookings.urls')),
-    #path('<name>/', customer_profile_view),
     path('customer/api/userdetails/', user_details_api),
     path('customer/api/', redirect_view),
     path('customer/profile/', user_profile_view, name='profile'),
