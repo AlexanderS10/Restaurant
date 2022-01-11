@@ -34,5 +34,8 @@ User features:
     it can merge for space or if customers will manually have to select both tables. This will defy the purpose of the system as customers will have to manually
     select two tables making it inconvenient. 
   - Big events should only be made thorugh the accounts where a customer puts a request and the manager can call them and if an agreement is made the the admin can     close a room. The puspose of the account for events is just to put a request with time in advance.
+
+Other features:
+  - Menu will be dynamic and only admins can add items or delete items from the db
  
-Although this system can probably not be used in a real world as anyone can register with many emails and reserve the entire restaurant measures will be takes as just one reservation per day or a better email integration where a new registered user will get an email with a unique code so they can activate reservation priviledges so this way emails will have to be real. Things like this will be further integrated down the road.
+Although this system can probably not be used in a real world as anyone can register with many emails and reserve the entire restaurant, measures will be taken such as just one reservation per day or a better email integration where a new registered user will get an email with a unique code so they can activate reservation priviledges so this way emails will have to be real. I can also include a penalty method for cancelled reservations last minute or not showing up to a reservation such as card inegration where users will get charged. Things like this will be further integrated down the road but in the case of the latter it would be a business ready integration. 
