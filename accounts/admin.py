@@ -8,7 +8,7 @@ class UserAdminConfig(UserAdmin):
     search_fields = ('email', 'first_name', 'last_name', 'phone_number')
     ordering = ('-date_joined',) #This is for the ordering from newest to oldest user
     list_filter = ('email', 'first_name')
-    list_display = ('email', 'first_name','last_name','is_active','is_staff','is_superuser','is_customer')
+    list_display = ('email', 'first_name','last_name','is_active','is_staff','is_superuser','is_customer','date_joined')
     fieldsets = (
         (None,{'fields':('image','email','first_name','last_name','password')}),
         ('Permissions',{'fields':('is_staff','is_active','is_superuser','is_customer','is_admin',)}),

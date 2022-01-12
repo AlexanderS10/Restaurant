@@ -8,9 +8,9 @@ urlpatterns = [
     path('customer/',include('bookings.urls')),
     path('customer/api/userdetails/', user_details_api),
     path('customer/api/', redirect_view),
-    path('customer/profile/', user_profile_view, name='profile'),
+    path('customer/profile/', user_profile_view, name='customer/profile'),
     path('password-change', change_password_view, name ='password-change'),
     path('administration/',admin_view),
-    path('administration/profile/', user_profile_view, name='profile'),
+    path('administration/profile/', user_profile_view, name='administration/profile'),
     path('administration/api/userdetails/', user_details_api),
 ]

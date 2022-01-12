@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     #own
     'phonenumber_field',
     'accounts',
+    'menu',
     #Internal   
     'rest_framework',
     "corsheaders",
