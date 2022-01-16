@@ -1,6 +1,7 @@
 static_root/
 media/
 node_modules/
+static/assets
 # dependencies
 /node_modules
 /.pnp
