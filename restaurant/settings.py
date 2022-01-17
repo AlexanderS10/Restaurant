@@ -24,7 +24,7 @@ SECRET_KEY = '5fskbbpv+08e34bg+h*xjl&0yky+!x5j!3n^b6!z*2yx@(o!ct'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1','.cfe.sh','localhost','localhost:3000','192.168.1.16']
+ALLOWED_HOSTS = ['http://127.0.0.1','.cfe.sh','http://localhost','http://localhost:3000','http://192.168.1.16','127.0.0.1']
 LOGIN_URL = "/login"
 
 # Application definition
@@ -145,7 +145,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
-CSRF_TRUSTED_ORIGINS = ['localhost:3000']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000','http://localhost:3000']
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True #Close the session when the browser used is closed 
 # SESSION_COOKIE_AGE = 60 * 60 #The session should end in an hour instead but this should be based on activity instead of a fixed time

@@ -15,6 +15,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.middleware.csrf import get_token
 from django.contrib.auth.forms import PasswordChangeForm
+from django.http import HttpResponseRedirect
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 permission_classes = [IsAuthenticated]
 @api_view(['GET'])
@@ -86,10 +87,10 @@ def change_password_view(request):
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request,"Your password has been changed successfully")
-            return redirect('profile')
+            return redirect(request.META['HTTP_REFERER'])
         else:
-            messages.error(request,"Passwords do not match")
-            return redirect('profile')
+            messages.error(request,"Passwords do not match or does not meet the requirements")
+            return redirect(request.META['HTTP_REFERER'])
     
       
 #

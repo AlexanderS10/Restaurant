@@ -10,7 +10,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import *
 from .models import *
 from django.contrib import messages
-from django.utils.http import is_safe_url
 from django.conf import settings
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
     #With the reset password I would have tried two methods of views, one where I create my own which is the following  case
@@ -24,13 +23,13 @@ def login_view(request):
     if request.user is not None and request.user.is_anonymous==False: 
         current_user = request.user
         id = current_user.id
-        if current_user.is_customer and is_safe_url("/customer",ALLOWED_HOSTS):
+        if current_user.is_customer:
             return redirect("/customer")
-        elif current_user.is_staff and is_safe_url("/staff",ALLOWED_HOSTS):
-            return redirect("/staff")
-        elif current_user.is_superuser and is_safe_url("/administration",ALLOWED_HOSTS):
+        elif current_user.is_superuser:
             return redirect("/administration")
-        elif current_user.is_anonymous and is_safe_url("/login",ALLOWED_HOSTS):
+        elif current_user.is_staff:
+            return redirect("/staff")
+        elif current_user.is_anonymous:
             return redirect("/login")
     # If the info provided does match with a user's password, redirect them to their portal otherwise throw an error
     elif form.is_valid():
@@ -38,13 +37,13 @@ def login_view(request):
         password = form.cleaned_data.get("password")
         user = authenticate(request, email=email, password=password)
         if user is not None:
-            if user.is_customer and is_safe_url("/customer",ALLOWED_HOSTS):
+            if user.is_customer:
                 login(request,user)
                 return redirect("/customer")
-            elif user.is_superuser and is_safe_url("/administration",ALLOWED_HOSTS):
+            elif user.is_superuser:
                 login(request, user)
                 return redirect("/administration")
-            elif user.is_staff and is_safe_url("/staff",ALLOWED_HOSTS):
+            elif user.is_staff:
                 login(request, user)
                 return redirect("/staff")
         else:

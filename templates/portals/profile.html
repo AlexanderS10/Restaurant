@@ -127,6 +127,7 @@
                             {% endfor %}
                         {% endif %}
                     </div>
+                    <!--Password Change-->
                     <div class="card" id="password-container">
                     <div class = "card-body card-title">
                             <h4>Change Password</h4>
@@ -170,12 +171,11 @@
                                 <div class="col-sm-9 text-secondary ">
                                     <button type="submit" class="btn btn-primary rest-btn-color px-4">Submit</button>
                                 </div>
-                            </div>
-                            
+                            </div>   
                         </form>
                         {%if messages%}
                             {%for message in messages%}
-                                {%ifequal message.tags "error"%}
+                                {%if message.tags|stringformat:'s' == "error"%}
                                     <div class="alert alert-danger col-12 alert-custom" role="alert">
                                         {{message}}
                                     </div>
@@ -183,10 +183,9 @@
                                     <div class="alert alert-success col-12 alert-custom" role="alert">
                                         {{message}}
                                     </div>
-                                {%endifequal%}
+                                {% endif %}
                             {%endfor%}
                         {%endif%}
-                        
                     </div>
                 </div>
             </div>
