@@ -10,14 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@1,300;1,500&display=swap"
     rel="stylesheet">
-    <!-- all the links to assets -->
+    <!-- all the links to assets that will be used the most-->
     <link href="{%static 'assets/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet" />
-    <link href="{%static 'assets/animate.css/animate.min.css'%}" rel="stylesheet">
     <link href="{%static 'assets/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
-    <link href="{%static 'assets/boxicons/css/boxicons.min.css'%}" rel="stylesheet">
-    <link href="{%static 'assets/swiper/swiper-bundle.min.css'%}" rel="stylesheet">
-    <link href="{%static 'assets/glightbox/css/glightbox.min.css'%}" rel="stylesheet">
-    <!-- Personal links, more document specific will not be included -->
+    <!-- Personal links will be included per document as needed-->
     <link href="{%static 'images/landing/favicon.png'%}" rel="icon">
     <link href="{%static 'images/landing/apple-touch-icon.png'%}" rel="apple-touch-icon">
     {%block headers%}{%endblock%}
@@ -25,15 +21,9 @@
 </head>
 
 <body>
-
     {%block content%}
     {%endblock%}
     <script src="{%static 'assets/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-    <script src="{%static 'assets/glightbox/js/glightbox.min.js'%}"></script>
-    <script src="{%static 'assets/isotope-layout/isotope.pkgd.min.js'%}"></script>
-    <script src="{%static 'assets/swiper/swiper-bundle.min.js'%}"></script>
-    <script src="{%static 'assets/jquery.min.js'%}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 </body>
 
 </html>

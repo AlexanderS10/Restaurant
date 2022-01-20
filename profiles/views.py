@@ -44,8 +44,9 @@ def user_details_api(request, *args, **kwargs): #REST API for detailing some bas
     except:
         status = 404
         return Response(status=404)
-
+#
 #CUSTOMER VIEW
+#
 def customer_view(request, *args, **kwargs ):
     #Here I changed the logic of the data validation to be handled by their respective views, original approach was to send the form with two inputs; date and event type
     #I would use that to validate the date here and determine the event. Now instead the forms will be sent to their respective views and managed there which reduces complexity
@@ -62,6 +63,12 @@ def customer_view(request, *args, **kwargs ):
     else:
         messages.error(request,"You need to be logged in to access this page")
         return redirect('login')
+
+#
+#ADMIN VIEW
+#
+def admin_view(request, *args, **kwargs):
+    return render(request, 'portals/administrator/admin_menu.html')
 #
 #PROFILE VIEW 
 #
@@ -73,6 +80,9 @@ def user_profile_view(request):
         userSettings = UserSettingsForm(request.POST, request.FILES,instance=user)
         if userSettings.is_valid():
             userSettings.save()
+            messages.success(request,"Information updated successfully",extra_tags='success-information')
+        else:
+            messages.error(request,"Something went wrong, check the information submitted or try later", extra_tags='information-failed')
     form = PasswordChangeForm(request.user)
     return render(request, 'portals/profile.html',{'form':form, 'settings':userSettings})
 
@@ -86,10 +96,10 @@ def change_password_view(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            messages.success(request,"Your password has been changed successfully")
+            messages.success(request,"Your password has been changed successfully", extra_tags='pwd-changed')
             return redirect(request.META['HTTP_REFERER'])
         else:
-            messages.error(request,"Passwords do not match or does not meet the requirements")
+            messages.error(request,"Passwords do not match or do not meet the requirements", extra_tags='pwd-failed')
             return redirect(request.META['HTTP_REFERER'])
     
       

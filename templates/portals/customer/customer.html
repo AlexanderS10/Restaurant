@@ -1,76 +1,77 @@
-{% extends 'portals/profile_base.html' %}
+{% extends 'base.html' %}
 {%load static%}
 {%block headers%}
 <link
-    href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i"
-    rel="stylesheet">
+  href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i"
+  rel="stylesheet">
 <link href="{%static 'css/customer/customer_home.css'%}" rel="stylesheet" />
 {% include 'react/css.html' %}
 {%endblock%}
 {%block title%}Home{%endblock%}
 {%block content%}
 <div class="home-page">
-
-<div class = "error-message">
+  <div class="error-message">
     {%for message in messages%}
-        <div class="message alert alert-danger col-xl-4 col-lg-4 col-md-6 col-sm-7 col-xs-12">
-            {{message}}
-        </div>
-    {%endfor%} 
-</div>
-<header id="navbar">
-  <nav class="navbar-container container">
-    <a href="/" class="home-link">
-      {% comment %} <div class="navbar-logo"></div> {% endcomment %}
-     Restaurant
-    </a>
-    <button type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu" aria-expanded="false">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <div id="navbar-menu" aria-labelledby="navbar-toggle">
-      <ul class="navbar-links">
-      {%with name=request.user.first_name lName=request.user.last_name%}
-        <li class="navbar-item user">
-          <a class="navbar-link username" id="username" href="{%url 'customer/profile'%}">
-            <img src="{{request.user.image.url}}" alt="Admin"class="rounded-circle p-1 rest-bg-color" width="35" height="35">
-             {{request.user.first_name}} {{request.user.last_name}}
-          </a>
-        </li>
-        <li class="navbar-item"><a class="navbar-link" href="../home/#menu">Menu</a></li>
-        <li class="navbar-item"><a class="navbar-link" href="../home/#contact">Contact</a></li>
-        <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li>
-        {%endwith%}
-      </ul>
+    <div class="message alert alert-danger col-xl-4 col-lg-4 col-md-6 col-sm-7 col-xs-12">
+      {{message}}
     </div>
-  </nav>
-</header>
-<div class = "widgets-wrapper">
-<!--After looking at how to integrate react js I decided to make django render the components as authentication meant 
+    {%endfor%}
+  </div>
+  <header id="navbar">
+    <nav class="navbar-container container">
+      <a href="/" class="home-link">
+        {% comment %} <div class="navbar-logo"></div> {% endcomment %}
+        Restaurant
+      </a>
+      <button type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu"
+        aria-expanded="false">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div id="navbar-menu" aria-labelledby="navbar-toggle">
+        <ul class="navbar-links">
+          {%with name=request.user.first_name lName=request.user.last_name%}
+          <li class="navbar-item user">
+            <a class="navbar-link username" id="username" href="{%url 'customer/profile'%}">
+              <img src="{{request.user.image.url}}" alt="Admin" class="rounded-circle p-1 rest-bg-color" width="35"
+                height="35">
+              {{request.user.first_name}} {{request.user.last_name}}
+            </a>
+          </li>
+          <li class="navbar-item"><a class="navbar-link" href="../home/#menu">Menu</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="../home/#contact">Contact</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li>
+          {%endwith%}
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div class="widgets-wrapper">
+    <!--After looking at how to integrate react js I decided to make django render the components as authentication meant 
 I would have to replace my entire front end which already took me a lot of time. For future applications react will be used since the beginning-->
     <div id="notifications-wrapper" class="col">
-        <div class = "alert alert-info col-12 notification"> This is the notifications center</div>
+      <div class="alert alert-info col-12 notification"> This is the notifications center</div>
     </div>
     <div class="col calendar-container">
-        <div id="calendar-widget" class="col"></div>
-        <div class = "buttons-group responsive-calendar" style="">
+      <div id="calendar-widget" class="col"></div>
+      <div class="buttons-group responsive-calendar" style="">
         {% comment %} action ="{%url 'customer'%}" {% endcomment %}
-            <form class = "form" id ="form-date" method="post"> 
-            {%csrf_token%}
-                <button onclick = "setDate()" type="submit" class="form-button button1">Create Event</button> 
-            </form>
-            <form class = "form" id ="form-date2" method="post">
-            {%csrf_token%}
-                <button onclick = "setDate2()" type="submit" class="form-button button1">Book Table</button> 
-            </form> 
-            {% comment %} <input type="text" name="date" id = "date-set" value="">
-            <button onclick = "setDate()" class="form-button button1">Book Table</button>   {% endcomment %}
-        </div>
+        <form class="form" id="form-date" method="post">
+          {%csrf_token%}
+          <button onclick="setDate()" type="submit" class="form-button button1">Create Event</button>
+        </form>
+        <form class="form" id="form-date2" method="post">
+          {%csrf_token%}
+          <button onclick="setDate2()" type="submit" class="form-button button1">Book Table</button>
+        </form>
+        {% comment %} <input type="text" name="date" id="date-set" value="">
+        <button onclick="setDate()" class="form-button button1">Book Table</button> {% endcomment %}
+      </div>
     </div>
-    
+
     <div id="weather-widget" class="col"></div>
-</div>
+  </div>
 </div>
 {%include 'react/base_embed.html'%}
 {%include 'react/js.html'%}

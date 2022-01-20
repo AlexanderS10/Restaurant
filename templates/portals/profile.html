@@ -1,4 +1,4 @@
-{%extends 'portals/profile_base.html'%}
+{%extends 'base.html'%}
 {%load static%}
 {%block headers%}
 <link href="{%static 'css/customer/customer_profile.css'%}" rel="stylesheet" />
@@ -117,8 +117,8 @@
                                 </div>
                             </div>
                         </form>
-                        {% if form.errors %}
-                            {% for field,errors in form.errors.items %} <!--Errors are a dictionary so here its assigning names to those two colums (field,errors) in the form error as items -->
+                        {% if settings.errors %}
+                            {% for field,errors in settings.errors.items %} <!--Errors are a dictionary so here its assigning names to those two colums (field,errors[]) in the form error as items -->
                                 {% for error in errors %} <!--Here each error is printed as there can be multiple errors-->
                                     <div class="alert alert-danger col-12 alert-custom">
                                         {{error}}
@@ -126,8 +126,22 @@
                                 {% endfor %}
                             {% endfor %}
                         {% endif %}
+                    
+                        {%for message in messages%}
+                            {%if 'success-information' in message.extra_tags%}  
+                                <div class="alert alert-success col-12 alert-custom" role="alert">
+                                    {{message}}
+                                </div>
+                            {% elif 'information-failed' in message.extra_tags%}
+                                <div class="alert alert-danger col-12 alert-custom" role="alert">
+                                    {{message}}
+                                </div>
+                            {%endif%}
+                        {%endfor%}
+                        
                     </div>
-                    <!--Password Change-->
+
+                    <!--PASSWORD CHANGE-->
                     <div class="card" id="password-container">
                     <div class = "card-body card-title">
                             <h4>Change Password</h4>
@@ -155,6 +169,14 @@
                                         {{form.new_password1}}
                                     </div>
                                 </div>
+                                <div class="psw-requirements-container">
+                                    <ul class="requirements-list">
+                                        <li>Your password can’t be too similar to your other personal information.</li>
+                                        <li>Your password must contain at least 8 characters.</li>
+                                        <li>Your password can’t be a commonly used password.</li>
+                                        <li>Your password can’t be entirely numeric.</li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
@@ -175,11 +197,11 @@
                         </form>
                         {%if messages%}
                             {%for message in messages%}
-                                {%if message.tags|stringformat:'s' == "error"%}
+                                {%if 'pwd-failed' in message.extra_tags%}
                                     <div class="alert alert-danger col-12 alert-custom" role="alert">
                                         {{message}}
                                     </div>
-                                {% else %}
+                                {% elif 'pwd-changed' in message.extra_tags%}  
                                     <div class="alert alert-success col-12 alert-custom" role="alert">
                                         {{message}}
                                     </div>
