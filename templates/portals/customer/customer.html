@@ -4,6 +4,7 @@
 <link
   href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i"
   rel="stylesheet">
+<link href ="{%static 'css/navbar_style.css'%}" rel="stylesheet"/>
 <link href="{%static 'css/customer/customer_home.css'%}" rel="stylesheet" />
 {% include 'react/css.html' %}
 {%endblock%}
@@ -33,7 +34,7 @@
         <ul class="navbar-links">
           {%with name=request.user.first_name lName=request.user.last_name%}
           <li class="navbar-item user">
-            <a class="navbar-link username" id="username" href="{%url 'customer/profile'%}">
+            <a class="navbar-link username" id="username" href="{%url 'customer_profile'%}">
               <img src="{{request.user.image.url}}" alt="Admin" class="rounded-circle p-1 rest-bg-color" width="35"
                 height="35">
               {{request.user.first_name}} {{request.user.last_name}}

@@ -1,11 +1,46 @@
 {%extends 'base.html'%}
 {%load static%}
 {%block headers%}
-
+<link
+    href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i"
+    rel="stylesheet">
+<link href ="{%static 'css/navbar_style.css'%}" rel="stylesheet"/>
+<link href="{%static 'css/administrator/admin_menu.css'%}" rel="stylesheet"/>
 {%endblock%}
 {%block title%}
 Manage Menu
 {%endblock%}
 {%block content%}
-<h1> This is the menu change view</h1>
+<header id="navbar">
+    <nav class="navbar-container container">
+      <a href="/" class="home-link">
+        {% comment %} <div class="navbar-logo"></div> {% endcomment %}
+        Restaurant
+      </a>
+      <button type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu"
+        aria-expanded="false">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div id="navbar-menu" aria-labelledby="navbar-toggle">
+        <ul class="navbar-links">
+          {%with name=request.user.first_name lName=request.user.last_name%}
+          <li class="navbar-item user">
+            <a class="navbar-link username" id="username" href="{%url 'admin_profile'%}">
+              <img src="{{request.user.image.url}}" alt="Admin" class="rounded-circle p-1 rest-bg-color" width="35"
+                height="35">
+              {{request.user.first_name}} {{request.user.last_name}}
+            </a>
+          </li>
+          <li class="navbar-item"><a class="navbar-link" href="{%url 'admin_menu'%}">Menu</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="../home/#contact">Contact</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="../admin">Manage</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li>
+          {%endwith%}
+        </ul>
+      </div>
+    </nav>
+</header>
+<script src="{%static 'js/administrator/admin_menu.js'%}"></script>
 {%endblock%}

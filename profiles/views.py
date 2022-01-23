@@ -65,11 +65,6 @@ def customer_view(request, *args, **kwargs ):
         return redirect('login')
 
 #
-#ADMIN VIEW
-#
-def admin_view(request, *args, **kwargs):
-    return render(request, 'portals/administrator/admin_menu.html')
-#
 #PROFILE VIEW 
 #
 @login_required(login_url='../../login/')
@@ -129,6 +124,12 @@ def admin_view(request):
     else:
         messages.error(request,"You need to be logged in to access this page")
         return redirect('login')
+#
+#ADMIN VIEW
+#
+@login_required(login_url='login')
+def admin_menu(request, *args, **kwargs):
+    return render(request, 'portals/administrator/admin_menu.html')
   
 @method_decorator(ensure_csrf_cookie, name = 'dispatch')
 class GetCSRFToken(APIView):
