@@ -32,3 +32,6 @@ function setDate2() {
     form2.submit();
     //console.log("This is the date: "+inputTemp);
 }  
+/*
+DROPDOWN MENU NAVBAR
+*/

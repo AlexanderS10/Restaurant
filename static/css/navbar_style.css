@@ -5,9 +5,9 @@
   */
   :root {
     --navbar-bg-color: hsl(0, 0%, 15%);
-    --navbar-text-color: hsl(0, 0%, 85%);
+    --navbar-text-color: white;
     --navbar-text-color-focus: white;
-    --navbar-bg-contrast: hsl(0, 0%, 25%);
+    --navbar-bg-contrast: hsl(0, 0%, 27%);
   }
   
   #navbar {
@@ -54,7 +54,7 @@
     border-radius: 5px;
     width: max-content;
   }
-  li.navbar-item.user{
+  li.navbar-item{
     text-align: -webkit-center;
   }
   

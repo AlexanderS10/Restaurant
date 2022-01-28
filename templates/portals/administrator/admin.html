@@ -4,7 +4,7 @@
 <link
   href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i"
   rel="stylesheet">
-<link href ="{%static 'css/navbar_style.css'%}" rel="stylesheet"/>
+<link href="{%static 'css/navbar_style.css'%}" rel="stylesheet" />
 <link href="{%static 'css/administrator/admin_home.css'%}" rel="stylesheet" />
 {% include 'react/css.html' %}
 {%endblock%}
@@ -41,9 +41,17 @@
             </a>
           </li>
           <li class="navbar-item"><a class="navbar-link" href="{%url 'admin_menu'%}">Menu</a></li>
-          <li class="navbar-item"><a class="navbar-link" href="../home/#contact">Contact</a></li>
           <li class="navbar-item"><a class="navbar-link" href="../admin">Manage</a></li>
           <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li>
+          {%comment%}Here is the option for a drodown menu if needed in the future{%endcomment%}
+          {% comment %} <li class="dropdown navbar-item"> 
+            <a href="" class="dropbtn"> <i class="bi bi-chevron-compact-down"></i> Dropdown</a>
+            <ul class="dropdown-content">
+              <li class="navbar-item"><a href="{%url 'admin_menu'%}">Menu</a></li>
+              <li class="navbar-item"><a href="../admin">Admin</a></li>
+              <li class="navbar-item"><a href="#">Link 3</a></li>
+            </ul>
+          </li> {% endcomment %}
           {%endwith%}
         </ul>
       </div>
