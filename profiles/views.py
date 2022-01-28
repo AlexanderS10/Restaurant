@@ -129,6 +129,7 @@ def admin_view(request):
 #
 @login_required(login_url='login')
 def admin_menu(request, *args, **kwargs):
+    print(request.user.is_user_customer())
     return render(request, 'portals/administrator/admin_menu.html')
   
 @method_decorator(ensure_csrf_cookie, name = 'dispatch')

@@ -1,0 +1,16 @@
+.menu-wrapper{
+    background-color: violet;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    padding-top: 1.6em;
+}
+
+.card-title{
+    text-align: center;
+}
+@media(max-width:991px){
+    .card{
+        margin-bottom: 1.6em;
+    }
+}

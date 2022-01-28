@@ -133,7 +133,7 @@
   .navbar-links {
     list-style: none;
     position: absolute;
-    background-color: var(--navbar-bg-color);
+    /* background-color: var(--navbar-bg-color); */
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -34,7 +34,6 @@ Manage Menu
             </a>
           </li>
           <li class="navbar-item"><a class="navbar-link" href="{%url 'admin_home'%}">Portal</a></li>
-          <li class="navbar-item"><a class="navbar-link" href="../home/#contact">Contact</a></li>
           <li class="navbar-item"><a class="navbar-link" href="../admin">Manage</a></li>
           <li class="navbar-item"><a class="navbar-link" href="{%url 'logout'%}">Logout</a></li>
           {%endwith%}
@@ -42,5 +41,21 @@ Manage Menu
       </div>
     </nav>
 </header>
+<div class ="menu-wrapper">
+  <div class="menu-edits container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class ="card-title"><h4>Types</h4></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div class ="card-title"><h4>Dishes</h4></div
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <script src="{%static 'js/administrator/admin_menu.js'%}"></script>
 {%endblock%}
