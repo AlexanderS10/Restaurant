@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import './App.css';
-import {CalendarComponent} from './customer/calendar'
+// import {CalendarComponent} from './customer/calendar'
 // import {WheatherWidget} from './customer/wheatherWidget'
 // import ReactWeather, {useOpenWeather} from 'react-open-weather';
 function getCookie(name) {
@@ -23,7 +23,7 @@ console.log("This is the token: "+csrftoken)
 function loadUserInfo(callback){
   const xhr = new XMLHttpRequest();
   const method = 'GET';
-  const url = "http://127.0.0.1:8000/csrf";
+  const url = "http://127.0.0.1:8000/api/userdetails";
   xhr.responseType = "json"; // Let the xhr request know that its getting a json 
   xhr.open(method, url); //This opens the request with the method and url entered
   xhr.onload = function(){
@@ -51,7 +51,7 @@ function App() {
   
   return (
     // WheatherWidget()
-    CalendarComponent()
+    <div>Here</div>
   );
 }
 

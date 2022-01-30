@@ -8,20 +8,24 @@
 {%endblock%}
 {%block title%}Not Found!{%endblock%}
 {%block content%}
-<div class = "container">
-    <div class = "col-12">
-        <h1 class="py-5 d-flex justify-content-center">Oooops!!! this page does not exists</h1>
+<div class = "wrapper">
+    <div class="container">
+        <div class="row">
+            <div class = "col-12 content">
+                <h1 class="py-5 justify-content-center">Oooops!!! this page does not exists</h1>
+            </div>
+            <div class = "content  col-12">
+                <img src="{%static 'images/404.png'%}" alt="" class="img-responsive ">
+            </div>
+            <div class = " col-12 content">
+                <h1 class="py-5 justify-content-center">404 Not Found</h1>
+            </div>
+            <div class="col-12 content">
+                <a href={%url ''%}>
+                    <button class="btn btn-secondary back-home  "><i class="bi bi-house"></i>  Return</button>
+                </a>
+            </div>
+        </div>
     </div>
-    <div class = "image-container justify-content-center">
-        <img src="{%static 'images/404.png'%}" alt="" class="img-responsive   ">
-    </div>
-    <div class = " center-block d-block mx-auto">
-        <h1 class="py-5 center-block d-block mx-auto col-12">404 Not Found</h1>
-    </div>
-</div>
-<div class="col-12 d-flex justify-content-center">
-    <a href={%url ''%}>
-        <button class="btn btn-secondary back-home  "><i class="bi bi-house"></i>  Return</button>
-    </a>
 </div>
 {%endblock%}

@@ -4,12 +4,20 @@ body{
 h1, h2, h3, h4, h5, h6 {
     font-family: "Montserrat Alternates", sans-serif;
   }
-.container{
-    top: 0; 
-    right: 0; 
-    bottom: 0; 
-    left: 0;
-    text-align: center ;
+
+.wrapper{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    padding-top: 1.6em;
+}
+.content{
+    text-align: center;
+}
+.img-responsive{
+    width: 100%;
+    max-width: 400px;
+    height: auto;
 }
 .back-home{
     color: #FF5733 !important;

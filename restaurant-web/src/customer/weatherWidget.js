@@ -42,4 +42,9 @@ export function WeatherWidget(){
       </div>  
     ); 
   }
+  else{
+    return(
+      <div>This is not working</div>
+    )
+  }
 };

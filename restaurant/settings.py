@@ -160,13 +160,12 @@ DEFAULT_RENDERER_CLASSES = [
     'rest_framework.renderers.BrowsableAPIRenderer',
 ]
 
-DEFAULT_AUTHENTICATION_CLASSES = [
-    'rest_framework.authentication.SessionAuthentication',
-    'rest_framework.authentication.TokenAuthentication'
-]
-REST_FRAMEWORK ={
-    'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
-    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }
 
 LOGIN_URL = "/login"

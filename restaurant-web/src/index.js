@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import App from './App';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {CalendarComponent} from './customer/calendar'
 import {WeatherWidget} from './customer/weatherWidget'
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 let calendarWidget = document.getElementById("calendar-widget");
 let weatherWidget = document.getElementById("weather-widget");
 if (calendarWidget){

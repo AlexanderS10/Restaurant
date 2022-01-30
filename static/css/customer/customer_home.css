@@ -159,11 +159,12 @@ p{
   justify-content: center;
   display: flex;
   animation: myAnimation;
-  animation-duration: 5000ms;
+  animation-duration: 2000ms;
   animation-fill-mode: forwards;
   z-index: 3;
 }
 .message{
   z-index: auto !important;
-  
+  border-radius: 50px;
+  text-align: center;
 }
