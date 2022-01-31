@@ -2,17 +2,18 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect
 from django.conf import settings
+from rest_framework import permissions
 from accounts.forms import UserSettingsForm
 from accounts.models import CustomUser
 from accounts.serializers import userSerializer
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.middleware.csrf import get_token
 from django.contrib.auth.forms import PasswordChangeForm
 from accounts.decorators import admin_only
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -30,10 +31,10 @@ def user_details(request, user_id,*args, **kwargs):
     except:
         status = 404
         return Response(status=404)
+        
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
 def user_details_api(request, *args, **kwargs): #REST API for detailing some basic info about the user that is using the system at the moment
+    permission_classes = (permissions.AllowAny, )
     current_user = request.user
     id = current_user.id
     status = 200
@@ -134,6 +135,7 @@ def admin_menu(request, *args, **kwargs):
   
 @method_decorator(ensure_csrf_cookie, name = 'dispatch')
 class GetCSRFToken(APIView):
+    permission_classes = (permissions.AllowAny, )
     def get(self, request, format=None):
         return Response({'success': 'CSRF cookie set'})
 def csrf(request):

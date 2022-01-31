@@ -18,16 +18,26 @@ function getCookie(name) {
   }
   return cookieValue;
 }
-const csrftoken = getCookie('csrftoken');
+let csrftoken = 'dDAnpG60b468fodDaTN4QVA80ydgXcisMkfJmmQWIPAAYl3xPZRYyPd5OjMX8jec';
 console.log("This is the token: "+csrftoken)
 function loadUserInfo(callback){
-  const xhr = new XMLHttpRequest();
-  const method = 'GET';
-  const url = "http://127.0.0.1:8000/api/userdetails";
+  let xhr = new XMLHttpRequest();
+  let method = 'GET';
+  let url = "http://127.0.0.1:8000/api/userdetails/6";
   xhr.responseType = "json"; // Let the xhr request know that its getting a json 
   xhr.open(method, url); //This opens the request with the method and url entered
+  xhr.setRequestHeader("Content-Type","application/json")
+  if (csrftoken){
+    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+  }
   xhr.onload = function(){
-    console.log("This is the response: ",xhr.response)
+    if(xhr.status==403){
+      let detail = xhr.response.detail;
+      if(detail ==="Authentication credentials were not provided.");
+        if(window.location.href.indexOf("login")===-1){
+          window.location.href="/login"
+        }
+    }
     callback(xhr.response, xhr.status)
   }
   xhr.onerror = function(){
@@ -38,7 +48,7 @@ function loadUserInfo(callback){
 
 function App() {
   const [info, setinfo] = useState(null)
-  console.log(info)
+  
   useEffect(()=>{
     const myCallBack = (response,status)=>{
       console.log(response,status)
