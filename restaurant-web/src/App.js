@@ -18,12 +18,12 @@ function getCookie(name) {
   }
   return cookieValue;
 }
-let csrftoken = 'dDAnpG60b468fodDaTN4QVA80ydgXcisMkfJmmQWIPAAYl3xPZRYyPd5OjMX8jec';
+let csrftoken = getCookie('csrftoken');
 console.log("This is the token: "+csrftoken)
 function loadUserInfo(callback){
   let xhr = new XMLHttpRequest();
   let method = 'GET';
-  let url = "http://127.0.0.1:8000/api/userdetails/6";
+  let url = "http://127.0.0.1:8000/api/userdetails/";
   xhr.responseType = "json"; // Let the xhr request know that its getting a json 
   xhr.open(method, url); //This opens the request with the method and url entered
   xhr.setRequestHeader("Content-Type","application/json")

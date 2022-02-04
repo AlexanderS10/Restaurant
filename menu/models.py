@@ -6,9 +6,6 @@ class Dish_Category (models.Model):
     def __str__(self):
         return f"{self.id}"
 class Dish(models.Model):
-    #admin is the person that added the dessert, this is more for a signature instead than identifier which I would like to be unchangable in the future
-    #Later if the admin is replaced for a personalized one this will be possible
-    admin = models.ForeignKey(CustomUser, to_field='email' ,on_delete=models.CASCADE, verbose_name="Added by")
     category = models.ForeignKey(Dish_Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, blank=False)
     description = models.TextField(blank=False)

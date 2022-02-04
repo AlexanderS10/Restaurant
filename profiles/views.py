@@ -33,8 +33,8 @@ def user_details(request, user_id,*args, **kwargs):
         return Response(status=404)
         
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def user_details_api(request, *args, **kwargs): #REST API for detailing some basic info about the user that is using the system at the moment
-    permission_classes = (permissions.AllowAny, )
     current_user = request.user
     id = current_user.id
     status = 200
@@ -125,13 +125,6 @@ def admin_view(request):
     else:
         messages.error(request,"You need to be logged in to access this page")
         return redirect('login')
-#
-#ADMIN VIEW
-#
-@login_required(login_url='login')
-@admin_only
-def admin_menu(request, *args, **kwargs):
-    return render(request, 'portals/administrator/admin_menu.html')
   
 @method_decorator(ensure_csrf_cookie, name = 'dispatch')
 class GetCSRFToken(APIView):
