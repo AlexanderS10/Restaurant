@@ -21,14 +21,14 @@ navbarMenu.addEventListener("click", toggleNavbarVisibility);
 */
 const xhr = new XMLHttpRequest();
 const method = 'GET';
-const url = "../api/userdetails";
+const url = "http://127.0.0.1:8000/api/userdetails/";
 const responseType = "json";
 let user_data = null;
 xhr.responseType = responseType; // Let the xhr request know that its getting a json 
 xhr.open(method, url, true); //This opens the request with the method and url entered
 xhr.onload = function(){//onload is a property that is available on mostly modern browsers 
     if(xhr.status!=200){
-
+        console.log(xhr.response)
     }else{
         let user_details_api = xhr.response;
         document.getElementById('email_address').value = String(user_details_api.email);
@@ -43,7 +43,7 @@ xhr.onload = function(){//onload is a property that is available on mostly moder
         // console.log(user_details_api);
     }
 }
-xhr.send(null);//Trigger that request
+xhr.send(url);//Trigger that request
 /*
 /PASSWORD CHANGE
 */
