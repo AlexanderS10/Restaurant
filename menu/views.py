@@ -25,3 +25,9 @@ def dish_list_view(request, *args, **kwargs):
     qs = Dish.objects.all()
     serializer = DishSerializer(qs, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def category_list_view(request, *args, **kwargs):
+    qs = Dish_Category.objects.all()
+    serializer = DishCategorySerializer(qs, many=True)
+    return Response(serializer.data)
