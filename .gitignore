@@ -1,5 +1,6 @@
 static/assets/
 static_root/
+sent_emails/
 media/
 node_modules/
 # dependencies

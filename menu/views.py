@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from accounts.decorators import admin_only
 from .serializers import *
@@ -21,13 +22,24 @@ def admin_dish_api(request, *args, **kwargs):
     return JsonResponse({},status=400)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def dish_list_view(request, *args, **kwargs):
     qs = Dish.objects.all()
     serializer = DishSerializer(qs, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def category_list_view(request, *args, **kwargs):
     qs = Dish_Category.objects.all()
     serializer = DishCategorySerializer(qs, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def dish_detail_view(request,dish_id ,*args, **kwargs):
+    qs = Dish.objects.get(id = dish_id)
+    if not qs:
+        return Response ({}, status=404)
+    serializer = DishSerializer(qs)
+    return Response (serializer.data, status=200)

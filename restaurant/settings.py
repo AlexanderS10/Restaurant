@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#DEFAULTS CONFIGURATION 
 ROOT_URLCONF = 'restaurant.urls'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 ROOT_URLCONF = 'restaurant.urls'
@@ -131,7 +132,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-
+#DIRECTORIES FOR FILES
 STATICFILES_DIRS =[os.path.join(BASE_DIR, 'static'),os.path.join(BASE_DIR, 'media')]
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
@@ -142,9 +143,7 @@ TEMP = os.path.join(BASE_DIR, 'media_root/temp')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOWED_ORIGINS = ['http://localhost:3000','http://127.0.0.1:8000','http://127.0.0.1:3000']
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000','http://127.0.0.1:8000']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000','http://localhost:8000']
 CORS_URLS_REGEX = r'^/api/.*$'
 CORS_ALLOW_HEADERS = [
@@ -159,25 +158,23 @@ CORS_ALLOW_HEADERS = [
 'x-requested-with',
 ]
 
+#REST FRAMEWORK AND DEBUG OPTIONS 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True #Close the session when the browser used is closed 
-DEFAULT_RENDER_CLASSES=[]
+DEFAULT_AUTHENTICATION_CLASSES=['rest_framework.authentication.SessionAuthentication']
+DEFAULT_RENDER_CLASSES = []
+
 if DEBUG: #This is for development only 
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+    EMAIL_FILE_PATH = os.path.join(BASE_DIR,'sent_emails')
     DEFAULT_RENDER_CLASSES +=[
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ]
-DEFAULT_RENDERER_CLASSES = [
     'rest_framework.renderers.JSONRenderer',
-    'rest_framework.renderers.BrowsableAPIRenderer',
-]
+    'rest_framework.renderers.BrowsableAPIRenderer']
+    DEFAULT_AUTHENTICATION_CLASSES += ['restaurant.rest_api.dev.DevAuthentication']
+
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
-        'restaurant.rest_api.dev.DevAuthentication', #This must be deleted during production but for testing purposes it will be done this way
-    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
+    'DEFAULT_RENDER_CLASSES': DEFAULT_RENDER_CLASSES,
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ]

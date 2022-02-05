@@ -1,12 +1,10 @@
-from django.db.models import fields
-from accounts.models import CustomUser
 from rest_framework import serializers
 from .models import Dish, Dish_Category 
 
 class DishSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dish
-        fields = ['category','name','description','date_created']
+        fields = ['id','category','name','description','date_created']
     def validate(self, attrs):
         if len(attrs['category']) == 0 or len(attrs['name']) == 0 or len(attrs['Description']) == 0:
             raise serializers.ValidationError("Attributes should not be empty")

@@ -2,10 +2,8 @@ from rest_framework import response
 from restaurant.settings import ALLOWED_HOSTS
 from django.core.checks import messages
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from django.template import RequestContext
-from django.contrib.auth.forms import AuthenticationForm
+
 # Create your views here.
 from .forms import *
 from .models import *
@@ -50,6 +48,7 @@ def login_view(request):
             messages.error(request,'Incorrect Username or Password')
             return redirect('login')
     return render (request,"registration/login.html", {"form":form})
+
 # When a user logs out they will be taken to the login page
 def logout_view(request):
     logout(request)

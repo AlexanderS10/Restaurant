@@ -1,4 +1,3 @@
-from django.db.models.fields.files import ImageField, ImageFieldFile
 from django.forms import ModelForm
 from accounts.models import CustomUser
 from django import forms

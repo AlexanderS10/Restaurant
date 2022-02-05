@@ -37,12 +37,14 @@ urlpatterns = [
     path('logout/',logout_view,name='logout'),
     #here the users can input the email for the account they want to reset the passaword for
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset.html'), name='password_reset'),
-    #Here is displayed after the user has successfully started the reset proccess
+    #This is displayed after the user has successfully started the reset proccess
     path('password_reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_done.html'),name='password_reset_done'),
     #Here the user can reset their password to a new one
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'),name='password_reset_confirm'),
     #Here the user will get the message that they have successfully reset their passwords
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_success.html'), name='password_reset_complete'),
+    #API paths
+    path('api/', include('restaurant.api_urls')),
     path('404/', handler404_view),
     path('csrf_cookie', GetCSRFToken.as_view()),
     path('csrf/',csrf),

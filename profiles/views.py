@@ -6,7 +6,7 @@ from rest_framework import permissions
 from accounts.forms import UserSettingsForm
 from accounts.models import CustomUser
 from accounts.serializers import userSerializer
-from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -17,7 +17,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.decorators import api_view, permission_classes
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 @api_view(['GET'])
 def user_details(request, user_id,*args, **kwargs):
