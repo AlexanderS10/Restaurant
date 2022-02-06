@@ -168,7 +168,8 @@ if DEBUG: #This is for development only
     EMAIL_FILE_PATH = os.path.join(BASE_DIR,'sent_emails')
     DEFAULT_RENDER_CLASSES +=[
     'rest_framework.renderers.JSONRenderer',
-    'rest_framework.renderers.BrowsableAPIRenderer']
+    'rest_framework.renderers.BrowsableAPIRenderer',
+    'rest_framework.renderers.HTMLFormRenderer']
     DEFAULT_AUTHENTICATION_CLASSES += ['restaurant.rest_api.dev.DevAuthentication']
 
 
