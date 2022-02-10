@@ -55,7 +55,46 @@ class DishDetail(APIView):
             return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET','POST'])
+#DISH CATEGORY VIEW
+class DishCategory(APIView):
+    def get_category(self, id):
+        try:
+            return Dish_Category.objects.get(id=id)
+        except:
+            raise Http404
+    @permission_classes([IsAuthenticated])
+    def get(self,request,id,*args, **kwargs):
+        category = self.get_category(id)
+        serializer = DishCategorySerializer(category)
+        return Response(serializer.data)
+    
+    @permission_classes([IsAuthenticated])
+    def post(self, request, *args, **kwargs):
+        serializer = DishCategorySerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    @permission_classes([IsAuthenticated])
+    def delete(self, request, id, *args, **kwargs):
+        category = self.get_category(id)
+        qs = Dish.objects.filter(category=category)#A category cannot be deleted if dishes contain such category
+        if qs.exists():
+            return Response({"message":"Some dishes contain this category remove them first before proceding"}, status = status.HTTP_400_BAD_REQUEST)
+        category.delete()
+        return Response({"message":"Dish categoty has been deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    
+    @permission_classes([IsAuthenticated])
+    def patch(self, request, id , *args, **kwargs):
+        category = self.get_category(id)
+        serializer = DishCategorySerializer(instance=category, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def dish_list_view(request, *args, **kwargs):
     qs = Dish.objects.all()
@@ -69,14 +108,6 @@ def category_list_view(request, *args, **kwargs):
     serializer = DishCategorySerializer(qs, many=True)
     return Response(serializer.data)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def dish_detail_view(request,dish_id ,*args, **kwargs):
-    qs = Dish.objects.get(id = dish_id)
-    if not qs:
-        return Response ({}, status=404)
-    serializer = DishSerializer(qs)
-    return Response (serializer.data, status=200)
 
 
 

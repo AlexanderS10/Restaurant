@@ -68,7 +68,7 @@ def customer_view(request, *args, **kwargs ):
 #
 #PROFILE VIEW 
 #
-@login_required(login_url='../../login/')
+@login_required(login_url='login')
 def user_profile_view(request):
     user = request.user
     userSettings = UserSettingsForm(instance=user)
@@ -85,7 +85,7 @@ def user_profile_view(request):
 #
 #CHANGE PASSWORD
 #
-@login_required(login_url='../../login/')
+@login_required(login_url='login')
 def change_password_view(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)

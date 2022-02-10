@@ -14,9 +14,3 @@ class DishCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Dish_Category
         fields = ['id']
-    def validate(self, attrs):
-        qs = Dish_Category.objects.get(attrs['id'])
-        if len(attrs)==0:
-            raise serializers.ValidationError("Category name cannot be empty")
-        elif qs:
-            raise serializers.ValidationError("This category already exists")
