@@ -7,6 +7,6 @@ urlpatterns = [
     path('dishes/', dish_list_view),
     path('dishes/<int:dish_id>/', DishDetail.as_view()),
     path('categories/', category_list_view),
-    path('categories/<str:id>/', DishCategory.as_view()),
-    
+    path('categories/<int:id>/', DishCategory.as_view()),
+    path('categories/create/', create_category),
 ]

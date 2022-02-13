@@ -1,26 +1,26 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { loadCategories, createCategories } from "../api_lookup";
+import { apiGetCategories, apiPostCategories } from "./backEndLookUp";
 
 export function CategoryComponent(props) {
     let inputRef = React.createRef()
     let [newCategory, setNewCategory] = useState([])
-    let handleSubmit = (event) => {
-        ///console.log("Submitted")
+    let handleSubmit = (event) => {//Here we submit the request 
         event.preventDefault()
         let newVal = inputRef.current.value;
-        let tempNewCategory = [...newCategory];
-        createCategories(newVal, (response, status) => {
-            if(status===201){
-                console.log(tempNewCategory)
-                tempNewCategory.unshift(response);
-                setNewCategory(tempNewCategory)    
-            }else{
-                alert("An error has occurred");
-            }
-        })
+        apiPostCategories(newVal, handleBackendUpdate);
         inputRef.current.value = ''
     }
+    let handleBackendUpdate = (response,status)=>{//Here we handle the request if it is successful
+        let tempNewCategory = [...newCategory];
+        if(status===201){
+            tempNewCategory.unshift(response);
+            setNewCategory(tempNewCategory)    
+        }else{
+            alert("An error has occurred");
+        }
+    }
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -34,18 +34,18 @@ export function CategoryComponent(props) {
 
 export function CategoriesList(props) {
     let [categoriesInit, setCategoriesInit] = useState([])
-    let [categories, setCategories] = useState([])
+    let [categories, setCategories] = useState([])//this creates and helps update the state
     let [catsAreSet, setCatsAreSet] = useState(false)
-    useEffect(() => {
+    useEffect(() => {//This executes in every render depending on the dependencies that are specified
         let final = [...props.newCategory].concat(categoriesInit)
         if (final.length !== categories.length) {
             setCategories(final)
-           
+            console.log("set categories")
         }
     }, [props.newCategory, categories, categoriesInit])
     useEffect(() => {
-        if (catsAreSet === false) {//This avoids an infinite loop in the useEffect Hook
-            const myCallBack = (response, status) => {
+        if (catsAreSet === false) {//This avoids an infinite loop in the useEffect Hook by only allowing the component to be mounted once at initial render
+            const pullFunction = (response, status) => {
                 if (status === 200) {
                     setCategoriesInit(response)
                     setCatsAreSet(true)
@@ -54,7 +54,7 @@ export function CategoriesList(props) {
                     alert("There seems to be an error")
                 }
             }
-            loadCategories(myCallBack)
+            apiGetCategories(pullFunction)
         }
     //console.log(categories)
     }, [catsAreSet])
@@ -74,13 +74,13 @@ export function OptionBtn(props) {
     let display = action.type === "delete" ? `${actionDisplay}` : actionDisplay
     //Ternary operator ? works in as following => contintion to check ? execute if true: execute if false
     //id={category.id.concat("delete-btn")}
-    return action.type === "delete" ? <button className='btn btn-danger btn-sm form-control' >{display}</button> : <button className='btn btn-primary btn-sm' >{display}</button>
+    return action.type === "delete" ? <button className='btn btn-danger btn-sm form-control' id={category.category_name.concat("delete-btn")}>{display}</button> : <button className='btn btn-primary btn-sm' >{display}</button>
 }
 
 export function Category(props) {
     let { category } = props
     return <div className="mb-4 col-4 input-wrapper">
-        <input id={category.id} value={category.id} className="form-control" />
+        <input id={category.category_name} value={category.category_name} className="form-control" />
         {/* <li>{category.id}</li> */}
         <div className='btn btn-group'>
             <OptionBtn category={category} action={{ type: "delete", display: "Delete" }} />
