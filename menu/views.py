@@ -1,3 +1,4 @@
+from datetime import datetime
 from re import S
 from django.contrib.auth.decorators import login_required
 from django.http.response import Http404, JsonResponse
@@ -10,7 +11,9 @@ from rest_framework.views import APIView
 from accounts.decorators import admin_only
 from .serializers import *
 # Create your views here.
+#
 #ADMIN MENU VIEW
+#
 @login_required(login_url='login')
 @admin_only
 def admin_menu(request, *args, **kwargs):
@@ -22,8 +25,9 @@ def admin_dish_api(request, *args, **kwargs):
     if serializer.is_valid():
         serializer.save()
     return JsonResponse({},status=400)
-
+#
 #DISH CLASS VIEW will be used to minimize code when writing the views 
+#
 class DishDetail(APIView):
     def get_dish(self,pk):
         try:
@@ -54,8 +58,9 @@ class DishDetail(APIView):
             serializer.save()
             return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#DISH CATEGORY VIEW
+#
+#DISH CATEGORY CLASS VIEW
+#
 class DishCategory(APIView):
     def get_category(self, id):
         try:
@@ -104,7 +109,7 @@ def dish_list_view(request, *args, **kwargs):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def category_list_view(request, *args, **kwargs):
-    qs = Dish_Category.objects.all()
+    qs = Dish_Category.objects.all().order_by('-date_created')
     serializer = DishCategorySerializer(qs, many=True)
     return Response(serializer.data)
 

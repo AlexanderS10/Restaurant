@@ -1,5 +1,5 @@
 import './App.css';
-import {CategoriesList, CategoryComponent} from './categories'
+import { CategoryComponent} from './categories'
 // import {CalendarComponent} from './customer/calendar'
 // import {WheatherWidget} from './customer/wheatherWidget'
 // import ReactWeather, {useOpenWeather} from 'react-open-weather';
@@ -24,7 +24,7 @@ function App() {
   return (
     // WheatherWidget()
     <div>
-      <CategoriesList/>
+      
       <CategoryComponent/>
     </div>
     

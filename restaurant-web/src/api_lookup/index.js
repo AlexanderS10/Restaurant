@@ -1,4 +1,5 @@
-import { loadCategories } from "./components";
+import { loadCategories,createCategories } from "./components";
 export {
-    loadCategories
+    loadCategories,
+    createCategories
 }

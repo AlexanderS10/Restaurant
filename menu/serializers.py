@@ -13,4 +13,4 @@ class DishSerializer(serializers.ModelSerializer):
 class DishCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Dish_Category
-        fields = ['id']
+        fields = ['id','date_created']

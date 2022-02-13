@@ -8,4 +8,5 @@ urlpatterns = [
     path('dishes/<int:dish_id>/', DishDetail.as_view()),
     path('categories/', category_list_view),
     path('categories/<str:id>/', DishCategory.as_view()),
+    
 ]

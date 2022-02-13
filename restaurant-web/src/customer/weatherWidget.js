@@ -22,7 +22,7 @@ export function WeatherWidget(){
       lon: '-72.388509',
       lang: 'en',
       unit: 'imperial', // values are (metric, standard, imperial)
-    });
+    },[]);
   if(data != null){
     console.log(JSON.stringify(data))
     return (

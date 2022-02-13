@@ -62,3 +62,8 @@ code {
       font-size: 13px!important
   }
 }
+.input-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
