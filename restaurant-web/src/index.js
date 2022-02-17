@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {CalendarComponent} from './customer/calendar'
 import {WeatherWidget} from './customer/weatherWidget'
 import {CategoryComponent} from './categories'
+import {CategoriesList} from './categories'
 // ReactDOM.render(
 //   <React.StrictMode>
 //     <App />
@@ -15,6 +16,7 @@ import {CategoryComponent} from './categories'
 let calendarWidget = document.getElementById("calendar-widget");
 let weatherWidget = document.getElementById("weather-widget");
 let categoriesWidget = document.getElementById("categories-widget")
+let categoriesListWidget = document.getElementById("categories-list")
 if (calendarWidget){
   ReactDOM.render(<CalendarComponent/>,document.getElementById('calendar-widget'));
 }
@@ -23,6 +25,9 @@ if (weatherWidget){
 }
 if(categoriesWidget){
   ReactDOM.render(<CategoryComponent/>, categoriesWidget)
+}
+if(categoriesListWidget){
+  ReactDOM.render(<CategoriesList/>, categoriesListWidget)
 }
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

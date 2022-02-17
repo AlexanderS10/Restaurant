@@ -1,3 +1,4 @@
+from enum import auto
 from rest_framework import serializers
 from .models import Dish, Dish_Category 
 
@@ -6,7 +7,7 @@ class DishSerializer(serializers.ModelSerializer):
     description = serializers.CharField()
     class Meta:
         model = Dish
-        fields = ['id','category','dish_name','description','date_created']
+        fields = ['id','category','dish_name','description']
     #category = serializers.ReadOnlyField(source='Dish_Category.id')
     
 
