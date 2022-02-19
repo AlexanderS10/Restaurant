@@ -1,8 +1,8 @@
-import { OptionBtn, Category, CategoriesList,CategoryComponent } from "./components";
+import { OptionBtn, Category, CategoriesList } from "./components";
 
 export{
     OptionBtn, 
     Category, 
     CategoriesList,
-    CategoryComponent
+    
 }

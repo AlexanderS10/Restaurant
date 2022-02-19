@@ -5,7 +5,6 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {CalendarComponent} from './customer/calendar'
 import {WeatherWidget} from './customer/weatherWidget'
-import {CategoryComponent} from './categories'
 import {CategoriesList} from './categories'
 // ReactDOM.render(
 //   <React.StrictMode>
@@ -15,7 +14,6 @@ import {CategoriesList} from './categories'
 // );
 let calendarWidget = document.getElementById("calendar-widget");
 let weatherWidget = document.getElementById("weather-widget");
-let categoriesWidget = document.getElementById("categories-widget")
 let categoriesListWidget = document.getElementById("categories-list")
 if (calendarWidget){
   ReactDOM.render(<CalendarComponent/>,document.getElementById('calendar-widget'));
@@ -23,9 +21,7 @@ if (calendarWidget){
 if (weatherWidget){
   ReactDOM.render(<WeatherWidget/>, document.getElementById('weather-widget'));
 }
-if(categoriesWidget){
-  ReactDOM.render(<CategoryComponent/>, categoriesWidget)
-}
+
 if(categoriesListWidget){
   ReactDOM.render(<CategoriesList/>, categoriesListWidget)
 }

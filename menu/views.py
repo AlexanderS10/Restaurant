@@ -89,7 +89,7 @@ class DishCategory(APIView):
         if qs.exists():
             return Response({"message":"Some dishes contain this category remove them first before proceding"}, status = status.HTTP_400_BAD_REQUEST)
         print(serializer.data)
-        # category.delete()
+        #category.delete()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         
     
@@ -99,7 +99,7 @@ class DishCategory(APIView):
         serializer = DishCategorySerializer(instance=category, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -120,7 +120,7 @@ def dish_list_view(request, *args, **kwargs):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def category_list_view(request, *args, **kwargs):
-    qs = Dish_Category.objects.all().order_by('-date_created')
+    qs = Dish_Category.objects.all().order_by('date_created')
     serializer = DishCategorySerializer(qs, many=True)
     return Response(serializer.data)
 

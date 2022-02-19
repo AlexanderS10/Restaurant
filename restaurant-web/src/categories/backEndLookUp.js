@@ -10,3 +10,8 @@ export function apiPostCategories(newCategory, callback){
 export function apiDeleteCategory(category_id, callback){
   lookup("DELETE",`categories/${category_id}`,callback);
 }
+
+export function apiPatchCategory(category_id, callback, category_name){
+  
+  lookup("PATCH", `categories/${category_id}/`, callback, {category_name:category_name})
+}
