@@ -59,6 +59,9 @@ class DishDetail(APIView):
             return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #
+#Since there are not many admins generally speaking the validation will be handled in the backend while for data that needs
+#to be accessed by the users which are undefined will be handled by the front end as well as the backend
+#
 #DISH CATEGORY CLASS VIEW
 #
 class DishCategory(APIView):
@@ -87,12 +90,11 @@ class DishCategory(APIView):
         serializer = DishCategorySerializer(category)
         qs = Dish.objects.filter(category=category)#A category cannot be deleted if dishes contain such category
         if qs.exists():
-            return Response({"message":"Some dishes contain this category remove them first before proceding"}, status = status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"Category does not exists or some dishes contain this category"}, status = status.HTTP_400_BAD_REQUEST)
         print(serializer.data)
-        #category.delete()
+        category.delete()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         
-    
     @permission_classes([IsAuthenticated])
     def patch(self, request, id , *args, **kwargs):
         category = self.get_category(id)
@@ -100,15 +102,15 @@ class DishCategory(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+        return Response({"message":"This category name already exists or is too long"}, status= status.HTTP_400_BAD_REQUEST)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_category(request, *args, **kwargs):
     serializer = DishCategorySerializer(data = request.data)
     if serializer.is_valid():
-        #serializer.save()
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    return Response({"message":"This category name already exists or is too long"},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

@@ -1,3 +1,6 @@
+:root{
+  --bronze-tone: #FF5733;
+}
 body {
   color: white;
   background: url(../images/landing/slide/view1.jpeg) no-repeat center center fixed;
@@ -6,6 +9,7 @@ body {
   background-size: cover;
   -o-background-size: cover;
 }
+
 
 .container {
   border-radius: 2%;
@@ -27,7 +31,7 @@ body {
 }
 
 h1 {
-  color: #FF5733;
+  color: var(--bronze-tone);
 }
 
 p {
@@ -43,13 +47,13 @@ label {
   border-radius: 50px;
   -webkit-animation-delay: 0.8s;
   animation-delay: 0.8s;
-  border: 2px solid #FF5733;
+  border: 2px solid var(--bronze-tone);
 }
 
 .back-home:hover {
-  border: #FF5733 2px solid;
+  border: var(--bronze-tone) 2px solid;
   border-radius: 50px;
-  background: #FF5733 !important;
+  background: var(--bronze-tone) !important;
 }
 
 .alert {
@@ -69,7 +73,7 @@ li {
 }
 
 .back-btn {
-  background-color: #FF5733 !important;
+  background-color: var(--bronze-tone)!important;
   border: 0;
 }
 

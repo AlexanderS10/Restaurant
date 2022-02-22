@@ -143,8 +143,8 @@ TEMP = os.path.join(BASE_DIR, 'media_root/temp')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CORS_ALLOWED_ORIGINS = ['http://localhost:3000','http://127.0.0.1:8000']
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000','http://localhost:8000']
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000','http://127.0.0.1:8000','http://192.168.1.12:3000']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000','http://localhost:8000','http://192.168.1.12:3000']
 CORS_URLS_REGEX = r'^/api/.*$'
 CORS_ALLOW_HEADERS = [
 'accept',

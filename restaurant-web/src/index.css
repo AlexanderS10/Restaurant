@@ -1,3 +1,6 @@
+:root{ /*Here I will define document global variables for easier code management*/
+  --bronze-tone : #FF5733;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -62,8 +65,94 @@ code {
       font-size: 13px!important
   }
 }
+
+/*
+CATEGORIES FORM STYLE
+*/
 .input-wrapper{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.confirm-bg {
+  position: fixed;
+  display: none;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #202020;
+  opacity: 0.55;
+  overflow: hidden; /* disable scrolling*/
+  z-index: 2; /* higher than all other items, but lower than 
+    the confirm box*/
+}
+
+.container-popup {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  background-color: var(--bronze-tone);
+  width: 270px;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -75%);
+  border-radius: 5px;
+  padding: 1rem;
+  z-index: 3; /* Higher than the z-index of the background */
+}
+
+.confirmation-text {
+  display: flex;
+  color: white;
+  margin: 0.5rem 0 2rem;
+  text-align: center;
+  line-height: 2rem;
+  font-size: 1.1rem;
+}
+
+.button-container {
+  display: flex;
+  margin-top: auto;
+  justify-content: space-evenly !important;
+}
+
+.confirmation-button, .delete-button {
+  display: inline-flex;
+  background-color: #cc0000;
+  color: white;
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  z-index: 4;
+}
+
+.cancel-button {
+  background-color: #999999;
+  border-radius: 0.3rem;
+  padding: 0.7rem 1.4rem;
+ 
+}
+
+.confirmation-button:hover {
+  background-color: red;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: #b2b2b2;
+  cursor: pointer;
+}
+.options-buttons{
+  display: inline-flex;
+}
+.add-category{
+  white-space: nowrap;
+}
+button.cancel-button{
+  background-color: #e58975;
+  border-radius: 5px;
+  border: none;
 }

@@ -3,7 +3,7 @@ from accounts.models import CustomUser
 # Create your models here.
 class Dish_Category (models.Model):
     id = models.AutoField(unique=True, primary_key=True, blank=False)
-    category_name = models.CharField(max_length=100, blank=False, unique=True)
+    category_name = models.CharField(max_length=100, blank=False, unique=True, verbose_name="Dish category")
     date_created = models.DateTimeField(auto_now_add=True, blank=False)
     def __str__(self):
         return f"{self.category_name}"

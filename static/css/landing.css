@@ -3,6 +3,10 @@
 # General
 /
 */
+:root{ /*Here I will define document global variables for easier code management*/
+  --bronze-tone : #FF5733;
+}
+
 body {
   color: #444444;
 }
@@ -13,7 +17,7 @@ a {
 }
 
 a:hover {
-  color: #FF5733 ;
+  color: var(--bronze-tone) ;
   text-decoration: none;
 }
 
@@ -43,7 +47,7 @@ a:hover {
 }
 
 .back-to-top:hover {
-  background: #FF5733 ;
+  background: var(--bronze-tone);
   color: #fff;
 }
 
@@ -74,7 +78,7 @@ a:hover {
 }
 
 #topbar i {
-  color: #FF5733 ;
+  color: var(--bronze-tone) ;
   line-height: 0;
 }
 
@@ -129,7 +133,7 @@ a:hover {
 /
 */
 .login-btn {
-  background: #FF5733;
+  background: var(--bronze-tone);
   color: #fff;
   border-radius: 50px;
   margin: 0 0 0 20px;
@@ -142,7 +146,7 @@ a:hover {
 }
 
 .login-btn:hover {
-  background: #FF5733 ;
+  background: var(--bronze-tone) ;
   color: #fff;
 }
 
@@ -199,7 +203,7 @@ Navigation Menu
 }
 
 .navbar a:hover, .navbar .active, .navbar .active:focus, .navbar li:hover > a {
-  color: #FF5733 ;
+  color: var(--bronze-tone) ;
 }
 
 .navbar .dropdown ul {
@@ -234,7 +238,7 @@ Navigation Menu
 }
 
 .navbar .dropdown ul a:hover, .navbar .dropdown ul .active:hover, .navbar .dropdown ul li:hover > a {
-  color: #FF5733 ;
+  color: var(--bronze-tone);
 }
 
 .navbar .dropdown:hover > ul {
@@ -327,7 +331,7 @@ Mobile Navigation
 }
 
 .navbar-mobile a:hover, .navbar-mobile .active, .navbar-mobile li:hover > a {
-  color: #FF5733 ;
+  color: var(--bronze-tone);
 }
 
 .navbar-mobile .getstarted {
@@ -359,7 +363,7 @@ Mobile Navigation
 }
 
 .navbar-mobile .dropdown ul a:hover, .navbar-mobile .dropdown ul .active:hover, .navbar-mobile .dropdown ul li:hover > a {
-  color: #FF5733 
+  color: var(--bronze-tone);
 }
 
 .navbar-mobile .dropdown > .dropdown-active {
@@ -467,7 +471,7 @@ Hero Section
 }
 
 #hero h2 span {
-  color: #FF5733 ;
+  color: var(--bronze-tone);
 }
 
 #hero p {
@@ -544,11 +548,11 @@ Hero Section
   -webkit-animation-delay: 0.8s;
   animation-delay: 0.8s;
   color: #fff;
-  border: 2px solid #FF5733 ;
+  border: 2px solid var(--bronze-tone);
 }
 
 #hero .btn-menu:hover, #hero .btn-book:hover {
-  background: #FF5733 ;
+  background: var(--bronze-tone);
   color: #fff;
 }
 
@@ -598,7 +602,7 @@ section {
 }
 
 .section-title h2 span {
-  color: #FF5733 ;
+  color: var(--bronze-tone);
 }
 
 .section-title p {
@@ -720,7 +724,7 @@ About
 
 .about .content ul i {
   font-size: 20px;
-  color: #FF5733 ;
+  color: var(--bronze-tone);
   position: absolute;
   left: 0;
   top: 2px;
@@ -741,7 +745,7 @@ About
 .about .play-btn {
   width: 94px;
   height: 94px;
-  background: radial-gradient(#FF5733  50%, rgba(255, 176, 59, 0.4) 52%);
+  background: radial-gradient(var(--bronze-tone) 50%, rgba(255, 176, 59, 0.4) 52%);
   border-radius: 50%;
   display: block;
   position: absolute;
@@ -789,7 +793,7 @@ About
 }
 
 .about .play-btn:hover::after {
-  border-left: 15px solid #FF5733 ;
+  border-left: 15px solid var(--bronze-tone) ;
   transform: scale(20);
 }
 
@@ -894,7 +898,7 @@ Here is the why our system section
 }
 
 .why-us .box:hover {
-  background: #FF5733 ;
+  background: var(--bronze-tone) ;
   padding: 30px 30px 70px 30px;
   box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.18);
 }
@@ -930,13 +934,13 @@ Menu Section
   margin: 0 3px 10px 3px;
   transition: all ease-in-out 0.3s;
   background: #FBD38B;
-  border: 2px solid #FF5733 ;
+  border: 2px solid var(--bronze-tone) ;
   border-radius: 50px;
 }
 
 .menu #menu-flters li:hover, .menu #menu-flters li.filter-active {
   color: #FBD38B;
-  background: #FF5733 ;
+  background: var(--bronze-tone);
 }
 
 .menu #menu-flters li:last-child {
@@ -1011,11 +1015,11 @@ Specials
   background-color: white;
 }
 .specials .nav-link:hover {
-  color: #FF5733 ;
+  color: var(--bronze-tone);
 }
 .specials .nav-link.active {
-  color: #FF5733 ;
-  border-color: #FF5733 ;
+  color: var(--bronze-tone) ;
+  border-color: var(--bronze-tone) ;
 }
 .specials .tab-pane.active {
   -webkit-animation: fadeIn 0.5s ease-out;
@@ -1040,7 +1044,7 @@ Specials
   }
   .specials .nav-link.active {
     color: #fff;
-    background: #FF5733 ;
+    background: var(--bronze-tone);
   }
 }
 /*
@@ -1083,7 +1087,7 @@ Events
 .events .event-item h3 {
   font-weight: 600;
   font-size: 26px;
-  color: #FF5733 ;
+  color: var(--bronze-tone);
 }
 .events .event-item .price {
   font-size: 26px;
@@ -1093,7 +1097,7 @@ Events
 }
 
 .events .event-item .price span {
-  border-bottom: 2px solid #FF5733 ;
+  border-bottom: 2px solid var(--bronze-tone);
 }
 
 .events .event-item ul {
@@ -1108,7 +1112,7 @@ Events
 .events .event-item ul i {
   font-size: 20px;
   padding-right: 4px;
-  color: #FF5733 ;
+  color: var(--bronze-tone);
 }
 
 .events .event-item p:last-child {
@@ -1128,7 +1132,7 @@ Events
 }
 
 .events .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: #FF5733 ;
+  background-color: var(--bronze-tone);
 }
 
 /*
@@ -1216,7 +1220,7 @@ Book A Table
 }
 
 .book-a-table .php-email-form button[type="submit"] {
-  background: #FF5733 ;
+  background: var(--bronze-tone);
   border: 0;
   padding: 10px 24px;
   color: #fff;
@@ -1339,7 +1343,7 @@ Chefs
 }
 
 .management .member .social a:hover {
-  color: #FF5733 ;
+  color: var(--bronze-tone);
 }
 
 .management .member .social i {
@@ -1414,7 +1418,7 @@ REVIEWS SECTION
 }
 
 .reviews .reviews-item .stars {
-  color: #FF5733 ;
+  color: var(--bronze-tone);
   margin-bottom: 10px;
 }
 
@@ -1455,7 +1459,7 @@ REVIEWS SECTION
 }
 
 .reviews .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: #FF5733 ;
+  background-color: var(--bronze-tone);
 }
 
 @media (min-width: 992px) {
@@ -1480,7 +1484,7 @@ Contact
 
 .contact .info i {
   font-size: 20px;
-  color: #FF5733 ;
+  color: var(--bronze-tone);
   float: left;
   width: 44px;
   height: 44px;
@@ -1509,7 +1513,7 @@ Contact
 }
 
 .contact .info:hover i {
-  background: #FF5733 ;
+  background: var(--bronze-tone);
   color: #fff;
 }
 
@@ -1577,7 +1581,7 @@ Contact
 }
 
 .contact .php-email-form button[type="submit"] {
-  background: #FF5733 ;
+  background: var(--bronze-tone);
   border: 0;
   padding: 10px 24px;
   color: #fff;
@@ -1623,7 +1627,7 @@ Footer
 #footer h3 {
   font-size: 36px;
   font-weight: 700;
-  color: #FF5733 ;
+  color: var(--bronze-tone);
   position: relative;
   padding: 0;
   margin: 0 0 15px 0;
@@ -1656,7 +1660,7 @@ Footer
 }
 
 #footer .social-links a:hover {
-  background: #FF5733 ;
+  background: var(--bronze-tone);
 }
 
 #footer .copyright {
