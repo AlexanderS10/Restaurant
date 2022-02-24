@@ -24,10 +24,10 @@ export function CategoriesList(props) {
     useEffect(() => {//This will only trigger when the api responded and categoriesInit changes
         setCategories(categoriesInit)
     }, [categoriesInit])
-    //Previos approach relied on the useEffect hook which changed the list but as a consequence it re-rendered the list the amount of times I used the hook
+    //Previous approach relied on the useEffect hook which changed the list but as a consequence it re-rendered the list the amount of times I used the hook
     //to avoid this I learned about the hook and realised I can only use it on mount of the list and do not need to be re-rendering the item multiple times but
     //only the amount of times I do an action.
-    //FUCNTION SETTING OF ADDING AN ELEMENT
+    //FUNCTION SETTING OF ADDING AN ELEMENT
     let inputRef = React.createRef()
     let handleSubmit = (event) => {
         event.preventDefault()
@@ -40,7 +40,7 @@ export function CategoriesList(props) {
             let final = [...categories].concat(response)
             setCategories(final)
         } else {
-            console.log(response)
+
         }
     }
 
@@ -55,7 +55,6 @@ export function CategoriesList(props) {
         //console.log("Final list: ", final)
         setCategories(final)
     }
-
     return (
         <>
             <div>
@@ -79,7 +78,7 @@ export function Category(props) {
     //console.log("Category Called: ",categories)
     let inputRef = React.createRef()
     let [updateStyle, setUpdateStyle] = useState('d-none')
-    
+
     function handleInputChange() {
         setUpdateStyle('btn btn-primary btn-sm')
     }
@@ -90,7 +89,7 @@ export function Category(props) {
                 setCategory(response)
             }
             else {
-                console.log(response)
+
             }
         }
         apiPatchCategory(category.id, handleUpdateBackend, currentValue)
@@ -99,7 +98,6 @@ export function Category(props) {
     let handleDeleteClick = () => {
         let handleDeleteBackend = (response, status) => {
             if (status === 202) {
-                //console.log("Response: ", response)
                 props.actionFunction(response, status)
             }
             else {
@@ -109,16 +107,16 @@ export function Category(props) {
         apiDeleteCategory(categories.id, handleDeleteBackend)
         handleConfirmationBox(true)
     }
-  
+
     const handleConfirmationBox = (wasSet) => {
         let deleteButton = document.getElementById('confirmation-button')
-        if(wasSet===false){
+        if (wasSet === false) {
             document.querySelector(".confirm-bg").style.display = "flex"
             document.querySelector(".container-popup").style.display = "flex"
             deleteButton.addEventListener('click', handleDeleteClick)
             document.getElementById("confirmation-text").innerHTML = `Do you really want to delete ${categories.category_name}?`
         }
-        else if(wasSet===true){
+        else if (wasSet === true) {
             document.querySelector(".confirm-bg").style.display = "none"
             document.querySelector(".container-popup").style.display = "none"
             deleteButton.removeEventListener('click', handleDeleteClick)
@@ -126,13 +124,13 @@ export function Category(props) {
     }
     return <div className="mb-4 col-4 input-wrapper">
         <input id={categories.category_name} defaultValue={categories.category_name} onChange={handleInputChange} ref={inputRef} className="form-control" />
-        
+
         <div className="container-popup">
             <div className="confirmation-text" id="confirmation-text">
-                
+
             </div>
             <div className="button-container justify-content-center">
-                <button className="cancel-button" onClick={()=>handleConfirmationBox(true)}>
+                <button className="cancel-button" onClick={() => handleConfirmationBox(true)}>
                     Cancel
                 </button>
                 <button className="confirmation-button" id='confirmation-button' >
@@ -140,10 +138,10 @@ export function Category(props) {
                 </button>
             </div>
         </div>
-        <div className="confirm-bg" onClick={()=>handleConfirmationBox(true)}>
+        <div className="confirm-bg" onClick={() => handleConfirmationBox(true)}>
         </div>
         <div className='btn options-buttons'>
-            <button className='btn btn-danger btn-sm form-control' onClick={()=>handleConfirmationBox(false)}>Delete</button>
+            <button className='btn btn-danger btn-sm form-control' onClick={() => handleConfirmationBox(false)}>Delete</button>
             <button className={updateStyle} onClick={handleUpdateBackend}><i className="bi bi-check"></i></button>
             {/* <OptionBtn category={categories} action={{ type: "delete", display: "Delete" }} actionFunction={props.actionFunction} className='btn btn-danger btn-sm form-control' />
             <OptionBtn category={categories} action={{ type: "edit", display: "Update" }} updateFunction={handleUpdateBackend} className={updateStyle} /> */}
@@ -151,25 +149,26 @@ export function Category(props) {
     </div>
 }
 
-export function OptionBtn(props) {
-    let { category, action } = props
-    let actionDisplay = action.display ? action.display : "Other"
-    let display = action.type === "delete" ? `${actionDisplay}` : actionDisplay
-    let handleDeleteClick = (event) => {
-        event.preventDefault()
-        let handleDeleteBackend = (response, status) => {
-            if (status === 202) {
-                props.actionFunction(response, status)
-            }
-            else {
-                alert("Action error")
-            }
+export function MessagesComponent(props) {
+    console.log("Notification triggered")
+    let [message, setMessage] = useState("This is the error message")
+    let [classes, setClasses] = useState('animate__bounceInDown error-message-color ')
+    let [signClasses, setSignClasses] = useState(' ')
+    useEffect(() => {
+        setSignClasses(' error-sign-color')
+    },[])
+    useEffect(() => {
+        let timer1 = setTimeout(() => setClasses('animate__bounceOutLeft error-message-color'), 3000)
+        return () => {
+            clearTimeout(timer1)
         }
-        apiDeleteCategory(category.id, handleDeleteBackend)
-    }
+    })
     return (
-        
-        action.type === "delete" ? <button className={props.className} onClick={handleDeleteClick}>{display}</button> : <button className={props.className} onClick={props.updateFunction}>{display}</button>
+        <>
+            <div className={classes.concat(' messages-wrapper  animate__animated error-message-color')} id="messages-wrapper">
+                <div className={signClasses.concat(" message-sign")}><i className="bi bi-x-lg"></i></div>
+                <div className="messages" id="messages">{message}</div>
+            </div>
+        </>
     )
 }
-

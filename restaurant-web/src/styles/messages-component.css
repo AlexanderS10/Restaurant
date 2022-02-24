@@ -1,0 +1,39 @@
+/*
+MESSAGES COMPONENT STYLES
+*/
+
+div#messages-component{
+    width: max-content;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, 0%)
+}
+.messages-wrapper{
+    width: max-content;
+    width: 400px;
+   display: flex;
+   align-items: center;
+    color: white;
+    border-radius: 25px;
+}
+.error-message-color{
+    background-color: #d60100;
+}
+.error-sign-color{
+    background-color: #9d0701;
+}
+.messages{
+    padding:10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.message-sign{
+
+    padding: 10px;
+    padding-inline: 15px;
+}
+#animation-button{
+    margin-top: 20px;
+}
