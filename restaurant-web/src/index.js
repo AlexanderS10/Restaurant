@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import './styles/messages-component.css'
 // import App from './App';
+import 'react-toastify/dist/ReactToastify.css';
 import reportWebVitals from './reportWebVitals';
 import {CalendarComponent} from './customer/calendar'
 import {WeatherWidget} from './customer/weatherWidget'
 import {CategoriesList} from './categories'
-import {MessagesComponent} from './categories'
+// import {MessagesComponent} from './categories'
+import { ToastContainer } from "react-toastify";
 // ReactDOM.render(
 //   <React.StrictMode>
 //     <App />
@@ -29,7 +31,7 @@ if(categoriesListWidget){
   ReactDOM.render(<CategoriesList/>, categoriesListWidget)
 }
 if(messagesWidget){
-  ReactDOM.render(<MessagesComponent/>,messagesWidget)
+  ReactDOM.render(<ToastContainer/>,messagesWidget)
 }
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

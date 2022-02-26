@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from 'react';
 import { apiGetCategories, apiPostCategories, apiDeleteCategory, apiPatchCategory } from "./backEndLookUp";
+import { toast } from "react-toastify";
 
 export function CategoriesList(props) {
     let [categoriesInit, setCategoriesInit] = useState([])
@@ -15,7 +16,18 @@ export function CategoriesList(props) {
                     setCatsAreSet(true)
                 }
                 else {
-                    console.log(response.message)
+                    toast.error(response.message,
+                        {
+                        theme: "colored",
+                        closeButton:false,
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,}
+                        )
                 }
             }
             apiGetCategories(pullFunction)
@@ -40,7 +52,18 @@ export function CategoriesList(props) {
             let final = [...categories].concat(response)
             setCategories(final)
         } else {
-
+            toast.error(response.message,
+            {
+            theme: "colored",
+            closeButton:false,
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,}
+            )
         }
     }
 
@@ -62,6 +85,7 @@ export function CategoriesList(props) {
                     return <Category category={item} key={item.id} actionFunction={handleDeleteFrontEnd} />
                 })}
             </div>
+            
             <div>
                 <form onSubmit={handleSubmit} className="col-4 input-wrapper">
                     <input ref={inputRef} className="form-control " />
@@ -89,7 +113,18 @@ export function Category(props) {
                 setCategory(response)
             }
             else {
-
+                toast.error(response.message,
+                    {
+                    theme: "colored",
+                    closeButton:false,
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,}
+                    )
             }
         }
         apiPatchCategory(category.id, handleUpdateBackend, currentValue)
@@ -101,7 +136,18 @@ export function Category(props) {
                 props.actionFunction(response, status)
             }
             else {
-                console.log(response)
+                toast.error(response.message,
+                    {
+                    theme: "colored",
+                    closeButton:false,
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,}
+                    )
             }
         }
         apiDeleteCategory(categories.id, handleDeleteBackend)
@@ -150,25 +196,24 @@ export function Category(props) {
 }
 
 export function MessagesComponent(props) {
-    console.log("Notification triggered")
-    let [message, setMessage] = useState("This is the error message")
-    let [classes, setClasses] = useState('animate__bounceInDown error-message-color ')
-    let [signClasses, setSignClasses] = useState(' ')
-    useEffect(() => {
-        setSignClasses(' error-sign-color')
-    },[])
-    useEffect(() => {
-        let timer1 = setTimeout(() => setClasses('animate__bounceOutLeft error-message-color'), 3000)
-        return () => {
-            clearTimeout(timer1)
-        }
-    })
-    return (
-        <>
-            <div className={classes.concat(' messages-wrapper  animate__animated error-message-color')} id="messages-wrapper">
-                <div className={signClasses.concat(" message-sign")}><i className="bi bi-x-lg"></i></div>
-                <div className="messages" id="messages">{message}</div>
-            </div>
-        </>
-    )
+    // console.log("Notification triggered")
+    // let [message, setMessage] = useState("This is the error message")
+    // let [classes, setClasses] = useState('animate__bounceInDown error-message-color ')
+    // let [signClasses, setSignClasses] = useState(' error-sign-color ')
+    
+    // useEffect(() => {
+    //     let timer1 = setTimeout(() => setClasses('animate__bounceOutLeft error-message-color'), 3000)
+    //     return () => {
+    //         clearTimeout(timer1)
+    //     }
+    // },[message])
+    // return (
+    //     <>
+    //         <div className={classes.concat(' messages-wrapper  animate__animated error-message-color')} id="messages-wrapper">
+    //             <div className={signClasses.concat(" message-sign")}><i className="bi bi-x-lg"></i></div>
+    //             <div className="messages" id="messages">{message}</div>
+    //         </div>
+    //     </>
+    // )
 }
+
