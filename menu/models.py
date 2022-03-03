@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.db import models
 from accounts.models import CustomUser
 # Create your models here.
@@ -8,7 +9,8 @@ class Dish_Category (models.Model):
     def __str__(self):
         return f"{self.category_name}"
 class Dish(models.Model):
-    category = models.ForeignKey(Dish_Category, to_field="category_name",db_column="category_name", on_delete=models.CASCADE)
+    category = models.OneToOneField(Dish_Category, on_delete=models.CASCADE)
+    #category = models.ForeignKey(Dish_Category, to_field="category_name",db_column="category_name", on_delete=models.CASCADE)
     dish_name = models.CharField(max_length=200, blank=False)
     description = models.TextField(blank=False)
     date_created = models.DateTimeField(verbose_name="Date created", auto_now_add=True)

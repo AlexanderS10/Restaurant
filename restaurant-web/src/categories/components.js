@@ -1,8 +1,19 @@
 import React from "react";
 import { useEffect, useState } from 'react';
 import { apiGetCategories, apiPostCategories, apiDeleteCategory, apiPatchCategory } from "./backEndLookUp";
+import { DishList } from "../dishes";
 import { toast } from "react-toastify";
 
+export function ParentCategoryDish(props){
+    let categories = null
+    console.log("Categories", categories)
+    return(
+        <>
+            <CategoriesList categoriesParent = {categories}/>
+            
+        </>
+    )
+}
 export function CategoriesList(props) {
     let [categoriesInit, setCategoriesInit] = useState([])
     let [categories, setCategories] = useState([])//this creates and helps update the state
@@ -99,7 +110,7 @@ export function CategoriesList(props) {
 export function Category(props) {
     let { category } = props
     let [categories, setCategory] = useState(category)
-    //console.log("Category Called: ",categories)
+    console.log("Category Called: ",categories)
     let inputRef = React.createRef()
     let [updateStyle, setUpdateStyle] = useState('d-none')
 
@@ -113,7 +124,7 @@ export function Category(props) {
                 setCategory(response)
             }
             else {
-                toast.error(response.message,
+                toast.error("An error has occurred",
                     {
                     theme: "colored",
                     closeButton:false,

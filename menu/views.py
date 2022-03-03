@@ -51,7 +51,7 @@ class DishDetail(APIView):
             serializer.save()
             return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
-    def put(self,request,dish_id,*args, **kwargs):
+    def patch(self,request,dish_id,*args, **kwargs):
         dish = Dish.objects.get(id = dish_id)
         serializer = DishSerializer(instance=dish, data = request.data)
         if serializer.is_valid():
