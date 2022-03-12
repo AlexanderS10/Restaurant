@@ -1,19 +1,9 @@
 import React from "react";
 import { useEffect, useState } from 'react';
 import { apiGetCategories, apiPostCategories, apiDeleteCategory, apiPatchCategory } from "./backEndLookUp";
-import { DishList } from "../dishes";
 import { toast } from "react-toastify";
+import { DishForm } from "../dishes";
 
-export function ParentCategoryDish(props){
-    let categories = null
-    console.log("Categories", categories)
-    return(
-        <>
-            <CategoriesList categoriesParent = {categories}/>
-            
-        </>
-    )
-}
 export function CategoriesList(props) {
     let [categoriesInit, setCategoriesInit] = useState([])
     let [categories, setCategories] = useState([])//this creates and helps update the state
@@ -29,16 +19,17 @@ export function CategoriesList(props) {
                 else {
                     toast.error(response.message,
                         {
-                        theme: "colored",
-                        closeButton:false,
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,}
-                        )
+                            theme: "colored",
+                            closeButton: false,
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        }
+                    )
                 }
             }
             apiGetCategories(pullFunction)
@@ -47,33 +38,44 @@ export function CategoriesList(props) {
     useEffect(() => {//This will only trigger when the api responded and categoriesInit changes
         setCategories(categoriesInit)
     }, [categoriesInit])
-    //Previous approach relied on the useEffect hook which changed the list but as a consequence it re-rendered the list the amount of times I used the hook
-    //to avoid this I learned about the hook and realised I can only use it on mount of the list and do not need to be re-rendering the item multiple times but
-    //only the amount of times I do an action.
-    //FUNCTION SETTING OF ADDING AN ELEMENT
+
     let inputRef = React.createRef()
     let handleSubmit = (event) => {
         event.preventDefault()
         let newVal = inputRef.current.value;
-        apiPostCategories(newVal, handleBackendUpdate);
+        apiPostCategories(newVal, handleAddCategory);
         inputRef.current.value = ''
     }
-    let handleBackendUpdate = (response, status) => {//Here we handle the request if it is successful
+    let handleAddCategory = (response, status) => {//Here we handle the request if it is successful
         if (status === 201) {
             let final = [...categories].concat(response)
             setCategories(final)
+            toast.success("Added Successfully",
+                {
+                    theme: "colored",
+                    closeButton: false,
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                }
+            )
         } else {
             toast.error(response.message,
-            {
-            theme: "colored",
-            closeButton:false,
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,}
+                {
+                    theme: "colored",
+                    closeButton: false,
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                }
             )
         }
     }
@@ -89,28 +91,55 @@ export function CategoriesList(props) {
         //console.log("Final list: ", final)
         setCategories(final)
     }
+    //HANDLE THE UPDATE TO THE FRONT-END
+    let handleUpdateFrontEnd = (obj) => {
+        let final = [...categories]
+        let index = final.findIndex(x => x.id === obj.id)
+        final[index] = obj
+        console.log("Updated list: ", final)
+        setCategories(final)
+    }
+    // console.log("Final list: ",categories)
     return (
-        <>
-            <div>
-                {categories.map((item, index) => {
-                    return <Category category={item} key={item.id} actionFunction={handleDeleteFrontEnd} />
-                })}
+        <div className="container">
+            <div className="row">
+                <div className="col-lg-6">
+                    <div className="col-md card card-body">
+                        <div className="card-title card-body">
+                            <h5>Dish Categories</h5>
+                        </div>
+                        <div>
+                            {categories.map((item, index) => {
+                                return <Category category={item} key={item.id} actionFunction={handleDeleteFrontEnd} updateCategoryFunction={handleUpdateFrontEnd} />
+                            })}
+                        </div>
+
+                        <div>
+                            <form onSubmit={handleSubmit} className="input-wrapper">
+                                <input ref={inputRef} className="form-control " />
+                                <button type="submit" className="btn btn-primary add-category">Add Category</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-lg-6">
+                    <div className="card col-md">
+                        <DishForm className="" category_data={categories}/>
+                    </div>
+                </div>
+
+
             </div>
-            
-            <div>
-                <form onSubmit={handleSubmit} className="col-4 input-wrapper">
-                    <input ref={inputRef} className="form-control " />
-                    <button type="submit" className="btn btn-primary add-category">Add Category</button>
-                </form>
-            </div>
-        </>
+        </div>
     )
 }
+/*
+    CATEGORY
+*/
 
 export function Category(props) {
     let { category } = props
-    let [categories, setCategory] = useState(category)
-    console.log("Category Called: ",categories)
+    //console.log("Category Called: ",category)
     let inputRef = React.createRef()
     let [updateStyle, setUpdateStyle] = useState('d-none')
 
@@ -121,21 +150,32 @@ export function Category(props) {
         let currentValue = inputRef.current.value
         let handleUpdateBackend = (response, status) => {
             if (status === 200) {
-                setCategory(response)
-            }
-            else {
-                toast.error("An error has occurred",
-                    {
+                //setCategory(response)
+                props.updateCategoryFunction(response)
+                toast.success("Updated Successfully", {
                     theme: "colored",
-                    closeButton:false,
+                    closeButton: false,
                     position: "top-center",
                     autoClose: 3000,
                     hideProgressBar: true,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
-                    progress: undefined,}
-                    )
+                    progress: undefined,
+                })
+            }
+            else {
+                toast.error(response.message, {
+                    theme: "colored",
+                    closeButton: false,
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
             }
         }
         apiPatchCategory(category.id, handleUpdateBackend, currentValue)
@@ -145,23 +185,37 @@ export function Category(props) {
         let handleDeleteBackend = (response, status) => {
             if (status === 202) {
                 props.actionFunction(response, status)
+                toast.success("Deleted Successfully",
+                    {
+                        theme: "colored",
+                        closeButton: false,
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    }
+                )
             }
             else {
                 toast.error(response.message,
                     {
-                    theme: "colored",
-                    closeButton:false,
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,}
-                    )
+                        theme: "colored",
+                        closeButton: false,
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    }
+                )
             }
         }
-        apiDeleteCategory(categories.id, handleDeleteBackend)
+        apiDeleteCategory(category.id, handleDeleteBackend)
         handleConfirmationBox(true)
     }
 
@@ -171,7 +225,7 @@ export function Category(props) {
             document.querySelector(".confirm-bg").style.display = "flex"
             document.querySelector(".container-popup").style.display = "flex"
             deleteButton.addEventListener('click', handleDeleteClick)
-            document.getElementById("confirmation-text").innerHTML = `Do you really want to delete ${categories.category_name}?`
+            document.getElementById("confirmation-text").innerHTML = `Do you really want to delete ${category.category_name}?`
         }
         else if (wasSet === true) {
             document.querySelector(".confirm-bg").style.display = "none"
@@ -179,8 +233,8 @@ export function Category(props) {
             deleteButton.removeEventListener('click', handleDeleteClick)
         }
     }
-    return <div className="mb-4 col-4 input-wrapper">
-        <input id={categories.category_name} defaultValue={categories.category_name} onChange={handleInputChange} ref={inputRef} className="form-control" />
+    return <div className="mb-4 input-wrapper">
+        <input id={category.category_name} defaultValue={category.category_name} onChange={handleInputChange} ref={inputRef} className="form-control" />
 
         <div className="container-popup">
             <div className="confirmation-text" id="confirmation-text">
@@ -206,25 +260,5 @@ export function Category(props) {
     </div>
 }
 
-export function MessagesComponent(props) {
-    // console.log("Notification triggered")
-    // let [message, setMessage] = useState("This is the error message")
-    // let [classes, setClasses] = useState('animate__bounceInDown error-message-color ')
-    // let [signClasses, setSignClasses] = useState(' error-sign-color ')
-    
-    // useEffect(() => {
-    //     let timer1 = setTimeout(() => setClasses('animate__bounceOutLeft error-message-color'), 3000)
-    //     return () => {
-    //         clearTimeout(timer1)
-    //     }
-    // },[message])
-    // return (
-    //     <>
-    //         <div className={classes.concat(' messages-wrapper  animate__animated error-message-color')} id="messages-wrapper">
-    //             <div className={signClasses.concat(" message-sign")}><i className="bi bi-x-lg"></i></div>
-    //             <div className="messages" id="messages">{message}</div>
-    //         </div>
-    //     </>
-    // )
-}
+
 

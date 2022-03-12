@@ -1,9 +1,9 @@
-import {Category, CategoriesList,MessagesComponent } from "./components";
+import {Category, CategoriesList } from "./components";
 
 export{
     Category, 
     CategoriesList,
-    MessagesComponent,
+    
 }
 
 // export function OptionBtn(props) {

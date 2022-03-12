@@ -1,5 +1,5 @@
-import {DishList } from "./components";
+import {DishForm } from "./components";
 
 export{
-    DishList
+    DishForm
 }
