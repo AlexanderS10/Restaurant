@@ -111,6 +111,15 @@ def create_category(request, *args, **kwargs):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response({"message":"This category name already exists or is too long"},status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_dish(request, *args, **kwargs):
+    print(request.data)
+    serializer = DishSerializer(data = request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response({"message":"Something went wrong, try again"},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

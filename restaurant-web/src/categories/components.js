@@ -80,7 +80,7 @@ export function CategoriesList(props) {
         }
     }
 
-    //FUNCTION FOR DELETING AN OBJECT FROM THE LIST
+    //Handle deleting an onject after the function was successful
     let handleDeleteFrontEnd = (obj, status) => {
         let final = [...categories].filter(function (e) {
             if (categories.length !== 0) {
@@ -91,7 +91,7 @@ export function CategoriesList(props) {
         //console.log("Final list: ", final)
         setCategories(final)
     }
-    //HANDLE THE UPDATE TO THE FRONT-END
+    //Handle updating a category successfully
     let handleUpdateFrontEnd = (obj) => {
         let final = [...categories]
         let index = final.findIndex(x => x.id === obj.id)
@@ -99,14 +99,14 @@ export function CategoriesList(props) {
         console.log("Updated list: ", final)
         setCategories(final)
     }
-    // console.log("Final list: ",categories)
+    
     return (
         <div className="container">
             <div className="row">
-                <div className="col-lg-6">
+                <div className="col-lg-6  ">
                     <div className="col-md card card-body">
                         <div className="card-title card-body">
-                            <h5>Dish Categories</h5>
+                            <h4>Dish Categories</h4>
                         </div>
                         <div>
                             {categories.map((item, index) => {
@@ -116,15 +116,15 @@ export function CategoriesList(props) {
 
                         <div>
                             <form onSubmit={handleSubmit} className="input-wrapper">
-                                <input ref={inputRef} className="form-control " />
-                                <button type="submit" className="btn btn-primary add-category">Add Category</button>
+                                <input ref={inputRef} className="form-control " required/>
+                                <button type="submit" className="btn btn-primary add-category">Create Category</button>
                             </form>
                         </div>
                     </div>
                 </div>
-                <div className="col-lg-6">
+                <div className="col-lg-6 animate__animated animate__fadeInRight dish-create-container">
                     <div className="card col-md">
-                        <DishForm className="" category_data={categories}/>
+                        <DishForm className="" category_data={categories} />
                     </div>
                 </div>
 
@@ -133,6 +133,7 @@ export function CategoriesList(props) {
         </div>
     )
 }
+
 /*
     CATEGORY
 */
@@ -144,41 +145,56 @@ export function Category(props) {
     let [updateStyle, setUpdateStyle] = useState('d-none')
 
     function handleInputChange() {
-        setUpdateStyle('btn btn-primary btn-sm')
+        setUpdateStyle('btn btn-primary ')
     }
     function handleUpdateBackend() {
         let currentValue = inputRef.current.value
-        let handleUpdateBackend = (response, status) => {
-            if (status === 200) {
-                //setCategory(response)
-                props.updateCategoryFunction(response)
-                toast.success("Updated Successfully", {
-                    theme: "colored",
-                    closeButton: false,
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                })
-            }
-            else {
-                toast.error(response.message, {
-                    theme: "colored",
-                    closeButton: false,
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                })
-            }
+        if (currentValue === "") {
+            toast.error("Cannot submit empty values", {
+                theme: "colored",
+                closeButton: false,
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         }
-        apiPatchCategory(category.id, handleUpdateBackend, currentValue)
+        else {
+            let handleUpdateBackend = (response, status) => {
+                if (status === 200) {
+                    //setCategory(response)
+                    props.updateCategoryFunction(response)
+                    toast.success("Updated Successfully", {
+                        theme: "colored",
+                        closeButton: false,
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    })
+                }
+                else {
+                    toast.error(response.message, {
+                        theme: "colored",
+                        closeButton: false,
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    })
+                }
+            }
+            apiPatchCategory(category.id, handleUpdateBackend, currentValue)
+        }
         setUpdateStyle('d-none')
     }
     let handleDeleteClick = () => {
@@ -234,7 +250,7 @@ export function Category(props) {
         }
     }
     return <div className="mb-4 input-wrapper">
-        <input id={category.category_name} defaultValue={category.category_name} onChange={handleInputChange} ref={inputRef} className="form-control" />
+        <input id={category.category_name} defaultValue={category.category_name} onChange={handleInputChange} ref={inputRef} className="form-control" required />
 
         <div className="container-popup">
             <div className="confirmation-text" id="confirmation-text">
@@ -252,8 +268,8 @@ export function Category(props) {
         <div className="confirm-bg" onClick={() => handleConfirmationBox(true)}>
         </div>
         <div className='btn options-buttons'>
-            <button className='btn btn-danger btn-sm form-control' onClick={() => handleConfirmationBox(false)}>Delete</button>
-            <button className={updateStyle} onClick={handleUpdateBackend}><i className="bi bi-check"></i></button>
+            <button className='btn btn-danger cancel-category' onClick={() => handleConfirmationBox(false)}><i className="bi bi-x-lg"></i></button>
+            <button className={updateStyle} onClick={handleUpdateBackend}><i className="bi bi-check-lg"></i></button>
             {/* <OptionBtn category={categories} action={{ type: "delete", display: "Delete" }} actionFunction={props.actionFunction} className='btn btn-danger btn-sm form-control' />
             <OptionBtn category={categories} action={{ type: "edit", display: "Update" }} updateFunction={handleUpdateBackend} className={updateStyle} /> */}
         </div>

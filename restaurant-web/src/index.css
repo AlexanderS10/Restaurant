@@ -150,13 +150,82 @@ CATEGORIES FORM STYLE
 }
 .add-category{
   white-space: nowrap;
+  margin-left: .5em;
 }
 button.cancel-button{
   background-color: #e58975;
   border-radius: 5px;
   border: none;
 }
+.cancel-category{
+  margin-right: .5em;
+}
+
+/*
+DISHES STYLES
+*/
 .card-title{
   display: flex;
   justify-content: center;
+}
+.submit-dish{
+  padding-top: 1em ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width:991px) {
+  .dish-create-container {
+      margin-top: 2em;
+  }
+}
+#categories-list{
+  background-color: #999999;
+  padding-bottom: 3em;
+}
+
+/*DIsh list view*/
+#dish-list-view-widget{
+  padding-top: 2em;
+  padding-bottom: 2em;
+  background-color: #FBD38B;
+}
+#menu-filters{
+  list-style: none;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin-top: 2em;
+}
+
+#menu-filters li{
+  cursor: pointer;
+  border: 3px var(--bronze-tone) solid;
+  border-radius: 50px;
+  padding: .3em .8em;
+  margin-top: .4em;
+  margin-inline: .2em;
+  transition: all ease-in-out 0.3s;
+}
+
+#menu-filters li:hover, .filter-active{
+  background-color: var(--bronze-tone);
+  color: white;
+}
+.menu-item{
+  text-align: center;
+  margin-top: 2em;
+}
+
+.menu-title{
+  font-weight: 800;
+  color: #F89B0A;
+  font-size: 18px;
+}
+
+.menu-description{
+  color: #958D81;
+  font-weight: 600;
+  font-style: oblique;
 }

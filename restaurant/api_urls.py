@@ -9,4 +9,5 @@ urlpatterns = [
     path('categories/', category_list_view),
     path('categories/<int:id>/', DishCategory.as_view()),
     path('categories/create/', create_category),
+    path('dishes/create/',create_dish),
 ]

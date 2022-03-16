@@ -1,17 +1,17 @@
-//import { lookup } from "../api_lookup";
-// export function apiGetDishes(callback){
-//     lookup("GET", "dishes/",callback);
-//   }
+import { lookup } from "../api_lookup";
+export function apiGetDishes(callback){
+    lookup("GET", "dishes/",callback);
+  }
   
-// export function apiPostDish(newCategory, callback){
-//   lookup("POST", "dishes/create/", callback, {category_name:newCategory});
-// }
+export function apiPostDish(newDish, callback){
+  lookup("POST", "dishes/create/", callback, newDish);
+}
 
-// export function apiDeleteDish(category_id, callback){
-//   lookup("DELETE",`dishes/${category_id}`,callback);
-// }
+export function apiDeleteDish(dish_id, callback){
+  lookup("DELETE",`dishes/${dish_id}`,callback);
+}
 
-// export function apiPatchDish(category_id, callback, category_name){
+export function apiPatchDish(dish_id, callback, dish_name){
   
-//   lookup("PATCH", `dishes/${category_id}/`, callback, {category_name:category_name})
-// }
+  lookup("PATCH", `dishes/${dish_id}/`, callback, {dish_name:dish_name})
+}

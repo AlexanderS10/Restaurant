@@ -1,5 +1,6 @@
-import {DishForm } from "./components";
+import {DishForm, DishListView } from "./components";
 
 export{
-    DishForm
+    DishForm,
+    DishListView,
 }
