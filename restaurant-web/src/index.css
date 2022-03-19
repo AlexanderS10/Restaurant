@@ -229,3 +229,9 @@ DISHES STYLES
   font-weight: 600;
   font-style: oblique;
 }
+.show{
+  display: block;
+}
+.hide{
+  display: none;
+}

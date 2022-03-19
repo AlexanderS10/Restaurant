@@ -117,7 +117,7 @@ def create_dish(request, *args, **kwargs):
     print(request.data)
     serializer = DishSerializer(data = request.data)
     if serializer.is_valid():
-        serializer.save()
+        #serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response({"message":"Something went wrong, try again"},status=status.HTTP_400_BAD_REQUEST)
 

@@ -2,42 +2,28 @@ import React from "react";
 import { useEffect, useState } from 'react';
 import { apiGetCategories, apiPostCategories, apiDeleteCategory, apiPatchCategory } from "./backEndLookUp";
 import { toast } from "react-toastify";
-import { DishForm } from "../dishes";
+import { DishForm, DishList } from "../dishes";
 
 export function CategoriesList(props) {
-    let [categoriesInit, setCategoriesInit] = useState([])
     let [categories, setCategories] = useState([])//this creates and helps update the state
     let [catsAreSet, setCatsAreSet] = useState(false)
+    let [newDish, setNewDish] = useState([])
     //This will set the initial categories to be the response of the api
     useEffect(() => {
         if (catsAreSet === false) {//This avoids an infinite loop in the useEffect Hook by only allowing the component to be mounted once at initial render
-            const pullFunction = (response, status) => {
+            let pullFunction = (response, status) => {
                 if (status === 200) {
-                    setCategoriesInit(response)
+                    console.log("Initial category set")
+                    setCategories(response)
                     setCatsAreSet(true)
                 }
                 else {
-                    toast.error(response.message,
-                        {
-                            theme: "colored",
-                            closeButton: false,
-                            position: "top-center",
-                            autoClose: 5000,
-                            hideProgressBar: true,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                        }
-                    )
+                    alert(response)
                 }
             }
             apiGetCategories(pullFunction)
         }
     }, [catsAreSet])
-    useEffect(() => {//This will only trigger when the api responded and categoriesInit changes
-        setCategories(categoriesInit)
-    }, [categoriesInit])
 
     let inputRef = React.createRef()
     let handleSubmit = (event) => {
@@ -49,6 +35,7 @@ export function CategoriesList(props) {
     let handleAddCategory = (response, status) => {//Here we handle the request if it is successful
         if (status === 201) {
             let final = [...categories].concat(response)
+            console.log("Category added")
             setCategories(final)
             toast.success("Added Successfully",
                 {
@@ -79,7 +66,6 @@ export function CategoriesList(props) {
             )
         }
     }
-
     //Handle deleting an onject after the function was successful
     let handleDeleteFrontEnd = (obj, status) => {
         let final = [...categories].filter(function (e) {
@@ -88,7 +74,7 @@ export function CategoriesList(props) {
             }
             return e
         })
-        //console.log("Final list: ", final)
+        console.log("Category deleted")
         setCategories(final)
     }
     //Handle updating a category successfully
@@ -96,10 +82,13 @@ export function CategoriesList(props) {
         let final = [...categories]
         let index = final.findIndex(x => x.id === obj.id)
         final[index] = obj
-        console.log("Updated list: ", final)
+        console.log("Category updated")
         setCategories(final)
     }
-    
+    let theNewDish = null
+    let addNewDish = (dish)=>{
+        setNewDish(dish)
+    }
     return (
         <div className="container">
             <div className="row">
@@ -109,14 +98,14 @@ export function CategoriesList(props) {
                             <h4>Dish Categories</h4>
                         </div>
                         <div>
+                            {console.log("List called")}
                             {categories.map((item, index) => {
                                 return <Category category={item} key={item.id} actionFunction={handleDeleteFrontEnd} updateCategoryFunction={handleUpdateFrontEnd} />
                             })}
                         </div>
-
                         <div>
                             <form onSubmit={handleSubmit} className="input-wrapper">
-                                <input ref={inputRef} className="form-control " required/>
+                                <input ref={inputRef} className="form-control " required />
                                 <button type="submit" className="btn btn-primary add-category">Create Category</button>
                             </form>
                         </div>
@@ -124,11 +113,17 @@ export function CategoriesList(props) {
                 </div>
                 <div className="col-lg-6 animate__animated animate__fadeInRight dish-create-container">
                     <div className="card col-md">
-                        <DishForm className="" category_data={categories} />
+                        <DishForm className="" category_data={categories} newDish={addNewDish} />
                     </div>
                 </div>
-
-
+            </div>
+            <div className="row">
+                <div className="col-lg-12">
+                    <div className="card col-md mt-4">
+                        <DishList newDish={newDish} category_data={categories}/>
+                    </div>
+                    
+                </div>
             </div>
         </div>
     )
@@ -137,7 +132,6 @@ export function CategoriesList(props) {
 /*
     CATEGORY
 */
-
 export function Category(props) {
     let { category } = props
     //console.log("Category Called: ",category)
@@ -275,6 +269,3 @@ export function Category(props) {
         </div>
     </div>
 }
-
-
-
