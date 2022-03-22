@@ -119,7 +119,7 @@ export function CategoriesList(props) {
             </div>
             <div className="row">
                 <div className="col-lg-12">
-                    <div className="card col-md mt-4">
+                    <div className="card container col-md mt-4">
                         <DishList newDish={newDish} category_data={categories}/>
                     </div>
                     
@@ -193,6 +193,8 @@ export function Category(props) {
     }
     let handleDeleteClick = () => {
         let handleDeleteBackend = (response, status) => {
+            let deleteButton = document.getElementById('confirmation-button')
+            deleteButton.removeEventListener('click', handleDeleteClick)
             if (status === 202) {
                 props.actionFunction(response, status)
                 toast.success("Deleted Successfully",
@@ -226,43 +228,43 @@ export function Category(props) {
             }
         }
         apiDeleteCategory(category.id, handleDeleteBackend)
-        handleConfirmationBox(true)
+        handleConfirmationBox(false)
     }
 
     const handleConfirmationBox = (wasSet) => {
         let deleteButton = document.getElementById('confirmation-button')
-        if (wasSet === false) {
-            document.querySelector(".confirm-bg").style.display = "flex"
-            document.querySelector(".container-popup").style.display = "flex"
+        if (wasSet === true) {
+            document.getElementById("categories-delete-bg").style.display = "flex"
+            document.getElementById("categories-delete-popup").style.display = "flex"
             deleteButton.addEventListener('click', handleDeleteClick)
             document.getElementById("confirmation-text").innerHTML = `Do you really want to delete ${category.category_name}?`
         }
-        else if (wasSet === true) {
-            document.querySelector(".confirm-bg").style.display = "none"
-            document.querySelector(".container-popup").style.display = "none"
+        else if (wasSet === false) {
+            document.getElementById("categories-delete-bg").style.display = "none"
+            document.getElementById("categories-delete-popup").style.display = "none"
             deleteButton.removeEventListener('click', handleDeleteClick)
         }
     }
     return <div className="mb-4 input-wrapper">
         <input id={category.category_name} defaultValue={category.category_name} onChange={handleInputChange} ref={inputRef} className="form-control" required />
 
-        <div className="container-popup">
+        <div className="container-popup" id="categories-delete-popup">
             <div className="confirmation-text" id="confirmation-text">
 
             </div>
             <div className="button-container justify-content-center">
-                <button className="cancel-button" onClick={() => handleConfirmationBox(true)}>
+                <button className="cancel-button" onClick={() => handleConfirmationBox(false)}>
                     Cancel
                 </button>
-                <button className="confirmation-button" id='confirmation-button' >
+                <button className="confirmation-button" id='confirmation-button'>
                     Confirm
                 </button>
             </div>
         </div>
-        <div className="confirm-bg" onClick={() => handleConfirmationBox(true)}>
+        <div className="confirm-bg" id="categories-delete-bg" onClick={() => handleConfirmationBox(false)}>
         </div>
         <div className='btn options-buttons'>
-            <button className='btn btn-danger cancel-category' onClick={() => handleConfirmationBox(false)}><i className="bi bi-x-lg"></i></button>
+            <button className='btn btn-danger cancel-category' onClick={() => handleConfirmationBox(true)}><i className="bi bi-x-lg"></i></button>
             <button className={updateStyle} onClick={handleUpdateBackend}><i className="bi bi-check-lg"></i></button>
             {/* <OptionBtn category={categories} action={{ type: "delete", display: "Delete" }} actionFunction={props.actionFunction} className='btn btn-danger btn-sm form-control' />
             <OptionBtn category={categories} action={{ type: "edit", display: "Update" }} updateFunction={handleUpdateBackend} className={updateStyle} /> */}

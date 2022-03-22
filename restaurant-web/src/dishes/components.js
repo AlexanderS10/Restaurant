@@ -20,6 +20,7 @@ export function DishForm(props) {
         event.preventDefault()
         let formData = new FormData(event.target)
         let value = Object.fromEntries(formData.entries())
+        console.log(value)
         apiPostDish(value, handleDishAdded)
     }
     let handleDishAdded = (response, status) => {
@@ -64,6 +65,14 @@ export function DishForm(props) {
                     <h4>Create Dish</h4>
                 </div>
                 <form className="form" id="dish-form" onSubmit={handleSubmit}>
+                    <div className="row mb-3">
+                        <div className="col-sm-3">
+                            <h6>Price:</h6>
+                        </div>
+                        <div className="col-sm-9">
+                            <input className="form-control" placeholder="Price" type="number" name="price" required />
+                        </div>
+                    </div>
                     <div className="row mb-3">
                         <div className="col-sm-3">
                             <h6>Dish Name: </h6>
@@ -186,32 +195,74 @@ export function DishList(props) {
     }, [isSet, props.category_data])
 
     useEffect(() => {
-        console.log(props.newDish)
+        //console.log(props.newDish)
     }, [props.newDish])
-    let handleInputChange = () => {
 
-    }
     return (
-        <div className="card-body">
+        <div className="card-body container">
             <div className="card-title">
                 <h4>Dishes</h4>
             </div>
             <div >
                 {dishesInit.map((item) => {
                     return (
-                        <form key={item.id} className="form">
-                            <div className="input-wrapper row">
-                                <input defaultValue={item.dish_name} onChange={handleInputChange} className="form-control form-inputs" />
-                                <input defaultValue={item.description} onChange={handleInputChange} className="form-control form-inputs" />
-                                <select id="category-dropdown-list" className="form-control form-inputs"></select>
-                            </div>
-
-                        </form>
-
+                        <Dish key={item.id} dish={item} />
                     )
                 })}
             </div>
         </div>
+    )
+}
+function Dish(props) {
+    let item = props.dish
+    let [updateStyle, setUpdateStyle] = useState([])
+    let handleInputChange = () => {
+        setUpdateStyle('btn btn-primary ')
+    }
+    let handleDeleteDish = ()=>{
+        console.log("The dish is ready to be deleted")
+    }
+    let hadleConfirmationBox = (value, e) => {
+        e.preventDefault()
+        console.log(value, item.id)
+        let confirmation_btn = document.getElementById("delete-dish-btn")
+        if(value===true){
+            document.getElementById("delete-dish-bg").style.display = "flex"
+            document.getElementById("delete-dish-popup").style.display = "flex"
+            document.getElementById("delete-dish-text").innerHTML = `${item.dish_name}`
+        }
+        else if (value===false){
+            document.getElementById("delete-dish-bg").style.display = "none"
+            document.getElementById("delete-dish-popup").style.display = "none"
+        }
+    }
+    return (
+        <>
+            <div className="container-popup" id="delete-dish-popup">
+                <div className="confirmation-text">
+                    <p>Are you sure you want to delete <strong id="delete-dish-text"></strong>?</p>
+                </div>
+                <div className="button-container">
+                    <button className="cancel-button" id="cancel-delete-dish" onClick={(e) => hadleConfirmationBox(false, e)}>Cancel</button>
+                    <button className="confirmation-button" id="delete-dish-btn" onClick={handleDeleteDish}>Delete</button>
+                </div>
+            </div>
+            <div className="confirm-bg" id="delete-dish-bg" onClick={(e) => hadleConfirmationBox(false, e)}></div>
+            <form className="form" >
+                <div className="dish-form-wrapper row d-flex">
+                    <input defaultValue={item.price} onChange={handleInputChange} className="form-inputs col-lg-1" />
+                    <textarea defaultValue={item.dish_name} onChange={handleInputChange} className="form-inputs col-lg-3" />
+                    <textarea defaultValue={item.description} onChange={handleInputChange} className="form-inputs col-lg-4" />
+                    <select id="category-dropdown-list" className="form-inputs col-lg-2"></select>
+                    <div className="col-lg-1 dish-form-buttons">
+                        <button className="btn btn-danger" onClick={(e) => hadleConfirmationBox(true, e)}><i className="bi bi-x-lg"></i></button>
+                        <button className="btn btn-primary"><i className="bi bi-check-lg"></i></button>
+                    </div>
+                </div>
+
+            </form >
+        </>
+
     )
 }
 
@@ -227,7 +278,10 @@ function filterObjects(value) {
     filters.forEach(function (el) {//clear filter active from all the elements
         el.classList.remove('filter-active')
     })
-    document.querySelector('.filter-box.'.concat(value)).classList.add("filter-active")//add the filter active to the element selected
+    let selector = document.querySelector('.filter-box.'.concat(value))//add the filter active to the element selected
+    if (selector !== null) {
+        selector.classList.add("filter-active")
+    }
 }
 
 function addOrRemoveClasses(item, value) {

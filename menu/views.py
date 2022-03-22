@@ -119,7 +119,7 @@ def create_dish(request, *args, **kwargs):
     if serializer.is_valid():
         #serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response({"message":"Something went wrong, try again"},status=status.HTTP_400_BAD_REQUEST)
+    return Response({"message":"Something went wrong, check the information provided and try again"},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
