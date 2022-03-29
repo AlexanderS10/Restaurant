@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { apiGetCategories, apiPostCategories, apiDeleteCategory, apiPatchCategory } from "./backEndLookUp";
 import { toast } from "react-toastify";
 import { DishForm, DishList } from "../dishes";
-
+import { ConfirmContextProvider, ConfirmModal, useConfirm } from "../components";
 export function CategoriesList(props) {
     let [categories, setCategories] = useState([])//this creates and helps update the state
     let [catsAreSet, setCatsAreSet] = useState(false)
@@ -21,7 +21,7 @@ export function CategoriesList(props) {
                     alert(response)
                 }
             }
-            apiGetCategories(pullFunction)
+            apiGetCategories(pullFunction)       
         }
     }, [catsAreSet])
 
@@ -85,20 +85,19 @@ export function CategoriesList(props) {
         console.log("Category updated")
         setCategories(final)
     }
-    let theNewDish = null
     let addNewDish = (dish)=>{
         setNewDish(dish)
     }
     return (
+        <ConfirmContextProvider>
         <div className="container">
             <div className="row">
                 <div className="col-lg-6  ">
-                    <div className="col-md card card-body">
+                    <div className="col-md card card-body animate__animated animate__fadeInLeft">
                         <div className="card-title card-body">
                             <h4>Dish Categories</h4>
                         </div>
                         <div>
-                            {console.log("List called")}
                             {categories.map((item, index) => {
                                 return <Category category={item} key={item.id} actionFunction={handleDeleteFrontEnd} updateCategoryFunction={handleUpdateFrontEnd} />
                             })}
@@ -118,14 +117,15 @@ export function CategoriesList(props) {
                 </div>
             </div>
             <div className="row">
-                <div className="col-lg-12">
+                <div className="col-lg-12 animate__animated animate__fadeIn">
                     <div className="card container col-md mt-4">
-                        <DishList newDish={newDish} category_data={categories}/>
+                            <DishList newDish={newDish} category_data={categories}/>
                     </div>
-                    
                 </div>
             </div>
         </div>
+        <ConfirmModal/>
+        </ConfirmContextProvider>
     )
 }
 
@@ -134,6 +134,7 @@ export function CategoriesList(props) {
 */
 export function Category(props) {
     let { category } = props
+    let {isConfirmed} = useConfirm()
     //console.log("Category Called: ",category)
     let inputRef = React.createRef()
     let [updateStyle, setUpdateStyle] = useState('d-none')
@@ -193,8 +194,6 @@ export function Category(props) {
     }
     let handleDeleteClick = () => {
         let handleDeleteBackend = (response, status) => {
-            let deleteButton = document.getElementById('confirmation-button')
-            deleteButton.removeEventListener('click', handleDeleteClick)
             if (status === 202) {
                 props.actionFunction(response, status)
                 toast.success("Deleted Successfully",
@@ -228,43 +227,20 @@ export function Category(props) {
             }
         }
         apiDeleteCategory(category.id, handleDeleteBackend)
-        handleConfirmationBox(false)
     }
 
-    const handleConfirmationBox = (wasSet) => {
-        let deleteButton = document.getElementById('confirmation-button')
-        if (wasSet === true) {
-            document.getElementById("categories-delete-bg").style.display = "flex"
-            document.getElementById("categories-delete-popup").style.display = "flex"
-            deleteButton.addEventListener('click', handleDeleteClick)
-            document.getElementById("confirmation-text").innerHTML = `Do you really want to delete ${category.category_name}?`
-        }
-        else if (wasSet === false) {
-            document.getElementById("categories-delete-bg").style.display = "none"
-            document.getElementById("categories-delete-popup").style.display = "none"
-            deleteButton.removeEventListener('click', handleDeleteClick)
+    let handleDelete = async(id,category,e)=>{
+        e.preventDefault()
+        let confirmed = await isConfirmed(category)
+        console.log(confirmed)
+        if(confirmed){
+            handleDeleteClick()
         }
     }
     return <div className="mb-4 input-wrapper">
         <input id={category.category_name} defaultValue={category.category_name} onChange={handleInputChange} ref={inputRef} className="form-control" required />
-
-        <div className="container-popup" id="categories-delete-popup">
-            <div className="confirmation-text" id="confirmation-text">
-
-            </div>
-            <div className="button-container justify-content-center">
-                <button className="cancel-button" onClick={() => handleConfirmationBox(false)}>
-                    Cancel
-                </button>
-                <button className="confirmation-button" id='confirmation-button'>
-                    Confirm
-                </button>
-            </div>
-        </div>
-        <div className="confirm-bg" id="categories-delete-bg" onClick={() => handleConfirmationBox(false)}>
-        </div>
         <div className='btn options-buttons'>
-            <button className='btn btn-danger cancel-category' onClick={() => handleConfirmationBox(true)}><i className="bi bi-x-lg"></i></button>
+            <button className='btn btn-danger cancel-category' onClick={(e)=>handleDelete(category.id, category.category_name,e)}><i className="bi bi-x-lg"></i></button>
             <button className={updateStyle} onClick={handleUpdateBackend}><i className="bi bi-check-lg"></i></button>
             {/* <OptionBtn category={categories} action={{ type: "delete", display: "Delete" }} actionFunction={props.actionFunction} className='btn btn-danger btn-sm form-control' />
             <OptionBtn category={categories} action={{ type: "edit", display: "Update" }} updateFunction={handleUpdateBackend} className={updateStyle} /> */}

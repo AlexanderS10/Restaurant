@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { apiGetCategories } from "../categories/backEndLookUp";
 import { apiGetDishes, apiPostDish, apiDeleteDish, apiPatchDish } from "./backEndLookUp";
 import { toast } from "react-toastify";
+import { useConfirm } from "../components";
 
 export function DishForm(props) {
     let categories = props.category_data
@@ -25,7 +26,6 @@ export function DishForm(props) {
     }
     let handleDishAdded = (response, status) => {
         if (status === 201) {
-            console.log("The form was submitted successfully")
             let form = document.getElementById("dish-form")
             form.reset()//resets the entries in the form
             props.newDish(response)
@@ -106,6 +106,150 @@ export function DishForm(props) {
     )
 }
 
+export function DishList(props) {
+    let [isSet, setIsSet] = useState(false)
+    let [dishesInit, setDishesInit] = useState([])
+    useEffect(() => {//Pull the data from the API
+        if (isSet === false) {
+            let fetchDishes = (response, status) => {
+                if (status === 200) {
+                    setDishesInit(response)
+                    setIsSet(true)
+                }
+            }
+            apiGetDishes(fetchDishes)
+        }
+        
+    }, [isSet])
+
+    useEffect(() => {
+        let final = [...dishesInit].concat(props.newDish)
+        setDishesInit(final) 
+
+         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.newDish])
+  
+    let handleDeleteFrontEnd = (response) => {
+        let temp = [...dishesInit]
+        let final = temp.filter(function (e){
+            if(temp.length !== 0){
+                return e.id !== response.id
+            }
+            return e
+        })
+        setDishesInit(final)
+    }
+    return (
+        <div className="card-body container">
+            <div className="card-title">
+                <h4>Dishes</h4>
+            </div>
+            <div >
+                {dishesInit.map((item) => {
+                    return (
+                        <Dish key={item.id} dish={item} deleteFunction={handleDeleteFrontEnd} category_data={props.category_data}/>
+                    )
+                })}
+            </div>
+        </div>
+    )
+}
+/*
+DISHES ARE VIEWED HERE
+*/
+function Dish(props) {
+    let item = props.dish
+    let [updateStyle, setUpdateStyle] = useState(" d-none ")
+    let { isConfirmed } = useConfirm()
+    let handleInputChange = () => {
+        setUpdateStyle('btn btn-primary ')
+    }
+    let handleDelete = async (id, dish, e) => {
+        e.preventDefault()
+        let confirmed = await isConfirmed(dish)
+        if (confirmed) {
+            let deleteConfirmed = (response, status) => {
+                if (status === 202) {
+                    props.deleteFunction(response)
+                    toast.success("Deleted Successfully",
+                        {
+                            theme: "colored",
+                            closeButton: false,
+                            position: "top-center",
+                            autoClose: 3000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        }
+                    )
+                }
+                else{
+                    toast.error("There was an error!",
+                        {
+                            theme: "colored",
+                            closeButton: false,
+                            position: "top-center",
+                            autoClose: 3000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        }
+                    )
+                }
+            }
+            apiDeleteDish(id, deleteConfirmed)
+        }
+    }
+    
+    useEffect(()=>{//if the categories change then this will be refreshed
+        let select = document.getElementById(`dropdown-${item.id}`)
+        let data = [...props.category_data]
+        if(select){
+            data.forEach(function(element){
+                if(element.id === item.category){//if the element matches the category for the item then that will be the default selected
+                    select[select.options.length] = new Option(element.category_name, element.id,true,true)
+                }
+                else{
+                    select[select.options.length] = new Option(element.category_name, element.id,false,false)
+                }
+            })
+        }
+        return ()=>{
+            let select = document.getElementById(`dropdown-${item.id}`)
+            if(select){
+                select.innerHTML=""
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[props.category_data])
+
+    let handleUpdate = (e)=>{
+        e.preventDefault()
+        console.log("Dish is to be updated")
+    }
+
+    return (
+        <>
+            <form className="form">
+                <div className="dish-form-wrapper row d-flex">
+                    <input defaultValue={item.price} onChange={handleInputChange} className="form-inputs col-lg-1" />
+                    <textarea defaultValue={item.dish_name} onChange={handleInputChange} className="form-inputs col-lg-3" />
+                    <textarea defaultValue={item.description} onChange={handleInputChange} className="form-inputs col-lg-4" />
+                    <select id={`dropdown-${item.id}`} className="form-inputs col-lg-2 "></select>
+                    <div className="col-lg-1 dish-form-buttons">
+                        <button className="btn btn-danger" onClick={(e) => handleDelete(item.id, item.dish_name, e)}><i className="bi bi-x-lg"></i></button>
+                        <button className={updateStyle} onClick={(e)=>handleUpdate(e)}><i className="bi bi-check-lg"></i></button>
+                    </div>
+                </div>
+            </form >
+        </>
+    )
+}
+
 export function DishListView() {
     let [isSet, setIsSet] = useState(false)
     let [dishes, setDishes] = useState([])
@@ -132,7 +276,7 @@ export function DishListView() {
         }
     }, [isSet])
     return (
-        <div className="container dish-view-container">
+        <div className="container dish-view-container animate__animated animate__fadeInLeft">
             <div className="section-article d-flex justify-content-center">
                 <h2>Menu List</h2>
             </div>
@@ -166,103 +310,6 @@ export function DishListView() {
                 })}
             </div>
         </div>
-    )
-}
-
-export function DishList(props) {
-    let [isSet, setIsSet] = useState(false)
-    let [dishesInit, setDishesInit] = useState([])
-    useEffect(() => {
-        if (isSet === false) {
-            let fetchDishes = (response, status) => {
-                if (status === 200) {
-                    setDishesInit(response)
-                    setIsSet(true)
-                }
-            }
-            apiGetDishes(fetchDishes)
-        }
-        let list = document.querySelectorAll('#category-dropdown-list')
-        list.forEach(function (el) {
-            for (let cat in props.category_data) {
-                let category = props.category_data[cat]
-                el.options[cat] = new Option(category.category_name, category.id)
-            }
-        })
-        return () => {
-            document.getElementById('category-dropdown-list').innerHTML = "" //cleanup the select options on unmount
-        }
-    }, [isSet, props.category_data])
-
-    useEffect(() => {
-        //console.log(props.newDish)
-    }, [props.newDish])
-
-    return (
-        <div className="card-body container">
-            <div className="card-title">
-                <h4>Dishes</h4>
-            </div>
-            <div >
-                {dishesInit.map((item) => {
-                    return (
-                        <Dish key={item.id} dish={item} />
-                    )
-                })}
-            </div>
-        </div>
-    )
-}
-function Dish(props) {
-    let item = props.dish
-    let [updateStyle, setUpdateStyle] = useState([])
-    let handleInputChange = () => {
-        setUpdateStyle('btn btn-primary ')
-    }
-    let handleDeleteDish = ()=>{
-        console.log("The dish is ready to be deleted")
-    }
-    let hadleConfirmationBox = (value, e) => {
-        e.preventDefault()
-        console.log(value, item.id)
-        let confirmation_btn = document.getElementById("delete-dish-btn")
-        if(value===true){
-            document.getElementById("delete-dish-bg").style.display = "flex"
-            document.getElementById("delete-dish-popup").style.display = "flex"
-            document.getElementById("delete-dish-text").innerHTML = `${item.dish_name}`
-        }
-        else if (value===false){
-            document.getElementById("delete-dish-bg").style.display = "none"
-            document.getElementById("delete-dish-popup").style.display = "none"
-        }
-    }
-    return (
-        <>
-            <div className="container-popup" id="delete-dish-popup">
-                <div className="confirmation-text">
-                    <p>Are you sure you want to delete <strong id="delete-dish-text"></strong>?</p>
-                </div>
-                <div className="button-container">
-                    <button className="cancel-button" id="cancel-delete-dish" onClick={(e) => hadleConfirmationBox(false, e)}>Cancel</button>
-                    <button className="confirmation-button" id="delete-dish-btn" onClick={handleDeleteDish}>Delete</button>
-                </div>
-            </div>
-            <div className="confirm-bg" id="delete-dish-bg" onClick={(e) => hadleConfirmationBox(false, e)}></div>
-            <form className="form" >
-                <div className="dish-form-wrapper row d-flex">
-                    <input defaultValue={item.price} onChange={handleInputChange} className="form-inputs col-lg-1" />
-                    <textarea defaultValue={item.dish_name} onChange={handleInputChange} className="form-inputs col-lg-3" />
-                    <textarea defaultValue={item.description} onChange={handleInputChange} className="form-inputs col-lg-4" />
-                    <select id="category-dropdown-list" className="form-inputs col-lg-2"></select>
-                    <div className="col-lg-1 dish-form-buttons">
-                        <button className="btn btn-danger" onClick={(e) => hadleConfirmationBox(true, e)}><i className="bi bi-x-lg"></i></button>
-                        <button className="btn btn-primary"><i className="bi bi-check-lg"></i></button>
-                    </div>
-                </div>
-
-            </form >
-        </>
-
     )
 }
 

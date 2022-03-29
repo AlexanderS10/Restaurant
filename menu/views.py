@@ -42,8 +42,9 @@ class DishDetail(APIView):
     @permission_classes([IsAuthenticated])
     def delete(self, request, dish_id, *args, **kwargs):
         dish = self.get_dish(dish_id)
-        dish.delete()
-        return Response({"message":"Dish has been deleted"},status=status.HTTP_204_NO_CONTENT)
+        serializer = DishSerializer(dish)
+        #dish.delete()
+        return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
     @permission_classes([IsAuthenticated])
     def post(self, request, *args, **kwargs):
         serializer = DishSerializer(data=request.data)
@@ -92,7 +93,7 @@ class DishCategory(APIView):
         if qs.exists():
             return Response({"message":"Category does not exists or some dishes contain this category"}, status = status.HTTP_400_BAD_REQUEST)
         print(serializer.data)
-        category.delete()
+        #category.delete()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         
     @permission_classes([IsAuthenticated])

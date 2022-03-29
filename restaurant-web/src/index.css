@@ -256,7 +256,7 @@ DISHES STYLES
 
 .confirm-bg-2 {
   position: fixed;
-  
+  display: none;
   left: 0;
   top: 0;
   width: 100%;
@@ -268,7 +268,7 @@ DISHES STYLES
     the confirm box*/
 }
 .container-popup-2 {
-  display: flex;
+  display: none;
   justify-content: center;
   flex-direction: column;
   position: fixed;
