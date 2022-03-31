@@ -43,7 +43,7 @@ class DishDetail(APIView):
     def delete(self, request, dish_id, *args, **kwargs):
         dish = self.get_dish(dish_id)
         serializer = DishSerializer(dish)
-        #dish.delete()
+        dish.delete()
         return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
     @permission_classes([IsAuthenticated])
     def post(self, request, *args, **kwargs):
@@ -58,7 +58,7 @@ class DishDetail(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message":"This name is too long or already exists!"}, status=status.HTTP_400_BAD_REQUEST)
 #
 #Since there are not many admins generally speaking the validation will be handled in the backend while for data that needs
 #to be accessed by the users which are undefined will be handled by the front end as well as the backend
@@ -93,7 +93,7 @@ class DishCategory(APIView):
         if qs.exists():
             return Response({"message":"Category does not exists or some dishes contain this category"}, status = status.HTTP_400_BAD_REQUEST)
         print(serializer.data)
-        #category.delete()
+        category.delete()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         
     @permission_classes([IsAuthenticated])
@@ -118,7 +118,7 @@ def create_dish(request, *args, **kwargs):
     print(request.data)
     serializer = DishSerializer(data = request.data)
     if serializer.is_valid():
-        #serializer.save()
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response({"message":"Something went wrong, check the information provided and try again"},status=status.HTTP_400_BAD_REQUEST)
 

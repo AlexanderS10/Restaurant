@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useConfirm } from "../components";
 
 export function DishForm(props) {
+    console.log("Form called")
     let categories = props.category_data
     useEffect(() => {//runs on component did mount
         let list = document.getElementById('category-dropdown')
@@ -21,7 +22,6 @@ export function DishForm(props) {
         event.preventDefault()
         let formData = new FormData(event.target)
         let value = Object.fromEntries(formData.entries())
-        console.log(value)
         apiPostDish(value, handleDishAdded)
     }
     let handleDishAdded = (response, status) => {
@@ -31,28 +31,14 @@ export function DishForm(props) {
             props.newDish(response)
             toast.success("Dish Created Successfully",
                 {
-                    theme: "colored",
-                    closeButton: false,
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
+                    theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                     progress: undefined,
                 }
             )
         } else {
             toast.error(response.message,
                 {
-                    theme: "colored",
-                    closeButton: false,
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
+                    theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                     progress: undefined,
                 }
             )
@@ -119,20 +105,19 @@ export function DishList(props) {
             }
             apiGetDishes(fetchDishes)
         }
-        
     }, [isSet])
 
     useEffect(() => {
         let final = [...dishesInit].concat(props.newDish)
-        setDishesInit(final) 
+        setDishesInit(final)
 
-         // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.newDish])
-  
+
     let handleDeleteFrontEnd = (response) => {
         let temp = [...dishesInit]
-        let final = temp.filter(function (e){
-            if(temp.length !== 0){
+        let final = temp.filter(function (e) {
+            if (temp.length !== 0) {
                 return e.id !== response.id
             }
             return e
@@ -147,7 +132,7 @@ export function DishList(props) {
             <div >
                 {dishesInit.map((item) => {
                     return (
-                        <Dish key={item.id} dish={item} deleteFunction={handleDeleteFrontEnd} category_data={props.category_data}/>
+                        <Dish key={item.id} dish={item} deleteFunction={handleDeleteFrontEnd} category_data={props.category_data} />
                     )
                 })}
             </div>
@@ -173,29 +158,15 @@ function Dish(props) {
                     props.deleteFunction(response)
                     toast.success("Deleted Successfully",
                         {
-                            theme: "colored",
-                            closeButton: false,
-                            position: "top-center",
-                            autoClose: 3000,
-                            hideProgressBar: true,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
+                            theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                             progress: undefined,
                         }
                     )
                 }
-                else{
+                else {
                     toast.error("There was an error!",
                         {
-                            theme: "colored",
-                            closeButton: false,
-                            position: "top-center",
-                            autoClose: 3000,
-                            hideProgressBar: true,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
+                            theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                             progress: undefined,
                         }
                     )
@@ -204,45 +175,70 @@ function Dish(props) {
             apiDeleteDish(id, deleteConfirmed)
         }
     }
-    
-    useEffect(()=>{//if the categories change then this will be refreshed
+
+    useEffect(() => {//if the categories change then this will be refreshed
         let select = document.getElementById(`dropdown-${item.id}`)
         let data = [...props.category_data]
-        if(select){
-            data.forEach(function(element){
-                if(element.id === item.category){//if the element matches the category for the item then that will be the default selected
-                    select[select.options.length] = new Option(element.category_name, element.id,true,true)
+        if (select) {//although this will not scale well the more dishes are added the truth is that this should not host a lot of dishes as this is built for small restaurants in mind 
+            data.forEach(function (element) {
+                if (element.id === item.category) {//if the element matches the category for the item then that will be the default selected
+                    select[select.options.length] = new Option(element.category_name, element.id, true, true)
                 }
-                else{
-                    select[select.options.length] = new Option(element.category_name, element.id,false,false)
+                else {
+                    select[select.options.length] = new Option(element.category_name, element.id, false, false)
                 }
             })
         }
-        return ()=>{
+        return () => {
             let select = document.getElementById(`dropdown-${item.id}`)
-            if(select){
-                select.innerHTML=""
+            if (select) {
+                select.innerHTML = ""
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[props.category_data])
+    }, [props.category_data])
 
-    let handleUpdate = (e)=>{
-        e.preventDefault()
-        console.log("Dish is to be updated")
+    let handleUpdate = (event) => {
+        event.preventDefault()
+        let form = document.getElementById(`form-dish-${item.id}`)
+        let formValues = new FormData(event.target)
+        let data = Object.fromEntries(formValues.entries())
+
+        let handleUpdateBackend = (response, status) => {
+            console.log(response)
+            if (status === 202) {
+                toast.success("Dish Updated Successfully",
+                    {
+                        theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                        progress: undefined,
+                    }
+                )
+            }
+            else{
+                toast.error(response.message,
+                {
+                    theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                    progress: undefined,
+                }
+            )
+            }
+
+        }
+        apiPatchDish(item.id, handleUpdateBackend, data)
+        setUpdateStyle("d-none")
     }
 
     return (
         <>
-            <form className="form">
+            <form className="form" id={`form-dish-${item.id}`} onSubmit={(e) => handleUpdate(e)}>
                 <div className="dish-form-wrapper row d-flex">
-                    <input defaultValue={item.price} onChange={handleInputChange} className="form-inputs col-lg-1" />
-                    <textarea defaultValue={item.dish_name} onChange={handleInputChange} className="form-inputs col-lg-3" />
-                    <textarea defaultValue={item.description} onChange={handleInputChange} className="form-inputs col-lg-4" />
-                    <select id={`dropdown-${item.id}`} className="form-inputs col-lg-2 "></select>
+                    <input defaultValue={item.price} onChange={handleInputChange} className="form-inputs col-lg-1" name="price" required />
+                    <textarea defaultValue={item.dish_name} onChange={handleInputChange} className="form-inputs col-lg-3" name="dish_name" required />
+                    <textarea defaultValue={item.description} onChange={handleInputChange} className="form-inputs col-lg-4" name="description" required />
+                    <select id={`dropdown-${item.id}`} className="form-inputs col-lg-2 " onChange={handleInputChange} name="category"></select>
                     <div className="col-lg-1 dish-form-buttons">
                         <button className="btn btn-danger" onClick={(e) => handleDelete(item.id, item.dish_name, e)}><i className="bi bi-x-lg"></i></button>
-                        <button className={updateStyle} onClick={(e)=>handleUpdate(e)}><i className="bi bi-check-lg"></i></button>
+                        <button className={updateStyle} type="submit"><i className="bi bi-check-lg"></i></button>
                     </div>
                 </div>
             </form >
@@ -250,7 +246,7 @@ function Dish(props) {
     )
 }
 
-export function DishListView() {
+export function DishListView() {//This will display the menu how a customer will see it 
     let [isSet, setIsSet] = useState(false)
     let [dishes, setDishes] = useState([])
     let [categories, setCategories] = useState([])

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { DishForm, DishList } from "../dishes";
 import { ConfirmContextProvider, ConfirmModal, useConfirm } from "../components";
 export function CategoriesList(props) {
+    console.log("Category list called")
     let [categories, setCategories] = useState([])//this creates and helps update the state
     let [catsAreSet, setCatsAreSet] = useState(false)
     let [newDish, setNewDish] = useState([])
@@ -21,7 +22,7 @@ export function CategoriesList(props) {
                     alert(response)
                 }
             }
-            apiGetCategories(pullFunction)       
+            apiGetCategories(pullFunction)
         }
     }, [catsAreSet])
 
@@ -39,28 +40,14 @@ export function CategoriesList(props) {
             setCategories(final)
             toast.success("Added Successfully",
                 {
-                    theme: "colored",
-                    closeButton: false,
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
+                    theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                     progress: undefined,
                 }
             )
         } else {
             toast.error(response.message,
                 {
-                    theme: "colored",
-                    closeButton: false,
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
+                    theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                     progress: undefined,
                 }
             )
@@ -85,46 +72,46 @@ export function CategoriesList(props) {
         console.log("Category updated")
         setCategories(final)
     }
-    let addNewDish = (dish)=>{
+    let addNewDish = (dish) => {
         setNewDish(dish)
     }
     return (
         <ConfirmContextProvider>
-        <div className="container">
-            <div className="row">
-                <div className="col-lg-6  ">
-                    <div className="col-md card card-body animate__animated animate__fadeInLeft">
-                        <div className="card-title card-body">
-                            <h4>Dish Categories</h4>
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-6  ">
+                        <div className="col-md card card-body animate__animated animate__fadeInLeft">
+                            <div className="card-title card-body">
+                                <h4>Dish Categories</h4>
+                            </div>
+                            <div>
+                                {categories.map((item, index) => {
+                                    return <Category category={item} key={item.id} actionFunction={handleDeleteFrontEnd} updateCategoryFunction={handleUpdateFrontEnd} />
+                                })}
+                            </div>
+                            <div>
+                                <form onSubmit={handleSubmit} className="input-wrapper">
+                                    <input ref={inputRef} className="form-control " required />
+                                    <button type="submit" className="btn btn-primary add-category">Create Category</button>
+                                </form>
+                            </div>
                         </div>
-                        <div>
-                            {categories.map((item, index) => {
-                                return <Category category={item} key={item.id} actionFunction={handleDeleteFrontEnd} updateCategoryFunction={handleUpdateFrontEnd} />
-                            })}
-                        </div>
-                        <div>
-                            <form onSubmit={handleSubmit} className="input-wrapper">
-                                <input ref={inputRef} className="form-control " required />
-                                <button type="submit" className="btn btn-primary add-category">Create Category</button>
-                            </form>
+                    </div>
+                    <div className="col-lg-6 animate__animated animate__fadeInRight dish-create-container">
+                        <div className="card col-md">
+                            <DishForm className="" category_data={categories} newDish={addNewDish} />
                         </div>
                     </div>
                 </div>
-                <div className="col-lg-6 animate__animated animate__fadeInRight dish-create-container">
-                    <div className="card col-md">
-                        <DishForm className="" category_data={categories} newDish={addNewDish} />
+                <div className="row">
+                    <div className="col-lg-12 animate__animated animate__fadeIn">
+                        <div className="card container col-md mt-4">
+                            <DishList newDish={newDish} category_data={categories} />
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="row">
-                <div className="col-lg-12 animate__animated animate__fadeIn">
-                    <div className="card container col-md mt-4">
-                            <DishList newDish={newDish} category_data={categories}/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <ConfirmModal/>
+            <ConfirmModal />
         </ConfirmContextProvider>
     )
 }
@@ -134,7 +121,7 @@ export function CategoriesList(props) {
 */
 export function Category(props) {
     let { category } = props
-    let {isConfirmed} = useConfirm()
+    let { isConfirmed } = useConfirm()
     //console.log("Category Called: ",category)
     let inputRef = React.createRef()
     let [updateStyle, setUpdateStyle] = useState('d-none')
@@ -146,14 +133,7 @@ export function Category(props) {
         let currentValue = inputRef.current.value
         if (currentValue === "") {
             toast.error("Cannot submit empty values", {
-                theme: "colored",
-                closeButton: false,
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
+                theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                 progress: undefined,
             })
         }
@@ -163,27 +143,13 @@ export function Category(props) {
                     //setCategory(response)
                     props.updateCategoryFunction(response)
                     toast.success("Updated Successfully", {
-                        theme: "colored",
-                        closeButton: false,
-                        position: "top-center",
-                        autoClose: 3000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
+                        theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                         progress: undefined,
                     })
                 }
                 else {
                     toast.error(response.message, {
-                        theme: "colored",
-                        closeButton: false,
-                        position: "top-center",
-                        autoClose: 3000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
+                        theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                         progress: undefined,
                     })
                 }
@@ -198,14 +164,7 @@ export function Category(props) {
                 props.actionFunction(response, status)
                 toast.success("Deleted Successfully",
                     {
-                        theme: "colored",
-                        closeButton: false,
-                        position: "top-center",
-                        autoClose: 3000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
+                        theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                         progress: undefined,
                     }
                 )
@@ -213,14 +172,7 @@ export function Category(props) {
             else {
                 toast.error(response.message,
                     {
-                        theme: "colored",
-                        closeButton: false,
-                        position: "top-center",
-                        autoClose: 3000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
+                        theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                         progress: undefined,
                     }
                 )
@@ -229,18 +181,18 @@ export function Category(props) {
         apiDeleteCategory(category.id, handleDeleteBackend)
     }
 
-    let handleDelete = async(id,category,e)=>{
+    let handleDelete = async (id, category, e) => {
         e.preventDefault()
         let confirmed = await isConfirmed(category)
         console.log(confirmed)
-        if(confirmed){
+        if (confirmed) {
             handleDeleteClick()
         }
     }
     return <div className="mb-4 input-wrapper">
         <input id={category.category_name} defaultValue={category.category_name} onChange={handleInputChange} ref={inputRef} className="form-control" required />
         <div className='btn options-buttons'>
-            <button className='btn btn-danger cancel-category' onClick={(e)=>handleDelete(category.id, category.category_name,e)}><i className="bi bi-x-lg"></i></button>
+            <button className='btn btn-danger cancel-category' onClick={(e) => handleDelete(category.id, category.category_name, e)}><i className="bi bi-x-lg"></i></button>
             <button className={updateStyle} onClick={handleUpdateBackend}><i className="bi bi-check-lg"></i></button>
             {/* <OptionBtn category={categories} action={{ type: "delete", display: "Delete" }} actionFunction={props.actionFunction} className='btn btn-danger btn-sm form-control' />
             <OptionBtn category={categories} action={{ type: "edit", display: "Update" }} updateFunction={handleUpdateBackend} className={updateStyle} /> */}

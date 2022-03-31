@@ -11,7 +11,7 @@ export function apiDeleteDish(dish_id, callback){
   lookup("DELETE",`dishes/${dish_id}`,callback);
 }
 
-export function apiPatchDish(dish_id, callback, dish_name){
+export function apiPatchDish(dish_id, callback, dish){
   
-  lookup("PATCH", `dishes/${dish_id}/`, callback, {dish_name:dish_name})
+  lookup("PATCH", `dishes/${dish_id}/`, callback, dish)
 }
