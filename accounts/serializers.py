@@ -6,5 +6,9 @@ from rest_framework import serializers
 class userSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['email', 'first_name', 'last_name', 'phone_number', 'date_joined']
+        fields = ['id','email', 'first_name', 'last_name', 'phone_number']
         
+class userDetailedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = '__all__'

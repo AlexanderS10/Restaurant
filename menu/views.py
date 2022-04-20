@@ -45,13 +45,6 @@ class DishDetail(APIView):
         serializer = DishSerializer(dish)
         dish.delete()
         return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
-    @permission_classes([IsAuthenticated])
-    def post(self, request, *args, **kwargs):
-        serializer = DishSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
     def patch(self,request,dish_id,*args, **kwargs):
         dish = Dish.objects.get(id = dish_id)
         serializer = DishSerializer(instance=dish, data = request.data)
@@ -76,14 +69,6 @@ class DishCategory(APIView):
         category = self.get_category(id)
         serializer = DishCategorySerializer(category)
         return Response(serializer.data)
-    
-    @permission_classes([IsAuthenticated])
-    def post(self, request, *args, **kwargs):
-        serializer = DishCategorySerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
     @permission_classes([IsAuthenticated])
     def delete(self, request, id, *args, **kwargs):

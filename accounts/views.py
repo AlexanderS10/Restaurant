@@ -1,4 +1,7 @@
-from rest_framework import response
+from rest_framework.decorators import api_view
+from rest_framework import generics
+from rest_framework import filters
+from .serializers import *
 from restaurant.settings import ALLOWED_HOSTS
 from django.core.checks import messages
 from django.shortcuts import render, redirect
@@ -69,3 +72,12 @@ def handler404(request,exception):
     return render(request,'pages/404.html',status=404)
 def handler404_view(request):
     return render(request,'pages/404.html',status=404)
+
+@api_view(['GET'])
+def search_users_view(request):
+    return 
+class SearchUsersAPIView(generics.ListCreateAPIView):
+    search_fields = ['email', 'first_name', 'last_name', 'phone_number']
+    filter_backends = (filters.SearchFilter,)
+    queryset = CustomUser.objects.all()
+    serializer_class = userSerializer
