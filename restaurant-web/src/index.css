@@ -188,7 +188,9 @@ DISHES STYLES
 }
 
 /*DIsh list view*/
-#dish-list-view-widget{
+.dish-view-container{
+  width: 100% !important;
+
   padding-top: 2em;
   padding-bottom: 2em;
   background-color: #FBD38B;

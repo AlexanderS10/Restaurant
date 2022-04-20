@@ -200,7 +200,6 @@ function Dish(props) {
 
     let handleUpdate = (event) => {
         event.preventDefault()
-        let form = document.getElementById(`form-dish-${item.id}`)
         let formValues = new FormData(event.target)
         let data = Object.fromEntries(formValues.entries())
 
