@@ -1,4 +1,5 @@
-import { lookup} from "./components";
+import { lookup, searchlookup} from "./components";
 export {
-    lookup
+    lookup,
+    searchlookup
 }

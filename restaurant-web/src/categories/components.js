@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from 'react';
 import { apiGetCategories, apiPostCategories, apiDeleteCategory, apiPatchCategory } from "./backEndLookUp";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from 'react-toastify';
 import { DishForm, DishList } from "../dishes";
 import { ConfirmContextProvider, ConfirmModal, useConfirm } from "../components";
 export function CategoriesList(props) {
@@ -112,6 +112,7 @@ export function CategoriesList(props) {
                 </div>
             </div>
             <ConfirmModal />
+            <ToastContainer />
         </ConfirmContextProvider>
     )
 }

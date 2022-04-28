@@ -271,7 +271,7 @@ export function DishListView() {//This will display the menu how a customer will
         }
     }, [isSet])
     return (
-        <div className="container dish-view-container animate__animated animate__fadeInLeft">
+        <div className="dish-view-container animate__animated animate__fadeInLeft">
             <div className="section-article d-flex justify-content-center">
                 <h2>Menu List</h2>
             </div>

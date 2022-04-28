@@ -1,12 +1,18 @@
+from urllib import request
+from django.db import reset_queries
 from rest_framework.decorators import api_view
-from rest_framework import generics
-from rest_framework import filters
+from rest_framework import generics,filters,status
+from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
+from accounts.decorators import admin_only
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 from .serializers import *
 from restaurant.settings import ALLOWED_HOSTS
 from django.core.checks import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-
+import restaurant
 # Create your views here.
 from .forms import *
 from .models import *
@@ -75,9 +81,22 @@ def handler404_view(request):
 
 @api_view(['GET'])
 def search_users_view(request):
-    return 
-class SearchUsersAPIView(generics.ListCreateAPIView):
+    print(request.user)
+    return Response({"message":"Action Denied"}, status = status.HTTP_200_OK)
+class SearchUsersAPIView(generics.ListAPIView): #generics provides with a get handler
     search_fields = ['email', 'first_name', 'last_name', 'phone_number']
     filter_backends = (filters.SearchFilter,)
     queryset = CustomUser.objects.all()
+    authentication_classes = [restaurant.rest_api.dev.DevAuthentication]
+    permission_classes=[IsAuthenticated]
     serializer_class = userSerializer
+    def dispatch(self,request, *args, **kwargs):
+        self.request = request
+        print(self.request.user)
+        if request.user.is_anonymous or request.user.is_user_superuser()==False: #since the decorator did not work I will check if the user has access to the api as admin
+            response = Response({"message":"Action Denied"}, status = status.HTTP_400_BAD_REQUEST)
+            response.accepted_renderer = JSONRenderer()
+            response.accepted_media_type = "application/json"
+            response.renderer_context = {}
+            return response
+        return super().dispatch(request,*args, **kwargs)

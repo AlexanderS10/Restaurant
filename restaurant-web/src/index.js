@@ -15,10 +15,13 @@ import reportWebVitals from './reportWebVitals';
 import {CategoriesList} from './categories'
 // import { ToastContainer } from "react-toastify";
 import {DishListView} from "./dishes"
+import {UsersSearch} from "./users"
 
 // let calendarWidget = document.getElementById("calendar-widget");
 // let weatherWidget = document.getElementById("weather-widget");
 let categoriesListWidget = document.getElementById("categories-list")
+let searchWidget = document.getElementById("user-search")
+let menuWidget = document.getElementById("menu-view")
 // let messagesWidget = document.getElementById("messages-component")
 // let dishListViewWidget = document.getElementById("dish-list-view-widget")
 
@@ -42,11 +45,25 @@ render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<CategoriesList />} />
-      <Route path="menu" element={<DishListView />} />
-      
     </Routes>
   </BrowserRouter>,
   categoriesListWidget
+);
+render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="menu" element={<DishListView />} />
+    </Routes>
+  </BrowserRouter>,
+  menuWidget
+);
+render(
+  <BrowserRouter>
+    <Routes>
+      <Route path='users' element={<UsersSearch/>}/>
+    </Routes>
+  </BrowserRouter>,
+  searchWidget
 );
 
 // If you want to start measuring performance in your app, pass a function

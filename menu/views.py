@@ -1,5 +1,4 @@
 from datetime import datetime
-from re import S
 from django.contrib.auth.decorators import login_required
 from django.http.response import Http404, JsonResponse
 from django.shortcuts import render
@@ -39,13 +38,19 @@ class DishDetail(APIView):
         dish = self.get_dish(dish_id)
         serializer = DishSerializer(dish)
         return Response(serializer.data)
+    
     @permission_classes([IsAuthenticated])
     def delete(self, request, dish_id, *args, **kwargs):
+        if self.check_admin(request)==False:
+            return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
         dish = self.get_dish(dish_id)
         serializer = DishSerializer(dish)
         dish.delete()
         return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
+    @permission_classes([IsAuthenticated])
     def patch(self,request,dish_id,*args, **kwargs):
+        if self.check_admin(request)==False:
+            return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
         dish = Dish.objects.get(id = dish_id)
         serializer = DishSerializer(instance=dish, data = request.data)
         if serializer.is_valid():
@@ -64,14 +69,19 @@ class DishCategory(APIView):
             return Dish_Category.objects.get(id=id)
         except:
             raise Http404
-    @permission_classes([IsAuthenticated])
+    def check_admin(self,request):
+        if request.user.is_user_superuser():
+            return True
+        else:
+            return False
     def get(self,request,id,*args, **kwargs):
         category = self.get_category(id)
         serializer = DishCategorySerializer(category)
         return Response(serializer.data)
-    
     @permission_classes([IsAuthenticated])
     def delete(self, request, id, *args, **kwargs):
+        if self.check_admin(request)==False:
+            return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
         category = self.get_category(id)
         serializer = DishCategorySerializer(category)
         qs = Dish.objects.filter(category=category)#A category cannot be deleted if dishes contain such category
@@ -80,9 +90,10 @@ class DishCategory(APIView):
         print(serializer.data)
         category.delete()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-        
     @permission_classes([IsAuthenticated])
     def patch(self, request, id , *args, **kwargs):
+        if self.check_admin(request)==False:
+            return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
         category = self.get_category(id)
         serializer = DishCategorySerializer(instance=category, data=request.data)
         if serializer.is_valid():
@@ -92,6 +103,9 @@ class DishCategory(APIView):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_category(request, *args, **kwargs):
+    print(request.user)
+    if request.user.is_user_superuser()==False:
+        return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
     serializer = DishCategorySerializer(data = request.data)
     if serializer.is_valid():
         serializer.save()
@@ -100,7 +114,8 @@ def create_category(request, *args, **kwargs):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_dish(request, *args, **kwargs):
-    print(request.data)
+    if request.user.is_user_superuser()==False:
+        return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
     serializer = DishSerializer(data = request.data)
     if serializer.is_valid():
         serializer.save()

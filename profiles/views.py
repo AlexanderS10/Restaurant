@@ -13,7 +13,6 @@ from django.contrib.auth.decorators import login_required
 from django.middleware.csrf import get_token
 from django.contrib.auth.forms import PasswordChangeForm
 from accounts.decorators import admin_only
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -115,6 +114,7 @@ def staff_view(request):
 #
 #ADMIN VIEW
 #
+@admin_only
 def admin_view(request):
     current_user = request.user
     if current_user.is_authenticated:
