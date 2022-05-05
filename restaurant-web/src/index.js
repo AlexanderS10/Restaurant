@@ -1,6 +1,7 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 import './index.css';
+import './styles/user-search.css'
 import { render } from "react-dom";
 import {
   BrowserRouter,
@@ -10,20 +11,20 @@ import {
 import './styles/messages-component.css'
 import 'react-toastify/dist/ReactToastify.css';
 import reportWebVitals from './reportWebVitals';
-// import {CalendarComponent} from './customer/calendar'
-// import {WeatherWidget} from './customer/weatherWidget'
+//import {CalendarComponent} from './customer/calendar'
+//import {WeatherWidget} from './customer/weatherWidget'
 import {CategoriesList} from './categories'
-// import { ToastContainer } from "react-toastify";
+//import { ToastContainer } from "react-toastify";
 import {DishListView} from "./dishes"
 import {UsersSearch} from "./users"
 
-// let calendarWidget = document.getElementById("calendar-widget");
-// let weatherWidget = document.getElementById("weather-widget");
+//let calendarWidget = document.getElementById("calendar-widget");
+//let weatherWidget = document.getElementById("weather-widget");
 let categoriesListWidget = document.getElementById("categories-list")
 let searchWidget = document.getElementById("user-search")
 let menuWidget = document.getElementById("menu-view")
-// let messagesWidget = document.getElementById("messages-component")
-// let dishListViewWidget = document.getElementById("dish-list-view-widget")
+//let messagesWidget = document.getElementById("messages-component")
+//let dishListViewWidget = document.getElementById("dish-list-view-widget")
 
 // if (calendarWidget){
 //   ReactDOM.render(<CalendarComponent/>,document.getElementById('calendar-widget'));
@@ -40,6 +41,12 @@ let menuWidget = document.getElementById("menu-view")
 // }
 // if(dishListViewWidget){
 //   ReactDOM.render(<DishListView/>,dishListViewWidget)
+// }
+// if(menuWidget){
+//   reactDom.render(<DishListView/>,menuWidget)
+// }
+// if(searchWidget){
+//   reactDom.render(<UsersSearch/>, searchWidget)
 // }
 render(
   <BrowserRouter>

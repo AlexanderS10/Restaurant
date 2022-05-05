@@ -285,7 +285,7 @@ export function DishListView() {//This will display the menu how a customer will
                     </ul>
                 </div>
             </div>
-            <div className="row menu-container container ">
+            <div className="row menu-container">
                 {dishes.map((item) => {
                     let category_class_index = categories.findIndex(x => x.id === item.category)
                     if (category_class_index !== -1) {//if the index is not undefined print the dishes

@@ -14,12 +14,11 @@ export function CategoriesList(props) {
         if (catsAreSet === false) {//This avoids an infinite loop in the useEffect Hook by only allowing the component to be mounted once at initial render
             let pullFunction = (response, status) => {
                 if (status === 200) {
-                    console.log("Initial category set")
                     setCategories(response)
                     setCatsAreSet(true)
                 }
                 else {
-                    alert(response)
+                    alert("There was a server error")
                 }
             }
             apiGetCategories(pullFunction)

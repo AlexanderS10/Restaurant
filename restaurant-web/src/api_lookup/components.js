@@ -59,6 +59,5 @@ export function searchlookup(method, endpoint, callback, data) {//This time I wi
   )
   fetch((request))
     .then(response => response.json().then(data => callback(response,data)))
-    .catch((error) => callback(400,{"message":"An error has occurred while fetching the data"}))
-    
+    .catch((error) => callback(400,{"message":"An error has occurred while fetching the data"})) 
 }

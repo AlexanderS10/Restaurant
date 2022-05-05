@@ -21,7 +21,6 @@
                 s = (n(14), n(2)),
                 l = n(8),
                 o = n(0);
-
             function j() {
                 var e = Object(s.utils)().getToday(),
                     t = Object(a.useState)(e),
