@@ -4,7 +4,12 @@ import { searchlookup, lookup } from "../api_lookup";
 import { ToastContainer, toast } from 'react-toastify';
 export function UsersSearch() {
     let [users, setUsers] = useState([])
+    let [prevStyle, setPrevStyle]= useState("btn btn-primary disabled")
+    let [nextStyle, setNextStyle]= useState("btn btn-primary")
+    let [fetched, setFetched] = useState()
+
     useEffect(() => {
+        console.log("Call component")
         let searchusers = (response, data) => {
             if (response.status === 400) {
                 toast.error(data.message,
@@ -16,12 +21,20 @@ export function UsersSearch() {
             }
             else {
                 setUsers(data.results)
-                console.log(data.results)
+                setFetched(data)
+                console.log(data)
+                if(data.next === null){
+                    setNextStyle("btn btn-primary disabled")
+                    
+                } 
             }
         }
         searchlookup("GET", "users/", searchusers)
         //lookup("GET","users/",searchusers)
     }, [])
+    let NavigatePagination = (value)=>{
+        
+    }
     return (
         <div className="user-search-container">
             <div className="container search-container">
@@ -51,20 +64,28 @@ export function UsersSearch() {
                         </thead>
                         <tbody>
                             {users.map((users, index) => {
+                                let date = new Date(users.date_joined)
+                                console.log("Redraw")
                                 return (
                                     <tr key={users.id}>
                                         <td>{users.email}</td>
                                         <td>{users.first_name}</td>
                                         <td>{users.last_name}</td>
                                         <td>{users.phone_number}</td>
-                                        <td>{users.date_joined}</td>
+                                        <td>{date.toUTCString()}</td>
                                     </tr>
                                 )
                             })}
 
                         </tbody>
-
                     </table>
+                    <div className="pagination-wrapper">
+                        <div className="btn-group">
+                            <button className={`${prevStyle} btn-sm`} id="prev-button">Prev</button>
+                            <div className="btn btn-outline-primary btn-sm disabled">1</div>
+                            <button className={`${nextStyle} btn-sm`} id="next-button">next</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <ToastContainer />

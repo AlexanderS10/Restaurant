@@ -31,6 +31,7 @@
 .user-results-wrapper{
     background-color: white;
     display: flex;
+    flex-direction: column;
     margin-top: 20px;
     padding: 20px 0px;
     border: 1px solid black;
@@ -44,4 +45,8 @@
 td,th{
     padding-inline: 10px;
     white-space: nowrap;
+}
+.pagination-wrapper{
+    display: flex;
+    margin: auto;
 }
