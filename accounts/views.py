@@ -90,11 +90,12 @@ class CustomPagination(pagination.PageNumberPagination):
 class SearchUsersAPIView(generics.ListAPIView,pagination.PageNumberPagination): #generics provides with a get handler
     search_fields = ['email', 'first_name', 'last_name', 'phone_number']
     filter_backends = (filters.SearchFilter,)
-    queryset = CustomUser.objects.all()
+    queryset = CustomUser.objects.get_queryset().order_by('-date_joined')
     authentication_classes = [restaurant.rest_api.dev.DevAuthentication]
     permission_classes=[IsAuthenticated]
     serializer_class = userSerializer
     pagination_class = CustomPagination
+    ordering = ['date_joined']
 
 
     # def dispatch(self,request, *args, **kwargs):

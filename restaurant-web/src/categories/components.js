@@ -68,7 +68,6 @@ export function CategoriesList(props) {
         let final = [...categories]
         let index = final.findIndex(x => x.id === obj.id)
         final[index] = obj
-        console.log("Category updated")
         setCategories(final)
     }
     let addNewDish = (dish) => {

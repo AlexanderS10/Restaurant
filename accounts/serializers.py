@@ -7,6 +7,7 @@ class userSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id','email', 'first_name', 'last_name', 'phone_number',"date_joined"]
+        ordering = ['date_joined']
         
 class userDetailedSerializer(serializers.ModelSerializer):
     class Meta:

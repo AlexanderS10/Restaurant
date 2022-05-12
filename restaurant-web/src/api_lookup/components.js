@@ -59,5 +59,27 @@ export function searchlookup(method, endpoint, callback, data) {//This time I wi
   )
   fetch((request))
     .then(response => response.json().then(data => callback(response,data)))
-    .catch((error) => callback(400,{"message":"An error has occurred while fetching the data"})) 
+    .catch((error) => alert("An error has occured fetching the desired data")) 
+}
+export function searchlookupLink(method, endpoint, callback, data) {//This time I will expriment with the fetch api rather than xml
+  let jsonData;
+  let csrftoken = getCookie('csrftoken');
+  let headers = new Headers({ "Content-Type": "application/json" })//initialize the headers
+  if (data) {
+    jsonData = JSON.stringify(data)
+  }
+  if (csrftoken) {
+    headers.append("X-CSRFToken", csrftoken)
+  }
+  let request = new Request(
+    endpoint,
+    {
+      method: method,
+      headers: headers,
+      body: jsonData
+    }
+  )
+  fetch((request))
+    .then(response => response.json().then(data => callback(response,data)))
+    .catch((error) => alert(error)) 
 }

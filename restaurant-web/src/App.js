@@ -1,31 +1,21 @@
-import './App.css';
-import { CategoryComponent} from './categories'
+import * as React from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import {UsersSearch} from "./users"
+import { CategoriesList } from './categories'
+import {UserPage} from './users'
 // import {CalendarComponent} from './customer/calendar'
 // import {WheatherWidget} from './customer/wheatherWidget'
 // import ReactWeather, {useOpenWeather} from 'react-open-weather';
-// function getCookie(name) {
-//   let cookieValue = null;
-//   if (document.cookie && document.cookie !== '') {
-//       const cookies = document.cookie.split(';');
-//       for (let i = 0; i < cookies.length; i++) {
-//           const cookie = cookies[i].trim();
-//           // Does this cookie string begin with the name we want?
-//           if (cookie.substring(0, name.length + 1) === (name + '=')) {
-//               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-//               break;
-//           }
-//       } 
-//   }
-//   return cookieValue;
-// }
-
 function App() {
   
   return (
-    // WheatherWidget()
-    <div>
-      
-      <CategoryComponent/>
+   <div className="App">
+      <Routes>
+      <Route path="/" element={<UsersSearch />} />
+        <Route path="/users" element={<UsersSearch />} />
+        <Route path="/menu" element={<CategoriesList/>} />
+        <Route exact path="/:userId" element={<UserPage/>} />
+      </Routes>
     </div>
     
   );

@@ -24,7 +24,7 @@ SECRET_KEY = '5fskbbpv+08e34bg+h*xjl&0yky+!x5j!3n^b6!z*2yx@(o!ct'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['http://127.0.0.1:8000','.cfe.sh','http://localhost','http://localhost:3000','http://192.168.1.16','127.0.0.1']
+ALLOWED_HOSTS = ['http://127.0.0.1:8000','.cfe.sh','http://localhost','http://localhost:3000','http://192.168.1.16','127.0.0.1','localhost:8000']
 LOGIN_URL = "/login"
 
 # Application definition
