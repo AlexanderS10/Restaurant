@@ -12,4 +12,4 @@ class userSerializer(serializers.ModelSerializer):
 class userDetailedSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = ['id','email', 'first_name', 'last_name', 'phone_number',"image","comments","is_customer","is_staff","is_admin","is_superuser","is_active","date_joined"]

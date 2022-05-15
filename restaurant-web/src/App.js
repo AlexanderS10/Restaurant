@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import {UsersSearch} from "./users"
 import { CategoriesList } from './categories'
 import {UserPage} from './users'

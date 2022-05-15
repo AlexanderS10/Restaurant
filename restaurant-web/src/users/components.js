@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { Link, useParams } from 'react-router-dom';
-import { apiFetchUsersInfo, apiFetchLinkInfo, apiSearchUser } from "./backEndLookUp";
+import { Link } from 'react-router-dom';
+import { apiFetchUsersInfo, apiFetchLinkInfo, apiSearchUser, apiGetUserInfo } from "./backEndLookUp";
 export function UsersSearch() {
     let [searchResult, setSearchResult] = useState([])
     let userSearchRef = React.createRef()
@@ -21,7 +21,7 @@ export function UsersSearch() {
                     }
                 )
             }
-            else{
+            else {
                 setSearchResult(data)
             }
         }
@@ -35,19 +35,21 @@ export function UsersSearch() {
         }
     }
     return (
-        <div className="user-search-container">
-            <div className="container search-container">
-                <div className="search-bar-wrapper col-lg-8 ">
-                    <form className="search-bar" onSubmit={(e) => submitSearch(e)}>
-                        <div className="search-text">
-                            <input ref={userSearchRef} className="input-search" type="text" />
-                        </div>
-                        <button className="search-icon"><i className="bi bi-search"></i></button>
-                    </form>
+        <div className="document-wrapper">
+            <div className="user-search-container">
+                <div className="search-container">
+                    <div className="search-bar-wrapper col-lg-8 col-sm-11 col-xs">
+                        <form className="search-bar" onSubmit={(e) => submitSearch(e)}>
+                            <div className="search-text">
+                                <input placeholder="Search user" ref={userSearchRef} className="input-search" type="text" />
+                            </div>
+                            <button className="search-icon"><i className="bi bi-search"></i></button>
+                        </form>
+                    </div>
                 </div>
+                <UserResults searchResult={searchResult} />
+                <ToastContainer />
             </div>
-            <UserResults searchResult={searchResult}/>
-            <ToastContainer />
         </div>
     )
 }
@@ -80,15 +82,15 @@ export function UserResults(props) {
         }
         apiFetchUsersInfo(searchusers)
     }, [])
-    useEffect(()=>{
-        if(props.searchResult.length!==0){//check if the 
+    useEffect(() => {
+        if (props.searchResult.length !== 0) {//check if the 
             console.log(props.searchResult)
             checkButtons(props.searchResult, setNextStyle, setPrevStyle)
-            document.getElementById("page-index").innerHTML=1
+            document.getElementById("page-index").innerHTML = 1
             setUsers(props.searchResult.results)
             setFetched(props.searchResult)
         }
-    },[props.searchResult])
+    }, [props.searchResult])
     let displayNewList = (response, data) => {
         if (response.status !== 400) {
             checkButtons(data, setNextStyle, setPrevStyle)
@@ -117,10 +119,10 @@ export function UserResults(props) {
         document.getElementById('page-index').innerHTML = index
     }
     return (
-        <div className="user-results-container container">
-            <div className="user-results-wrapper col-lg-8">
+        <div className="user-results-container">
+            <div className="user-results-wrapper col-lg-8 col-sm-11 col-xs">
                 <table className="user-results">
-                    <thead>
+                    <thead className="results-heading">
                         <tr>
                             <th>EMAIL</th>
                             <th>FIRST NAME</th>
@@ -171,23 +173,29 @@ function checkButtons(data, next, previous) {
     }
 }
 
-export function UserPage({match, location}){
-    let {userId} = useParams()
-    let url = window.location.href
-    let urlArray = url.split('/')
-    let idUrl;
-    if(urlArray[urlArray.length-1]===""){//Since router does not get rendered by django I will have to use raw url
-        idUrl = urlArray[urlArray.length-2]
-    }
-    else{
-        idUrl = urlArray[urlArray.length-1]
-    }
-    console.log(idUrl)
- return(
-     <>
-     <h1>This is the page</h1>
-    {userId}
-     </>
-    
- )
+export function UserPage({ match, location }) {
+    let [userId, setUserId] = useState()
+    useEffect(() => {
+        let url = window.location.href
+        let urlArray = url.split('/')
+        let idUrl;
+        if (urlArray[urlArray.length - 1] === "") {//Since router does not get rendered by django I will have to use raw urls
+            idUrl = urlArray[urlArray.length - 2]
+        }
+        else {
+            idUrl = urlArray[urlArray.length - 1]
+        }
+        let hadleResponse = (response, data) => {
+            console.log(data)
+            setUserId(data.id)
+        }
+        apiGetUserInfo(idUrl, hadleResponse)
+    }, [])
+    return (
+        <>
+            <h1>This is the page</h1>
+
+        </>
+
+    )
 }

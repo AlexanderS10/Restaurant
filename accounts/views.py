@@ -1,3 +1,4 @@
+from ast import Delete
 from urllib import request
 from django.db import reset_queries
 from rest_framework.decorators import api_view
@@ -85,7 +86,7 @@ def search_users_view(request):
     return Response({"message":"Action Denied"}, status = status.HTTP_200_OK)
 
 class CustomPagination(pagination.PageNumberPagination):
-    page_size = 2
+    page_size = 20
     
 class SearchUsersAPIView(generics.ListAPIView,pagination.PageNumberPagination): #generics provides with a get handler
     search_fields = ['email', 'first_name', 'last_name', 'phone_number']
@@ -96,7 +97,25 @@ class SearchUsersAPIView(generics.ListAPIView,pagination.PageNumberPagination): 
     serializer_class = userSerializer
     pagination_class = CustomPagination
     ordering = ['date_joined']
-
+class AdminUserInfoUpdate(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = userDetailedSerializer
+    def get(self, request,user_id):
+        if request.user.is_anonymous or request.user.is_user_superuser()==False:
+            return Response({"message":"Action Denied"})
+        instance = CustomUser.objects.get(id=user_id)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+    def delete(self, request, user_id):
+        if request.user.is_anonymous or request.user.is_user_superuser()==False:
+            return Response({"message":"Action Denied"})
+        user = CustomUser.objects.get(id=user_id)
+        serializer = self.get_serializer(user)
+        user.delete()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+    
+class CreateUserAPIView(generics.CreateAPIView):
+    serializer_class= userDetailedSerializer
+    
 
     # def dispatch(self,request, *args, **kwargs):
     #     self.request = request

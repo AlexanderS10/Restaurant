@@ -8,3 +8,6 @@ export function apiFetchLinkInfo(endpoint,callback){
 export function apiSearchUser(endpoint, callback){
     searchlookup("GET",`users/?search=${endpoint}`,callback)
 }
+export function apiGetUserInfo(endpoint, callback){
+    searchlookup("GET", `users/${endpoint}`, callback)
+}
