@@ -59,7 +59,7 @@ export function searchlookup(method, endpoint, callback, data) {//This time I wi
   )
   fetch((request))
     .then(response => response.json().then(data => callback(response,data)))
-    .catch((error) => alert("An error has occured fetching the desired data")) 
+    .catch((error) => alert("Server did not respond")) 
 }
 export function searchlookupLink(method, endpoint, callback, data) {//This time I will expriment with the fetch api rather than xml
   let jsonData;

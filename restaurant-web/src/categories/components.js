@@ -121,7 +121,6 @@ export function CategoriesList(props) {
 export function Category(props) {
     let { category } = props
     let { isConfirmed } = useConfirm()
-    //console.log("Category Called: ",category)
     let inputRef = React.createRef()
     let [updateStyle, setUpdateStyle] = useState('d-none')
 
@@ -183,7 +182,6 @@ export function Category(props) {
     let handleDelete = async (id, category, e) => {
         e.preventDefault()
         let confirmed = await isConfirmed(category)
-        console.log(confirmed)
         if (confirmed) {
             handleDeleteClick()
         }
@@ -191,7 +189,7 @@ export function Category(props) {
     return <div className="mb-4 input-wrapper">
         <input id={category.category_name} defaultValue={category.category_name} onChange={handleInputChange} ref={inputRef} className="form-control" required />
         <div className='btn options-buttons'>
-            <button className='btn btn-danger cancel-category' onClick={(e) => handleDelete(category.id, category.category_name, e)}><i className="bi bi-x-lg"></i></button>
+            <button className='btn btn-danger cancel-category' onClick={(e) => handleDelete(category.id, category.category_name, e)}><i className="bi bi-trash"></i></button>
             <button className={updateStyle} onClick={handleUpdateBackend}><i className="bi bi-check-lg"></i></button>
             {/* <OptionBtn category={categories} action={{ type: "delete", display: "Delete" }} actionFunction={props.actionFunction} className='btn btn-danger btn-sm form-control' />
             <OptionBtn category={categories} action={{ type: "edit", display: "Update" }} updateFunction={handleUpdateBackend} className={updateStyle} /> */}

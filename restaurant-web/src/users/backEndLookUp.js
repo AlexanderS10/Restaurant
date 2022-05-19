@@ -11,3 +11,6 @@ export function apiSearchUser(endpoint, callback){
 export function apiGetUserInfo(endpoint, callback){
     searchlookup("GET", `users/${endpoint}`, callback)
 }
+export function apiUpdateAndDeleteUser(method, endpoint, callback,data){
+    searchlookup(method, `users/${endpoint}/`,callback,data)
+}

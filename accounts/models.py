@@ -41,12 +41,12 @@ def get_profile_image_filepath(self,a):
     return f'profile_images/{self.pk}/{"profile_image.png"}'
 
 def get_default_profile_image():
-    return "defaults/profile_default.jpeg"
+    return "defaults/profile_default.png"
 # Create your models here.
 class CustomUser (AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
-    first_name = models.CharField(verbose_name='first name', max_length=15, blank=True)
-    last_name = models.CharField(verbose_name='last name', max_length=15, blank=True)
+    first_name = models.CharField(verbose_name='first name', max_length=20, blank=True)
+    last_name = models.CharField(verbose_name='last name', max_length=20, blank=True)
     phone_number = PhoneNumberField(region='US')
     date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
     is_admin = models.BooleanField(default=False, verbose_name="Admin")

@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import reportWebVitals from './reportWebVitals';
 //import {CalendarComponent} from './customer/calendar'
 //import {WeatherWidget} from './customer/weatherWidget'
-//import { CategoriesList } from './categories'
+import { CategoriesList } from './categories'
 //import { ToastContainer } from "react-toastify";
 // import { DishListView } from "./dishes"
 // import { UsersSearch } from "./users"
@@ -20,7 +20,7 @@ import reportWebVitals from './reportWebVitals';
 
 //let calendarWidget = document.getElementById("calendar-widget");
 //let weatherWidget = document.getElementById("weather-widget");
-// let categoriesListWidget = document.getElementById("categories-list")
+let categoriesListWidget = document.getElementById("categories-list")
 // let searchWidget = document.getElementById("user-search")
 // let menuWidget = document.getElementById("menu-view")
 //let messagesWidget = document.getElementById("messages-component")
@@ -33,9 +33,9 @@ import reportWebVitals from './reportWebVitals';
 //   ReactDOM.render(<WeatherWidget/>, document.getElementById('weather-widget'));
 // }
 
-// if(categoriesListWidget){
-//   ReactDOM.render(<CategoriesList/>, categoriesListWidget)
-// }
+if(categoriesListWidget){
+  ReactDOM.render(<CategoriesList/>, categoriesListWidget)
+}
 // if(messagesWidget){
 //   ReactDOM.render(<ToastContainer/>,messagesWidget)
 // }

@@ -6,6 +6,7 @@ import {UserPage} from './users'
 // import {CalendarComponent} from './customer/calendar'
 // import {WheatherWidget} from './customer/wheatherWidget'
 // import ReactWeather, {useOpenWeather} from 'react-open-weather';
+//import { ConfirmContextProvider, ConfirmModal } from "./components";
 function App() {
   
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/menu" element={<CategoriesList/>} />
         <Route exact path="/:userId" element={<UserPage/>} />
       </Routes>
+      
     </div>
     
   );

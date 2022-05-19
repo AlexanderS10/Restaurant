@@ -1,4 +1,5 @@
 from ast import Delete
+from functools import partial
 from urllib import request
 from django.db import reset_queries
 from rest_framework.decorators import api_view
@@ -99,6 +100,7 @@ class SearchUsersAPIView(generics.ListAPIView,pagination.PageNumberPagination): 
     ordering = ['date_joined']
 class AdminUserInfoUpdate(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = userDetailedSerializer
+    #queryset = CustomUser.objects.all()
     def get(self, request,user_id):
         if request.user.is_anonymous or request.user.is_user_superuser()==False:
             return Response({"message":"Action Denied"})
@@ -112,11 +114,22 @@ class AdminUserInfoUpdate(generics.RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(user)
         user.delete()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+    def update(self, request, user_id):
+        instance = CustomUser.objects.get(id = user_id)
+        serializer = self.get_serializer(instance,data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
     
 class CreateUserAPIView(generics.CreateAPIView):
     serializer_class= userDetailedSerializer
-    
-
+@api_view(['GET','POST'])
+def reset_default_profile_image(request):
+    print(request.data)
+    default_image = "http://127.0.0.1:8000/media/defaults/profile_default.png"
+    return Response({"image":default_image}, status=status.HTTP_200_OK)
     # def dispatch(self,request, *args, **kwargs):
     #     self.request = request
     #     print(self.request.user)

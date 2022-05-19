@@ -1,7 +1,6 @@
-.user-search-container {
-    
-}
-
+:root{ /*Here I will define document global variables for easier code management*/
+    --bronze-tone : #FF5733;
+  }
 .search-bar-wrapper {
     display: flex;
     justify-content: center;
@@ -77,4 +76,9 @@ th {
         flex: 0, 0, auto;
         width: 96%;
     }
+}
+.user-image{
+    width: 200px;
+    border-radius: 50%;
+    border: solid var(--bronze-tone) 5px
 }

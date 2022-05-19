@@ -1,4 +1,3 @@
-from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.http.response import Http404, JsonResponse
 from django.shortcuts import render
@@ -6,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.views import APIView, set_rollback
+from rest_framework.views import APIView
 from accounts.decorators import admin_only
 from .serializers import *
 # Create your views here.
