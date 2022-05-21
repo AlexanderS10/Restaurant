@@ -87,7 +87,7 @@ export function ConfirmModal(){
         <>
             <div className="container-popup-2" id="delete-dish-popup">
                 <div className="confirmation-text-2">
-                    <p>Are you sure you want to delete <strong>{prompt}</strong>?</p>
+                    <p>{prompt}</p>
                 </div>
                 <div className="button-container">
                     <button className="cancel-button" id="cancel-delete-dish" onClick={cancel}>Cancel</button>

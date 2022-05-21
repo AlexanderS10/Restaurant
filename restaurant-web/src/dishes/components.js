@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { useConfirm } from "../components";
 
 export function DishForm(props) {
-    console.log("Form called")
     let categories = props.category_data
     useEffect(() => {//runs on component did mount
         let list = document.getElementById('category-dropdown')
@@ -151,7 +150,7 @@ function Dish(props) {
     }
     let handleDelete = async (id, dish, e) => {
         e.preventDefault()
-        let confirmed = await isConfirmed(dish)
+        let confirmed = await isConfirmed(`Are you sure you want to delete ${dish}?`)
         if (confirmed) {
             let deleteConfirmed = (response, status) => {
                 if (status === 202) {

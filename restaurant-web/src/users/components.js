@@ -2,8 +2,9 @@ import React from "react";
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import { apiFetchUsersInfo, apiFetchLinkInfo, apiSearchUser, apiGetUserInfo, apiUpdateAndDeleteUser} from "./backEndLookUp";
+import { apiFetchUsersInfo, apiFetchLinkInfo, apiSearchUser, apiGetUserInfo, apiUpdateAndDeleteUser, apiResetProfileImage } from "./backEndLookUp";
 import { ConfirmContextProvider, ConfirmModal, useConfirm } from "../components";
+import { ReservationMaker } from "./reservation-components";
 export function UsersSearch() {
     let [searchResult, setSearchResult] = useState([])
     let userSearchRef = React.createRef()
@@ -174,7 +175,6 @@ function checkButtons(data, next, previous) {
 }
 
 export function UserPage({ match, location }) {
-    let [userId, setUserId] = useState()
     let [userData, setUserData] = useState([])
     let inputRef = React.createRef()
     useEffect(() => {
@@ -196,16 +196,19 @@ export function UserPage({ match, location }) {
     let userUpdate = (e) => {
         e.preventDefault()
         let form = new FormData(document.getElementById('user-form'))
-        form.append("is_admin",false)
+        form.append("is_admin", false)
         let checkboxes = document.querySelectorAll('.checkbox')//["is-customer-checkbox","is-active-checkbox",""]
-        checkboxes.forEach(function(el){
-            if(!el.checked){
-                form.append(el.name,false)
+        checkboxes.forEach(function (el) {
+            if (!el.checked) {
+                form.append(el.name, false)
+            }
+            else {
+                form.append(el.name, true)
             }
         })
         let values = Object.fromEntries(form.entries())
-        //console.log(values)
-        apiUpdateAndDeleteUser("PUT",userData.id,handleUserUpdate,values)
+        console.log(values)
+        apiUpdateAndDeleteUser("PUT", userData.id, handleUserUpdate, values)
     }
     let toggleEmailEdit = (e) => {
         e.preventDefault()
@@ -216,8 +219,8 @@ export function UserPage({ match, location }) {
             input.setAttribute('readonly', 'readonly')
         }
     }
-    let handleUserUpdate = (response, data)=>{
-        if (response.status===200){
+    let handleUserUpdate = (response, data) => {
+        if (response.status === 200) {
             toast.success("Updated Successfully",
                 {
                     theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
@@ -225,7 +228,7 @@ export function UserPage({ match, location }) {
                 }
             )
         }
-        else{
+        else {
             toast.error(handleErrorResponse(data),
                 {
                     theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
@@ -234,121 +237,126 @@ export function UserPage({ match, location }) {
             )
         }
     }
-    let handleErrorResponse = (data)=>{
-        if (data.email){
+    let handleErrorResponse = (data) => {
+        if (data.email) {
             return "Email already exists or is too long"
         }
-        if(data.first_name || data.last_name){
+        if (data.first_name || data.last_name) {
             return "Max 20 characters allowed for name and last name"
         }
-        if(data.phone_number){
+        if (data.phone_number) {
             return data.phone_number[0]
         }
     }
     return (
         <ConfirmContextProvider>
             <ConfirmModal />
-            <div className="col-lg-6">
-                <div className="card">
-                    <div className="card-body">
-                        <div className="card-title">
-                            <h4>{`${userData.first_name} ${userData.last_name}`}</h4>
+            <div className="container">
+            <ReservationMaker />
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="card">
+                            <div className="card-body">
+                                <div className="card-title">
+                                    <h4>{`${userData.first_name} ${userData.last_name}`}</h4>
+                                </div>
+                                <div className="card-title user-image-wrapper">
+                                    <img src={userData.image} className="user-image" alt="Profile" />
+                                </div>
+                                <div className="card-title">
+                                    <h4>{new Date(userData.date_joined).toDateString()}</h4>
+                                </div>
+                                <form onSubmit={(e) => userUpdate(e)} className="card-body form" id="user-form">
+                                    <div className="row mb-3">
+                                        <div className="col-sm-3 align-items-center d-flex">
+                                            <h6 className="">Email</h6>
+                                        </div>
+                                        <div className="col-sm-7">
+                                            <input defaultValue={userData.email} className="form-control" id="user-email-input" readOnly ref={inputRef} name="email" maxLength="60" />
+                                        </div>
+                                        <div className="col-sm-2">
+                                            <button className="form-control" onClick={(e) => toggleEmailEdit(e)}><i className="bi bi-pencil"></i></button>
+                                        </div>
+                                    </div>
+                                    <div className="row mb-3">
+                                        <div className="col-sm-3 d-flex align-items-center">
+                                            <h6>First Name</h6>
+                                        </div>
+                                        <div className="col-sm-9">
+                                            <input defaultValue={userData.first_name} className="form-control" name="first_name" maxLength="20" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-3">
+                                        <div className="col-sm-3 d-flex align-items-center">
+                                            <h6>Last Name</h6>
+                                        </div>
+                                        <div className="col-sm-9">
+                                            <input defaultValue={userData.last_name} className="form-control" name="last_name" maxLength="20" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-3">
+                                        <div className="col-sm-3 d-flex align-items-center">
+                                            <h6>Phone Number</h6>
+                                        </div>
+                                        <div className="col-sm-9">
+                                            <input defaultValue={userData.phone_number} name="phone_number" className="form-control" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-3">
+                                        <div className="col-sm-3 d-flex align-items-center">
+                                            <h6>Comments</h6>
+                                        </div>
+                                        <div className="col-sm-9">
+                                            <textarea defaultValue={userData.comments} name="comments" rows="7" className="form-control" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-3">
+                                        <div className="col-sm-3 d-flex align-items-center">
+                                            <h6>Active</h6>
+                                        </div>
+                                        <div className="col-sm-9 form-switch">
+                                            <input defaultChecked={userData.is_active} defaultValue={userData.is_active} name="is_active" type="checkbox" id="is-active-checkbox" className="form-check-input checkbox" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-3">
+                                        <div className="col-sm-3 d-flex align-items-center">
+                                            <h6>Customer</h6>
+                                        </div>
+                                        <div className="col-sm-9 form-switch">
+                                            <input defaultChecked={userData.is_customer} defaultValue={userData.is_customer} name="is_customer" id="is-customer-checkbox" type="checkbox" className="form-check-input checkbox" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-3">
+                                        <div className="col-sm-3 d-flex align-items-center">
+                                            <h6>Staff</h6>
+                                        </div>
+                                        <div className="col-sm-9 form-switch">
+                                            <input defaultChecked={userData.is_staff} defaultValue={userData.is_staff} name="is_staff" id="is-staff-checkbox" type="checkbox" className="form-check-input checkbox" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-3">
+                                        <div className="col-sm-3 d-flex align-items-center">
+                                            <h6>Admin</h6>
+                                        </div>
+                                        <div className="col-sm-9 form-switch">
+                                            <input defaultChecked={userData.is_admin} defaultValue={userData.is_admin} type="checkbox" id="is-admin-checkbox" name="is_admin" className="form-check-input checkbox" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-3">
+                                        <div className="col-sm-3 d-flex align-items-center">
+                                            <h6>Superuser</h6>
+                                        </div>
+                                        <div className="col-sm-9 form-switch">
+                                            <input defaultChecked={userData.is_superuser} defaultValue={userData.is_superuser} type="checkbox" id="is-superuser-checkbox" name="is_superuser" className="form-check-input checkbox" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-4">
+                                        <button className="btn btn-primary form-control">Confirm Changes</button>
+                                    </div>
+                                    <ResetImage user={userData} />
+                                </form>
+                            </div>
                         </div>
-                        <div className="card-title user-image-wrapper">
-                            <img src={userData.image} className="user-image" />
-                        </div>
-                        <div className="card-title">
-                            <h4>{new Date(userData.date_joined).toDateString()}</h4>
-                        </div>
-                        <form onSubmit={(e) => userUpdate(e)} className="card-body form" id="user-form">
-                            <div className="row mb-3">
-                                <div className="col-sm-3 align-items-center d-flex">
-                                    <h6 className="">Email</h6>
-                                </div>
-                                <div className="col-sm-7">
-                                    <input defaultValue={userData.email} className="form-control" id="user-email-input" readOnly ref={inputRef} name="email" maxLength="60"/>
-                                </div>
-                                <div className="col-sm-2">
-                                    <button className="form-control" onClick={(e) => toggleEmailEdit(e)}><i className="bi bi-pencil"></i></button>
-                                </div>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="col-sm-3 d-flex align-items-center">
-                                    <h6>First Name</h6>
-                                </div>
-                                <div className="col-sm-9">
-                                    <input defaultValue={userData.first_name} className="form-control" name="first_name" maxLength="20"/>
-                                </div>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="col-sm-3 d-flex align-items-center">
-                                    <h6>Last Name</h6>
-                                </div>
-                                <div className="col-sm-9">
-                                    <input defaultValue={userData.last_name} className="form-control" name="last_name" maxLength="20"/>
-                                </div>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="col-sm-3 d-flex align-items-center">
-                                    <h6>Phone Number</h6>
-                                </div>
-                                <div className="col-sm-9">
-                                    <input defaultValue={userData.phone_number} name="phone_number" className="form-control" />
-                                </div>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="col-sm-3 d-flex align-items-center">
-                                    <h6>Comments</h6>
-                                </div>
-                                <div className="col-sm-9">
-                                    <textarea defaultValue={userData.comments} name="comments"  className="form-control" />
-                                </div>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="col-sm-3 d-flex align-items-center">
-                                    <h6>Active</h6>
-                                </div>
-                                <div className="col-sm-9 form-switch">
-                                    <input defaultChecked={userData.is_active} defaultValue={userData.is_active} name="is_active" type="checkbox" id="is-active-checkbox" className="form-check-input checkbox"/>
-                                </div>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="col-sm-3 d-flex align-items-center">
-                                    <h6>Customer</h6>
-                                </div>
-                                <div className="col-sm-9 form-switch">
-                                    <input defaultChecked={userData.is_customer} defaultValue={userData.is_customer} name="is_customer" id="is-customer-checkbox" type="checkbox" className="form-check-input checkbox"/>
-                                </div>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="col-sm-3 d-flex align-items-center">
-                                    <h6>Staff</h6>
-                                </div>
-                                <div className="col-sm-9 form-switch">
-                                    <input defaultChecked={userData.is_staff} defaultValue={userData.is_staff} name="is_staff" id="is-staff-checkbox" type="checkbox" className="form-check-input checkbox"/>
-                                </div>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="col-sm-3 d-flex align-items-center">
-                                    <h6>Admin</h6>
-                                </div>
-                                <div className="col-sm-9 form-switch">
-                                    <input defaultChecked={userData.is_admin} defaultValue={userData.is_admin} type="checkbox" id="is-admin-checkbox" name="is_admin" className="form-check-input checkbox"/>
-                                </div>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="col-sm-3 d-flex align-items-center">
-                                    <h6>Superuser</h6>
-                                </div>
-                                <div className="col-sm-9 form-switch">
-                                    <input defaultChecked={userData.is_superuser} defaultValue={userData.is_superuser} type="checkbox" id="is-superuser-checkbox" name="is_superuser" className="form-check-input checkbox"/>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <button className="btn btn-primary form-control">Confirm Changes</button>
-                            </div>
-                        </form>
-                        <ResetImage/>
                     </div>
                 </div>
             </div>
@@ -358,11 +366,29 @@ export function UserPage({ match, location }) {
 }
 export function ResetImage(props) {
     let { isConfirmed } = useConfirm()
-    let handleResetImage = async (e) => {
+    let resetImage = async (e) => {
         e.preventDefault()
-        let confirmed = await isConfirmed("Hi")
+        let confirmed = await isConfirmed("Are you sure you want to reset this profile image?")
         if (confirmed) {
-            console.log("The image is reset")
+            apiResetProfileImage(handleImageReset, { "id": props.user.id })
+        }
+    }
+    let handleImageReset = (response, data) => {
+        if (response.status === 200) {
+            toast.success(data.message,
+                {
+                    theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                    progress: undefined,
+                }
+            )
+        }
+        else {
+            toast.error(data.message,
+                {
+                    theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                    progress: undefined,
+                }
+            )
         }
     }
     return (
@@ -371,7 +397,7 @@ export function ResetImage(props) {
                 <h6>Image</h6>
             </div>
             <div className="col-sm-9">
-                <button className="form-control" onClick={(e) => handleResetImage(e)}>Reset</button>
+                <button className="form-control" onClick={(e) => resetImage(e)}>Reset</button>
             </div>
         </div>
     )

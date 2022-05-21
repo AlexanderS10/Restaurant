@@ -14,3 +14,6 @@ export function apiGetUserInfo(endpoint, callback){
 export function apiUpdateAndDeleteUser(method, endpoint, callback,data){
     searchlookup(method, `users/${endpoint}/`,callback,data)
 }
+export function apiResetProfileImage(callback, data){
+    searchlookup("PUT", "reset_profile/",callback,data)
+}

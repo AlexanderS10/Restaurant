@@ -130,6 +130,17 @@ def reset_default_profile_image(request):
     print(request.data)
     default_image = "http://127.0.0.1:8000/media/defaults/profile_default.png"
     return Response({"image":default_image}, status=status.HTTP_200_OK)
+
+@api_view(["PUT","GET"])
+def reset_profile_image(request):
+    try:
+        id = request.data["id"]
+        user = CustomUser.objects.get(id=id)
+        user.image = "defaults/profile_default.png"
+        user.save()
+        return Response({"message":"Reset Sucessfully"}, status=status.HTTP_200_OK)
+    except:
+        return Response({"message":"Incorrect or empty data sequence sent"}, status=status.HTTP_400_BAD_REQUEST)
     # def dispatch(self,request, *args, **kwargs):
     #     self.request = request
     #     print(self.request.user)

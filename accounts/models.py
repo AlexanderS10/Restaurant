@@ -37,7 +37,6 @@ class MyAccountManager(BaseUserManager):
         return self.create_user(email,first_name,last_name,phone_number,password,**other_fields)
 
 def get_profile_image_filepath(self,a):
-    print(a)
     return f'profile_images/{self.pk}/{"profile_image.png"}'
 
 def get_default_profile_image():

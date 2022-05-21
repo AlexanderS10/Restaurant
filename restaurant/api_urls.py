@@ -2,7 +2,7 @@ from django import views
 from django.urls import path
 from profiles.views import user_details, user_details_api
 from menu.views import *
-from accounts.views import AdminUserInfoUpdate, CreateUserAPIView, SearchUsersAPIView, search_users_view, reset_default_profile_image
+from accounts.views import AdminUserInfoUpdate, CreateUserAPIView, SearchUsersAPIView, search_users_view, reset_default_profile_image, reset_profile_image
 urlpatterns = [
     path('userdetails/', user_details_api),
     path('userdetails/<int:user_id>/', user_details),
@@ -16,5 +16,6 @@ urlpatterns = [
     path('moreusers/',search_users_view),
     path('users/<int:user_id>/',AdminUserInfoUpdate.as_view()),
     path('users/create/', CreateUserAPIView.as_view()),
-    path('default_profile_image/', reset_default_profile_image)
+    path('default_profile_image/', reset_default_profile_image),
+    path('reset_profile/', reset_profile_image)
 ]

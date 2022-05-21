@@ -181,7 +181,7 @@ export function Category(props) {
 
     let handleDelete = async (id, category, e) => {
         e.preventDefault()
-        let confirmed = await isConfirmed(category)
+        let confirmed = await isConfirmed(`Are you sure you want to delete the ${category} category?`)
         if (confirmed) {
             handleDeleteClick()
         }
