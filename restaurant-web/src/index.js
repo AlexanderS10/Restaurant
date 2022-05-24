@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom/client";
 import './index.css';
 import './styles/user-search.css'
 //import { render } from "react-dom";
@@ -34,7 +34,7 @@ let categoriesListWidget = document.getElementById("categories-list")
 // }
 
 if(categoriesListWidget){
-  ReactDOM.render(<CategoriesList/>, categoriesListWidget)
+  ReactDOM.createRoot(<CategoriesList/>, categoriesListWidget)
 }
 // if(messagesWidget){
 //   ReactDOM.render(<ToastContainer/>,messagesWidget)
@@ -48,14 +48,13 @@ if(categoriesListWidget){
 // if(searchWidget){
 //   ReactDOM.render(<UsersSearch/>, searchWidget)
 // }
-
-ReactDOM.render(
+let root = ReactDOM.createRoot(document.getElementById("root"))
+root.render(
   <React.StrictMode>
     <Router>
       <App />
     </Router>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
 
 

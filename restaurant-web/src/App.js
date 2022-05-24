@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import {UsersSearch} from "./users"
 import { CategoriesList } from './categories'
 import {UserPage} from './users'
+import {TableCreationComponent} from './tableRoomCreation'
 // import {CalendarComponent} from './customer/calendar'
 // import {WheatherWidget} from './customer/wheatherWidget'
 // import ReactWeather, {useOpenWeather} from 'react-open-weather';
@@ -16,6 +17,7 @@ function App() {
         <Route path="/users" element={<UsersSearch />} />
         <Route path="/menu" element={<CategoriesList/>} />
         <Route exact path="/:userId" element={<UserPage/>} />
+        <Route exact path="/tables/create" element={<TableCreationComponent/>} />
       </Routes>
       
     </div>
