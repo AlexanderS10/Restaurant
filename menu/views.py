@@ -27,6 +27,11 @@ def admin_dish_api(request, *args, **kwargs):
 #DISH CLASS VIEW will be used to minimize code when writing the views 
 #
 class DishDetail(APIView):
+    def check_admin(self,request):
+        if request.user.is_user_superuser():
+            return True
+        else:
+            return False
     def get_dish(self,pk):
         try:
             return Dish.objects.get(id=pk)
@@ -43,9 +48,8 @@ class DishDetail(APIView):
         if self.check_admin(request)==False:
             return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
         dish = self.get_dish(dish_id)
-        serializer = DishSerializer(dish)
         dish.delete()
-        return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
+        return Response(dish_id,status=status.HTTP_202_ACCEPTED)
     @permission_classes([IsAuthenticated])
     def patch(self,request,dish_id,*args, **kwargs):
         if self.check_admin(request)==False:
@@ -82,12 +86,12 @@ class DishCategory(APIView):
         if self.check_admin(request)==False:
             return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
         category = self.get_category(id)
-        serializer = DishCategorySerializer(category)
         qs = Dish.objects.filter(category=category)#A category cannot be deleted if dishes contain such category
         if qs.exists():
             return Response({"message":"Category does not exists or some dishes contain this category"}, status = status.HTTP_400_BAD_REQUEST)
+        
         category.delete()
-        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(id, status=status.HTTP_202_ACCEPTED)
     @permission_classes([IsAuthenticated])
     def patch(self, request, id , *args, **kwargs):
         if self.check_admin(request)==False:

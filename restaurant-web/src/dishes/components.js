@@ -117,7 +117,7 @@ export function DishList(props) {
         let temp = [...dishesInit]
         let final = temp.filter(function (e) {
             if (temp.length !== 0) {
-                return e.id !== response.id
+                return e.id !== response
             }
             return e
         })

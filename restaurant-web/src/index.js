@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from "react-dom/client";
 import './index.css';
 import './styles/user-search.css'
+import './styles/table-creation.css'
 //import { render } from "react-dom";
 import App from "./App";
 import {
@@ -34,7 +35,8 @@ let categoriesListWidget = document.getElementById("categories-list")
 // }
 
 if(categoriesListWidget){
-  ReactDOM.createRoot(<CategoriesList/>, categoriesListWidget)
+  categoriesListWidget = ReactDOM.createRoot(document.getElementById("categories-list"))
+  categoriesListWidget.render(<CategoriesList/>)
 }
 // if(messagesWidget){
 //   ReactDOM.render(<ToastContainer/>,messagesWidget)

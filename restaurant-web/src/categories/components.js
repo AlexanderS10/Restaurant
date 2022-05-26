@@ -5,7 +5,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import { DishForm, DishList } from "../dishes";
 import { ConfirmContextProvider, ConfirmModal, useConfirm } from "../components";
 export function CategoriesList(props) {
-    console.log("Category list called")
     let [categories, setCategories] = useState([])//this creates and helps update the state
     let [catsAreSet, setCatsAreSet] = useState(false)
     let [newDish, setNewDish] = useState([])
@@ -56,11 +55,10 @@ export function CategoriesList(props) {
     let handleDeleteFrontEnd = (obj, status) => {
         let final = [...categories].filter(function (e) {
             if (categories.length !== 0) {
-                return e.id !== obj.id
+                return e.id !== obj
             }
             return e
         })
-        console.log("Category deleted")
         setCategories(final)
     }
     //Handle updating a category successfully
