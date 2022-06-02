@@ -132,7 +132,7 @@ export function CreateUpdateTables(props) {
         <div>
             <div className="container">
                 <div id="canvas-wrapper" ref={parentRef}>
-                    <Stage width={canvasWidth} height={canvasWidth / 2} id="canvas-table-creation">
+                    <Stage width={1000} height={600} id="canvas-table-creation">
                         <Layer>
                             {tables.map((shape) => {
                                 if (shape.capacity > 2) {
