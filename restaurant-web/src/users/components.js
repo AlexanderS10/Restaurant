@@ -207,7 +207,6 @@ export function UserPage({ match, location }) {
             }
         })
         let values = Object.fromEntries(form.entries())
-        console.log(values)
         apiUpdateAndDeleteUser("PUT", userData.id, handleUserUpdate, values)
     }
     let toggleEmailEdit = (e) => {
