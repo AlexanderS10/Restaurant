@@ -42,7 +42,7 @@ export function useConfirm() {
 
 //Context
 export function ConfirmContextProvider({children}) {
-    let [confirm, setConfirm] = useState({
+    let [confirm, setConfirm] = useState({//Passes vales to be used by any child in the tree so it does not have to be passed explicitly0
         prompt: "",
         isOpen: false,
         proceed: null,
