@@ -6,7 +6,7 @@ export let ConfirmContext = createContext()
 export function useConfirm() {
     let [confirm, setConfirm] = useContext(ConfirmContext)
     let [needsCleanup, setNeedsCleanUp] = useState(false)
-    let isConfirmed = (prompt) => {
+    let isConfirmed = (prompt) => {//This will get called in the component to be used which will activate the modal and make use of the context provider
         setNeedsCleanUp(true)
         let promise = new Promise((resolve, reject) => {
             setConfirm({
@@ -34,7 +34,7 @@ export function useConfirm() {
             }
         }
     },[confirm, needsCleanup])
-    return {
+    return {//return the values so the component has access to them
         ...confirm,
         isConfirmed
     }
@@ -42,7 +42,7 @@ export function useConfirm() {
 
 //Context
 export function ConfirmContextProvider({children}) {
-    let [confirm, setConfirm] = useState({//Passes vales to be used by any child in the tree so it does not have to be passed explicitly0
+    let [confirm, setConfirm] = useState({//Passes vales to be used by any child in the tree so it does not have to be passed explicitly
         prompt: "",
         isOpen: false,
         proceed: null,

@@ -2,16 +2,15 @@ import React from "react";
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { ConfirmContextProvider, ConfirmModal, useConfirm } from "../components";
-import { CropEasy } from "../cropper/CropEasy";
-
+import {CropEasyModal, CropModalContextProvider, useGlobalContext} from "../cropper/CropEasy"
 
 export function RoomCreationContainer() {
 
     return (
         <ConfirmContextProvider>
-            
-           
-            <RoomCreation /> 
+            <CropModalContextProvider>
+                <RoomCreation /> 
+            </CropModalContextProvider>
             
             <ToastContainer />
         </ConfirmContextProvider>
@@ -23,17 +22,8 @@ export function RoomCreation(props) {
     let [imageSrc, setImageSrc] = useState(null)
     let [file, setFile] = useState(null)
 
-    let onFileChange = async(e) => {
-        if (e.target.files && e.target.files.length > 0) {
-            const file = e.target.files[0]
-            let imageDataUrl = await readFile(file)
-      
-            // apply rotation if needed
-            
-            console.log("Image loaded")
-            setImageSrc(imageDataUrl)
-          }
-    }
+    let {onFileChange}=useGlobalContext()
+    let { showModal, setShowModal } = useGlobalContext();
     let handleForm = (e) => {
         e.preventDefault()
         let form = new FormData(e.target)
@@ -42,6 +32,7 @@ export function RoomCreation(props) {
     }
     return (
         <>
+            <CropEasyModal setShowModal={setShowModal} showModal={showModal} />
             <div>
                 <div className="container card col-md-6">
                     <div className="card-title">
@@ -95,24 +86,8 @@ export function RoomCreation(props) {
                         </div>
                     </form>
                 </div>
-            </div>
-            {imageSrc ?(
-                <React.Fragment>
-                    <div className={`${openCrop} position-relative`}>
-                        <CropEasy image={imageSrc} />
-                    </div>
-                </React.Fragment>
-                
-            ):(<div>Nope</div>)}
-            
+            </div>            
             
         </>
     )
 }
-function readFile(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader()
-      reader.addEventListener('load', () => resolve(reader.result), false)
-      reader.readAsDataURL(file)
-    })
-  }

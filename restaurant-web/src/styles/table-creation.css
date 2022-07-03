@@ -9,3 +9,15 @@
 #canvas-table-creation{
     background-color: brown;
 }
+#modal{
+    position:absolute;
+    height: 100% !important;
+    width: 100% !important;
+    
+}
+#bg-cropper{
+    position: fixed;
+    width: 100% !important;
+    height: 100% !important;
+    background: #6c757d;
+}
