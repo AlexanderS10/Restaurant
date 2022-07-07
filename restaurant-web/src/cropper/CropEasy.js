@@ -1,22 +1,30 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 import * as ReactDOM from 'react-dom';
-import { Box, Button, DialogActions, DialogContent, Slider, Typography } from '@mui/material';
+import { Box, DialogActions, DialogContent, Slider, Typography } from '@mui/material';
 import CropIcon from '@mui/icons-material/Crop';
 import { Cancel } from '@mui/icons-material';
 import Cropper from "react-easy-crop"
+import getCroppedImg from './utils/cropImage'
 let CropModalContext = createContext()
 export function CropEasyModal(props) {//As a new react developer learning the frame and python I have to figure out how to implement all types of modals and the use of context
     let { setShowModal, showModal } = props
     let { showCroppedImage } = useGlobalContext()
-    let { zoom, setZoom, crop, setCrop, rotation, setRotation, onCropComplete, imageSrc, imageSrcCropped } = useGlobalContext()
-    let doneCropHandling = () => {
+    let { zoom, setZoom, crop, setCrop, rotation, setRotation, onCropComplete, imageSrc, setImageSrc, croppedAreaPixels, setImageSrcCropped } = useGlobalContext()
+    let doneCropHandling = useCallback(async () => {
+        try {
+            console.log("Line 1")
+            let croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels, rotation)
+            console.log("Image cropped successfully")
+            setImageSrcCropped(croppedImage)
+        }
+        catch (e) {
+            console.log(e)
+        }
         setShowModal(false)
-    }
+    }, [imageSrc,croppedAreaPixels,rotation])
     let cancelCropHandling = () => {
         setShowModal(false)
-    }
-
-    let cropImage = async () => {
+        setImageSrc([])
 
     }
     useEffect(() => {
@@ -26,18 +34,18 @@ export function CropEasyModal(props) {//As a new react developer learning the fr
             cropper.style.display = "block"
             cropper.style.zIndex = 2
             bg_cropper.style.display = "block"
-            bg_cropper.style.display=1
+            bg_cropper.style.zIndex = 1
         }
         if (showModal === false && cropper && bg_cropper) {
             cropper.style.zIndex = 0
             cropper.style.display = "none"
-            bg_cropper.style.display=0
+            bg_cropper.style.zIndex = 0
             bg_cropper.style.display = "none"
         }
     }, [showModal])
     let content = showModal && (
         <div>
-            <div id="bg-cropper">
+            <div id="bg-cropper" onClick={() => cancelCropHandling()}>
             </div>
             <div id="modal-cropper" className="position-relative">
                 <DialogContent dividers
@@ -69,7 +77,7 @@ export function CropEasyModal(props) {//As a new react developer learning the fr
                         }}
                     >
                         <Box>
-                            <Typography sx={{color:"white"}}>
+                            <Typography sx={{ color: "white" }}>
                                 Zoom: {zoomPercentage(zoom)}
                             </Typography>
                             <Slider
@@ -83,7 +91,7 @@ export function CropEasyModal(props) {//As a new react developer learning the fr
                             />
                         </Box>
                         <Box>
-                            <Typography sx={{color:"white"}}>
+                            <Typography sx={{ color: "white" }}>
                                 Rotation: {rotation}
                             </Typography>
                             <Slider
@@ -100,21 +108,9 @@ export function CropEasyModal(props) {//As a new react developer learning the fr
                         gap: 2,
                         flexWrap: "wrap"
                     }}>
-                        <Button
-                            variant="outlined"
-                            startIcon={<Cancel />}
-                            onClick={() => cancelCropHandling()}
-                        >
-                            Cancel
-                        </Button>
+                        <button className="btn btn-danger" onClick={() => cancelCropHandling()}><i className="bi bi-crop"></i> Cancel</button>
+                        <button className="btn btn-primary" onClick={() => doneCropHandling()}><i className="bi bi-crop"></i> Crop</button>
 
-                        <Button
-                            variant="contained"
-                            startIcon={<CropIcon />}
-                            onClick={() => doneCropHandling()}
-                        >
-                            Crop
-                        </Button>
                     </Box>
                 </DialogActions>
             </div>
@@ -135,7 +131,7 @@ export function CropModalContextProvider({ children }) {
     let [rotation, setRotation] = useState(0)
     let [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
     let [imageSrcCropped, setImageSrcCropped] = useState([]);
-    const [croppedImage, setCroppedImage] = useState(null);
+    
     let [imageSrc, setImageSrc] = useState([])
     let onFileChange = async (e) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -148,6 +144,7 @@ export function CropModalContextProvider({ children }) {
     }
     const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
         setCroppedAreaPixels(croppedAreaPixels);
+        console.log("onCropComplete is executed!")
     }, []);
     return (
         <CropModalContext.Provider value={{
@@ -166,7 +163,7 @@ export function CropModalContextProvider({ children }) {
             croppedAreaPixels,
             imageSrcCropped,
             setImageSrcCropped,
-            imageSrc
+            imageSrc,
         }
         }>
             {children}

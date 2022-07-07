@@ -1,23 +1,42 @@
-.canvas-table-creation{
-    
+.canvas-table-creation {
+
     height: 100%;
 }
-#canvas-wrapper{
+
+#canvas-wrapper {
     background-color: antiquewhite;
     width: 1000px;
 }
-#canvas-table-creation{
+
+#canvas-table-creation {
     background-color: brown;
 }
-#modal{
-    position:absolute;
+
+#modal {
+    position: absolute;
     height: 100% !important;
     width: 100% !important;
-    
 }
-#bg-cropper{
+
+#modal-cropper {
+    width: 600px;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, 20%);
+    border-radius: 8px;
+    background-color: #4f4f56;
+    padding: 10px;
+}
+
+@media(max-width:650px) {
+    #modal-cropper {
+        width: 400px;
+    }
+}
+
+#bg-cropper {
     position: fixed;
     width: 100% !important;
     height: 100% !important;
-    background: #6c757d;
+    background: #6c757dc4;
 }

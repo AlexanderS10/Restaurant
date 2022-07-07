@@ -19,10 +19,9 @@ export function RoomCreationContainer() {
 
 export function RoomCreation(props) {
     let [openCrop, setOpenCrop] = useState('d-none')
-    let [imageSrc, setImageSrc] = useState(null)
     let [file, setFile] = useState(null)
 
-    let {onFileChange}=useGlobalContext()
+    let {onFileChange,imageSrcCropped,imageSrc}=useGlobalContext()
     let { showModal, setShowModal } = useGlobalContext();
     let handleForm = (e) => {
         e.preventDefault()
@@ -87,7 +86,12 @@ export function RoomCreation(props) {
                     </form>
                 </div>
             </div>            
-            
+            {imageSrcCropped?(
+                <div><img src={imageSrcCropped} alt="Cropped"/></div>
+            ):(
+                <div>Does not exist</div>
+            )
+            }
         </>
     )
 }
