@@ -72,5 +72,22 @@ class CreateTableAPIView(generics.CreateAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response({"message":"The data provided is invalid"})
+class CreateRoomAPIView(generics.CreateAPIView):
+    serializer_class=RoomSerializer
+    def post(self, request):
+        print(request.data)
+        serializer = self.get_serializer(data = request.data)
+        if serializer.is_valid():
+            #serializer.save()
+            return Response({"message":"The room was created successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"message":"The data provided is invalid"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+class CreateRoomImageAPIView(generics.CreateAPIView):
+    serializer_class = RoomImageSerializer
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message":"Image added successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"message":"Image could not be added"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 

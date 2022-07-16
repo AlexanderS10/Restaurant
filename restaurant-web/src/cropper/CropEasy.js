@@ -1,28 +1,35 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 import * as ReactDOM from 'react-dom';
 import { Box, DialogActions, DialogContent, Slider, Typography } from '@mui/material';
-import CropIcon from '@mui/icons-material/Crop';
-import { Cancel } from '@mui/icons-material';
 import Cropper from "react-easy-crop"
 import getCroppedImg from './utils/cropImage'
 let CropModalContext = createContext()
 export function CropEasyModal(props) {//As a new react developer learning the frame and python I have to figure out how to implement all types of modals and the use of context
     let { setShowModal, showModal } = props
-    let { showCroppedImage } = useGlobalContext()
-    let { zoom, setZoom, crop, setCrop, rotation, setRotation, onCropComplete, imageSrc, setImageSrc, croppedAreaPixels, setImageSrcCropped } = useGlobalContext()
+    let { zoom, setZoom, crop, setCrop, rotation, setRotation, onCropComplete, imageSrc, setImageSrc, croppedAreaPixels, setImageSrcCropped, imageSrcCropped,selectedImage} = useGlobalContext()
     let doneCropHandling = useCallback(async () => {
         try {
-            console.log("Line 1")
             let croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels, rotation)
-            console.log("Image cropped successfully")
-            setImageSrcCropped(croppedImage)
+            if(imageSrcCropped.length===0){
+                setImageSrcCropped([{id:selectedImage,img:croppedImage},...imageSrcCropped])
+            }
+            else{
+                let temp = [...imageSrcCropped].filter(function(e){
+                    return e.id !== selectedImage // if the id of the image is equal to the one being uploaded then this item will not be copied to the temp array of objects
+                })
+                setImageSrcCropped([...temp, {id:selectedImage,img:croppedImage}])
+            }
+            
         }
         catch (e) {
             console.log(e)
         }
         setShowModal(false)
+        // eslint-disable-next-line
     }, [imageSrc,croppedAreaPixels,rotation])
     let cancelCropHandling = () => {
+        let inputField = document.getElementById(`input-${selectedImage}`)
+        inputField.value=""
         setShowModal(false)
         setImageSrc([])
 
@@ -30,13 +37,16 @@ export function CropEasyModal(props) {//As a new react developer learning the fr
     useEffect(() => {
         let cropper = document.getElementById("modal-cropper")
         let bg_cropper = document.getElementById("bg-cropper")
+        let modal = document.getElementById("modal")
         if (showModal === true && cropper && bg_cropper) {
+            modal.style.zIndex = 1
             cropper.style.display = "block"
             cropper.style.zIndex = 2
             bg_cropper.style.display = "block"
             bg_cropper.style.zIndex = 1
         }
         if (showModal === false && cropper && bg_cropper) {
+            //modal.style.display = "none"
             cropper.style.zIndex = 0
             cropper.style.display = "none"
             bg_cropper.style.zIndex = 0
@@ -131,20 +141,21 @@ export function CropModalContextProvider({ children }) {
     let [rotation, setRotation] = useState(0)
     let [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
     let [imageSrcCropped, setImageSrcCropped] = useState([]);
-    
     let [imageSrc, setImageSrc] = useState([])
-    let onFileChange = async (e) => {
+    let [selectedImage, setSelectedImage] = useState()
+
+    let onFileChange = async (e,id) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = e.target.files[0]
             let imageDataUrl = await readFile(file)
             console.log("Image loaded")
+            setSelectedImage(id)
             setImageSrc(imageDataUrl)
             setShowModal(true)
         }
     }
     const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
         setCroppedAreaPixels(croppedAreaPixels);
-        console.log("onCropComplete is executed!")
     }, []);
     return (
         <CropModalContext.Provider value={{
@@ -164,6 +175,8 @@ export function CropModalContextProvider({ children }) {
             imageSrcCropped,
             setImageSrcCropped,
             imageSrc,
+            selectedImage,
+            setSelectedImage
         }
         }>
             {children}
@@ -171,28 +184,6 @@ export function CropModalContextProvider({ children }) {
     )
 }
 
-//establish the hook that will trigger the modal
-export function useCropping() {
-    let [imageSrc, setImageSrc] = useContext(CropModalContext)
-    let [needsCleanup, setNeedsCleanup] = useState(false)
-    let cropImageEasy = (imageSrc) => {
-        setNeedsCleanup(true)
-        let promise = new Promise((resolve, reject) => {
-            setImageSrc({
-                imageSrc,
-                isOpen: true,
-                proceed: resolve,
-                cancel: reject
-            })
-        })
-        return promise.then(
-            () => {
-                setImageSrc({ ...imageSrc, isOpen: false })
-                return
-            }
-        )
-    }
-}
 export function useGlobalContext() {
     return useContext(CropModalContext)
 }

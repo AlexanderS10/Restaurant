@@ -3,7 +3,7 @@ from django.urls import path
 from profiles.views import user_details, user_details_api
 from menu.views import *
 from accounts.views import AdminUserInfoUpdate, CreateUserAPIView, SearchUsersAPIView, search_users_view, reset_default_profile_image, reset_profile_image
-from bookings.views import RoomsAPIView, TablesListAPIView, TableAPIView, CreateTableAPIView
+from bookings.views import RoomsAPIView, TablesListAPIView, TableAPIView, CreateTableAPIView, CreateRoomAPIView, CreateRoomImageAPIView
 urlpatterns = [
     path('userdetails/', user_details_api),
     path('userdetails/<int:user_id>/', user_details),
@@ -22,5 +22,7 @@ urlpatterns = [
     path('rooms/', RoomsAPIView.as_view()),
     path('tables/', TablesListAPIView.as_view()),
     path('tables/<int:id>/', TableAPIView.as_view()),
-    path('tables/create/', CreateTableAPIView.as_view())
+    path('tables/create/', CreateTableAPIView.as_view()),
+    path('rooms/create/', CreateRoomAPIView.as_view()),
+    path('rooms/add-image/', CreateRoomImageAPIView.as_view())
 ]
