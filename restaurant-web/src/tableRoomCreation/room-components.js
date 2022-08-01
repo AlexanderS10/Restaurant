@@ -16,7 +16,6 @@ export function RoomCreationContainer() {
 }
 
 export function RoomCreation(props) {
-    let id = null
     let modal = document.getElementById("modal")
     let { onFileChange, imageSrcCropped, selectedImage } = useGlobalContext()
     let { showModal, setShowModal } = useGlobalContext();
@@ -36,25 +35,37 @@ export function RoomCreation(props) {
         let formDataInfo = Object.fromEntries(formData.entries())
         apiCreateRoom(handleSubmit, formDataInfo)
     }
-    let handleSubmit = (response, data) => {
-        console.log(response)
+    let handleSubmit = async (response, data) => {
+        let id = null;
+        //console.log(response)
         if (response.status === 201) {//If the room is created successfuly and data will be sent back by which the images will be sent 
-            // id = toast.loading("Room Created, Uploading Images...",//create loading bar which will be resolved when the images are successfully uploaded
-            //     {
-            //         theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
-            //         progress: undefined,
-            //     })
+            id = toast.loading("Room Created, Uploading Images...",//create loading bar which will be resolved when the images are successfully uploaded
+                {
+                    theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                    progress: undefined,
+                })
+
             let roomId = 2 //data.id//The way to recognize the room that the imges will be associated to is by getting the id of the object returned from the back end 
-            let k = 0
-            for(let i of imageSrcCropped){//loop through all the images in the state and then append them to the form that will be sent later on 
+            for (let i of imageSrcCropped) {//loop through all the images in the state and then append them to the form that will be sent later on 
                 //console.log(i)
                 let formImages = new FormData()
-                formImages.append(`image${k}`,await fetch(i.img).then(r => r.blob()),i.name)
-                formImages.append('room_id', roomId)
-                
-                k+=1
+                formImages.append('room', roomId)
+                formImages.append(`image`, await fetch(i.img).then(r => r.blob()), i.name)
+                let response = await apiAddImages(formImages)//each image will be uploaded by making an api call individually and waiting for the promise to be fulfilled in the loop
+                if (!response) {//if the image failed to be uploaded then let the user know which image and try the rest 
+                    toast.error(`${i.name} failed to be uploaded`,
+                        {
+                            theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                            progress: undefined,
+                        }
+                    )
+                }
+                else {
+                    continue
+                }
             }
-            
+            toast.update(id, { render: "Finished!", type: "success", isLoading: false, autoClose: 2000 })//finish the execution of the loading notification
+
         } else {
             toast.error(data.message,
                 {
@@ -64,6 +75,7 @@ export function RoomCreation(props) {
             )
         }
     }
+
     return (
         <>
             <CropEasyModal setShowModal={setShowModal} showModal={showModal} />
@@ -102,7 +114,7 @@ export function RoomCreation(props) {
                                 <p></p>
                             </div>
                             <div className="col-md-9">
-                                <input type='file' accept="image/*" multiple onChange={(e) => onFileChange(e, 1)} name="image-2" id="input-1" required />
+                                <input type='file' accept="image/*" onChange={(e) => onFileChange(e, 1)} name="image-2" id="input-1" required />
                             </div>
                         </div>
                         <div className="row mb-3">
@@ -110,7 +122,7 @@ export function RoomCreation(props) {
                                 <p></p>
                             </div>
                             <div className="col-md-9">
-                                <input type='file' accept="image/*" multiple onChange={(e) => onFileChange(e, 2)} name="image-3" id="input-2" required />
+                                <input type='file' accept="image/*" onChange={(e) => onFileChange(e, 2)} name="image-3" id="input-2" required />
                             </div>
                         </div>
                         <div className="row mb-3">

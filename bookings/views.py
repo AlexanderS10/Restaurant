@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .serializers import *
 from rest_framework import generics,serializers, status
 from .models import *
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 # Create your views here.
 @login_required(login_url='login')
@@ -74,20 +75,20 @@ class CreateTableAPIView(generics.CreateAPIView):
         return Response({"message":"The data provided is invalid"})
 class CreateRoomAPIView(generics.CreateAPIView):
     serializer_class=RoomSerializer
-    def post(self, request):
+    def post(self, request, format=None):
         print(request.data)
         serializer = self.get_serializer(data = request.data)
         if serializer.is_valid():
             #serializer.save()
-            return Response({"message":"The room was created successfully"}, status=status.HTTP_201_CREATED)
-        return Response({"message":"The data provided is invalid"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 class CreateRoomImageAPIView(generics.CreateAPIView):
     serializer_class = RoomImageSerializer
+    parser_classes = (MultiPartParser, FormParser)
     def post(self, request):
+        print(request.FILES)
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            #serializer.save()
             return Response({"message":"Image added successfully"}, status=status.HTTP_201_CREATED)
-        return Response({"message":"Image could not be added"}, status=status.HTTP_406_NOT_ACCEPTABLE)
-
-
+        return Response({"message":"There was an error uploading the image"}, status=status.HTTP_406_NOT_ACCEPTABLE)

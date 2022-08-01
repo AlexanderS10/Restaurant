@@ -1,6 +1,7 @@
-import { lookup, searchlookup,searchlookupLink} from "./components";
+import { lookup, searchlookup,searchlookupImageRoom,searchlookupLink} from "./components";
 export {
     lookup,
     searchlookup,
+    searchlookupImageRoom,
     searchlookupLink
 }

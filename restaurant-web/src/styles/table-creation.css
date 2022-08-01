@@ -43,3 +43,6 @@
 #image-holder{
     width: 100%;
 }
+#create-dinning-card{
+    overflow: hidden;
+}

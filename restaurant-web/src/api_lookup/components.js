@@ -1,4 +1,3 @@
-
 function getCookie(name) { //This is from the django website
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -59,7 +58,7 @@ export function searchlookup(method, endpoint, callback, data) {//This time I wi
   )
   fetch((request))
     .then(response => response.json().then(data => callback(response,data)))
-    .catch((error) => alert("Server did not respond")) 
+    .catch((error) => alert(error)) 
 }
 export function searchlookupLink(method, endpoint, callback, data) {//This time I will expriment with the fetch api rather than xml
   let jsonData;
@@ -82,4 +81,37 @@ export function searchlookupLink(method, endpoint, callback, data) {//This time 
   fetch((request))
     .then(response => response.json().then(data => callback(response,data)))
     .catch((error) => alert(error)) 
+}
+export async function searchlookupImageRoom(method, endpoint, data, responseReturn) {//This time I will expriment with the fetch api rather than xml
+  let formData;
+  let csrftoken = getCookie('csrftoken');
+  let headers = new Headers({"Content-Type": "multipart/form-data; boundary=123456"},{"Accept":"*/*"})//initialize the headers
+  if (data) {
+    formData = data
+    //console.log(Object.fromEntries(formData))
+  }
+  if (csrftoken) {
+    headers.append("X-CSRFToken", csrftoken)
+  }
+  let request = new Request(
+    `http://127.0.0.1:8000/api/${endpoint}`,
+    {
+      method: method,
+      body: formData//headers are not neccesary since the fetch api will figure out the correct headers a content type as well as boundary if needed
+    }
+  )
+  try{
+    let response=await fetch((request))
+    responseReturn = response
+    //console.log(response.status)
+    if(response.status===201){
+     // console.log("The image upload")
+      return true //if the response is not ok then false is returned from the function
+    }
+    else if(response.status!==201){
+      return false
+    }
+  }catch(error){
+    alert(error)
+  } 
 }

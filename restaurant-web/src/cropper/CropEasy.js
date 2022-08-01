@@ -6,18 +6,18 @@ import getCroppedImg from './utils/cropImage'
 let CropModalContext = createContext()
 export function CropEasyModal(props) {//As a new react developer learning the frame and python I have to figure out how to implement all types of modals and the use of context
     let { setShowModal, showModal } = props
-    let { zoom, setZoom, crop, setCrop, rotation, setRotation, onCropComplete, imageSrc, setImageSrc, croppedAreaPixels, setImageSrcCropped, imageSrcCropped,selectedImage} = useGlobalContext()
+    let { zoom, setZoom, crop, setCrop, rotation, setRotation, onCropComplete, imageSrc, setImageSrc, croppedAreaPixels, setImageSrcCropped, imageSrcCropped,selectedImage,imageName} = useGlobalContext()
     let doneCropHandling = useCallback(async () => {
         try {
             let croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels, rotation)
             if(imageSrcCropped.length===0){
-                setImageSrcCropped([{id:selectedImage,img:croppedImage},...imageSrcCropped])
+                setImageSrcCropped([{id:selectedImage,img:croppedImage, name:imageName},...imageSrcCropped])
             }
             else{
                 let temp = [...imageSrcCropped].filter(function(e){
                     return e.id !== selectedImage // if the id of the image is equal to the one being uploaded then this item will not be copied to the temp array of objects
                 })
-                setImageSrcCropped([...temp, {id:selectedImage,img:croppedImage}])
+                setImageSrcCropped([...temp, {id:selectedImage,img:croppedImage,name:imageName}])
             }
             
         }
@@ -143,12 +143,15 @@ export function CropModalContextProvider({ children }) {
     let [imageSrcCropped, setImageSrcCropped] = useState([]);
     let [imageSrc, setImageSrc] = useState([])
     let [selectedImage, setSelectedImage] = useState()
+    let [imageName, setImageName] = useState(null)
 
     let onFileChange = async (e,id) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = e.target.files[0]
+            
             let imageDataUrl = await readFile(file)
-            console.log("Image loaded")
+            console.log("Image loaded",file.name)
+            setImageName(file.name)
             setSelectedImage(id)
             setImageSrc(imageDataUrl)
             setShowModal(true)
@@ -176,7 +179,9 @@ export function CropModalContextProvider({ children }) {
             setImageSrcCropped,
             imageSrc,
             selectedImage,
-            setSelectedImage
+            setSelectedImage,
+            imageName, 
+            setImageName
         }
         }>
             {children}

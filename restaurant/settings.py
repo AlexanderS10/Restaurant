@@ -24,7 +24,7 @@ SECRET_KEY = '5fskbbpv+08e34bg+h*xjl&0yky+!x5j!3n^b6!z*2yx@(o!ct'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['http://127.0.0.1:8000','.cfe.sh','http://localhost','http://localhost:3000','http://192.168.1.16','127.0.0.1','localhost:8000']
+ALLOWED_HOSTS = ['http://127.0.0.1:8000','.cfe.sh','http://localhost','http://localhost:3000','http://192.168.1.16','127.0.0.1','localhost:8000', 'localhost']
 LOGIN_URL = "/login"
 
 # Application definition
@@ -93,6 +93,7 @@ DATABASES = {
         'USER': 'alex',
         'PASSWORD': 'alex100699',
         'HOST': 'localhost',
+        "OPTIONS": {"charset": "utf8mb4"}
     }
 }
 
@@ -168,8 +169,8 @@ if DEBUG: #This is for development only
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
     EMAIL_FILE_PATH = os.path.join(BASE_DIR,'sent_emails')
     DEFAULT_RENDER_CLASSES +=[
-    'rest_framework.renderers.JSONRenderer',
     'rest_framework.renderers.BrowsableAPIRenderer',
+    'rest_framework.renderers.JSONRenderer',
     'rest_framework.renderers.HTMLFormRenderer']
     DEFAULT_AUTHENTICATION_CLASSES += ['restaurant.rest_api.dev.DevAuthentication']
 
