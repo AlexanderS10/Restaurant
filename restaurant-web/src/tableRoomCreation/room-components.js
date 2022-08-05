@@ -1,7 +1,6 @@
 import React from "react";
-import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { ConfirmContextProvider, ConfirmModal, useConfirm } from "../components";
+import { ConfirmContextProvider} from "../components";
 import { CropEasyModal, CropModalContextProvider, useGlobalContext } from "../cropper/CropEasy"
 import { apiAddImages, apiCreateRoom } from "./backEndLookUp";
 export function RoomCreationContainer() {
@@ -17,14 +16,13 @@ export function RoomCreationContainer() {
 
 export function RoomCreation(props) {
     let modal = document.getElementById("modal")
-    let { onFileChange, imageSrcCropped, selectedImage } = useGlobalContext()
+    let { onFileChange, imageSrcCropped, setImageSrcCropped } = useGlobalContext()
     let { showModal, setShowModal } = useGlobalContext();
     if (showModal === false) {//set up the index for the initial render of the component 
         modal.style.zIndex = -1
     } else {
         modal.style.zIndex = 1
     }
-
     let handleForm = async (e) => {
         e.preventDefault()
         let form = new FormData(e.target)
@@ -37,7 +35,6 @@ export function RoomCreation(props) {
     }
     let handleSubmit = async (response, data) => {
         let id = null;
-        //console.log(response)
         if (response.status === 201) {//If the room is created successfuly and data will be sent back by which the images will be sent 
             id = toast.loading("Room Created, Uploading Images...",//create loading bar which will be resolved when the images are successfully uploaded
                 {
@@ -45,7 +42,7 @@ export function RoomCreation(props) {
                     progress: undefined,
                 })
 
-            let roomId = 2 //data.id//The way to recognize the room that the imges will be associated to is by getting the id of the object returned from the back end 
+            let roomId = data.id//The way to recognize the room that the imges will be associated to is by getting the id of the object returned from the back end 
             for (let i of imageSrcCropped) {//loop through all the images in the state and then append them to the form that will be sent later on 
                 //console.log(i)
                 let formImages = new FormData()
@@ -65,7 +62,9 @@ export function RoomCreation(props) {
                 }
             }
             toast.update(id, { render: "Finished!", type: "success", isLoading: false, autoClose: 2000 })//finish the execution of the loading notification
-
+            let form = document.getElementById('room-form')
+            form.reset()//reset the data of the form so it cannot be spammed tot he backend
+            setImageSrcCropped([])//reset the images for the form
         } else {
             toast.error(data.message,
                 {

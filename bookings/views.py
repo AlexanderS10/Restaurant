@@ -1,5 +1,3 @@
-from functools import partial
-from urllib import response
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -79,9 +77,9 @@ class CreateRoomAPIView(generics.CreateAPIView):
         print(request.data)
         serializer = self.get_serializer(data = request.data)
         if serializer.is_valid():
-            #serializer.save()
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+        return Response({"message":"Room cannot be created, check the data and try again"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 class CreateRoomImageAPIView(generics.CreateAPIView):
     serializer_class = RoomImageSerializer
     parser_classes = (MultiPartParser, FormParser)
@@ -89,6 +87,7 @@ class CreateRoomImageAPIView(generics.CreateAPIView):
         print(request.FILES)
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            #serializer.save()
+            #import time
+            serializer.save()
             return Response({"message":"Image added successfully"}, status=status.HTTP_201_CREATED)
         return Response({"message":"There was an error uploading the image"}, status=status.HTTP_406_NOT_ACCEPTABLE)

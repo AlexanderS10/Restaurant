@@ -1,19 +1,9 @@
-.canvas-table-creation {
-
-    height: 100%;
-}
-
-#canvas-wrapper {
-    background-color: antiquewhite;
-    width: 1000px;
-}
-
-#canvas-table-creation {
-    background-color: brown;
-}
-
+/*
+THIS IS THE STYLES FOR THE CROPPER 
+*/
 #modal {
     position: absolute;
+    z-index: -1;
     height: 100% !important;
     width: 100% !important;
 }
@@ -45,4 +35,63 @@
 }
 #create-dinning-card{
     overflow: hidden;
+}
+/*
+THIS IS THE STYLES FOR THE TABLE EDIT AREA
+*/
+
+.canvas-table-creation {
+    height: 100%;
+}
+.canvas-area{
+    overflow: auto;
+   
+}
+
+#canvas-wrapper {
+    background-color: antiquewhite;
+    width: 1000px;
+}
+
+#canvas-table-creation {
+    background-color: brown;
+}
+#table-creation-form{
+    border-radius: 8px;
+    background: white;
+    animation: backInDown;
+    animation-duration: 0.5s;
+}
+#table-creation-form-wrapper{
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%,40%);
+   z-index: 2;
+}
+#table-creation-form-bg{
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: #788189e8;
+}
+
+#confirm-table-creation, #cancel-table-creation{
+
+}
+
+.button-group{
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-cofirm{
+    color: white;
+    background-color: #37A745;
+    border-color: #37A745;
+}
+.btn-cofirm:hover{
+    color: white;
+    background-color: #287a33;
+    border-color: #287a33;
 }

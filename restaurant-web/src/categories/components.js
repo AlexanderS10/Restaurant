@@ -34,7 +34,7 @@ export function CategoriesList(props) {
     let handleAddCategory = (response, status) => {//Here we handle the request if it is successful
         if (status === 201) {
             let final = [...categories].concat(response)
-            console.log("Category added")
+            //console.log("Category added")
             setCategories(final)
             toast.success("Added Successfully",
                 {
