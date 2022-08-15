@@ -45,7 +45,7 @@ THIS IS THE STYLES FOR THE TABLE EDIT AREA
 }
 .canvas-area{
     overflow: auto;
-   
+   width: fit-content;
 }
 
 #canvas-wrapper {
@@ -76,9 +76,9 @@ THIS IS THE STYLES FOR THE TABLE EDIT AREA
     background: #788189e8;
 }
 
-#confirm-table-creation, #cancel-table-creation{
+/* #confirm-table-creation, #cancel-table-creation{
 
-}
+} */
 
 .button-group{
     display: flex;
@@ -94,4 +94,11 @@ THIS IS THE STYLES FOR THE TABLE EDIT AREA
     color: white;
     background-color: #287a33;
     border-color: #287a33;
+}
+#table-form-error{
+    font-size: small;
+    color: red;
+}
+#availability-checked, #rotation-checked{
+    margin-left: -1.7rem !important;
 }

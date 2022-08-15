@@ -16,6 +16,9 @@ class Table ( models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     capacity = models.IntegerField(verbose_name="Capacity")
     available = models.BooleanField(verbose_name="Available")
+    shape = models.CharField(max_length=10, blank=False)
+    sides = models.IntegerField(blank=False)
+    rotation = models.IntegerField(blank=False)
     x_pos = models.DecimalField(default=0.0,max_digits=6, decimal_places=2)
     y_pos = models.DecimalField(default=0.0, max_digits=6, decimal_places=2)
     def __str__(self):
