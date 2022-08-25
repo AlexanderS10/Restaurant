@@ -63,7 +63,7 @@ export function UserResults(props) {
     let [fetched, setFetched] = useState()
 
     useEffect(() => {
-        console.log("Call component")
+        //console.log("Call component")
         let searchusers = (response, data) => {
             if (response.status === 400) {
                 toast.error(data.message,

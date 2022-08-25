@@ -45,12 +45,12 @@ THIS IS THE STYLES FOR THE TABLE EDIT AREA
 }
 .canvas-area{
     overflow: auto;
-   width: fit-content;
+   
 }
 
 #canvas-wrapper {
     background-color: antiquewhite;
-    width: 1000px;
+    width: 1200px;
 }
 
 #canvas-table-creation {

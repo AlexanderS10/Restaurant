@@ -45,7 +45,7 @@ class TableAPIView(generics.RetrieveUpdateDestroyAPIView):
             if instance:#if the instance is found then it will update with the new data
                 serializer = self.get_serializer(instance, data = request.data, partial=True)
                 if serializer.is_valid():
-                    serializer.save()
+                    #serializer.save()
                     return Response(serializer.data, status=status.HTTP_200_OK)
                 return Response({"message":"Invalid data submitted"}, status=status.HTTP_404_NOT_FOUND)
             return Response({"message":"There was an error"}, status=status.HTTP_404_NOT_FOUND)
@@ -67,10 +67,11 @@ class CreateTableAPIView(generics.CreateAPIView):
     serializer_class = TableSerializer
     def post(self, request):
         serializer = self.get_serializer(data = request.data)
+        print(request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response({"message":"The data provided is invalid"})
+            #serializer.save()
+            return Response({"message":"Table created successfully"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class CreateRoomAPIView(generics.CreateAPIView):
     serializer_class=RoomSerializer
     def post(self, request, format=None):

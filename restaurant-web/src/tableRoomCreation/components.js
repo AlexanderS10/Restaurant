@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { Stage, Layer, Rect, RegularPolygon } from "react-konva";
 import { ToastContainer, toast } from 'react-toastify';
 import { ConfirmContextProvider, ConfirmModal, useConfirm } from "../components";
+import { apiCreateTable } from './backEndLookUp'
 let apiData = [
     {
         id: 7,
         table_number: 7,
         sides: 8,
+        rotation:90,
         isDraggin: false,
         shape: 'polygon',
         x: 284.22,
@@ -18,6 +20,7 @@ let apiData = [
         id: 6,
         table_number: 6,
         sides: 4,
+        rotation:0,
         isDraggin: false,
         shape: 'square',
         x: 84.61,
@@ -28,6 +31,7 @@ let apiData = [
         id: 4,
         table_number: 4,
         sides: 4,
+        rotation:90,
         isDraggin: false,
         shape: 'rectangle',
         x: 189.96,
@@ -38,6 +42,7 @@ let apiData = [
         id: 3,
         table_number: 3,
         sides: 4,
+        rotation:90,
         isDraggin: false,
         shape: 'rectangle',
         x: 380.61,
@@ -59,10 +64,9 @@ export function CreateUpdateTables(props) {
     let [tables, setTables] = useState(apiData)
     let [editMode, setEditMode] = useState(false)
     let [isOpen, setIsOpen] = useState(false)
-    let [tableForm, setTableForm] = useState({})
+    let [room, setRoom] = useState(null)
     let [newTable, setNewTable] = useState({})
     let parentRef = React.createRef()
-    let table_button = document.getElementById("create-table-btn")
     let resizeCanvas = () => {
         // let parent = document.getElementById("canvas-wrapper")
         // let width = parent.offsetWidth
@@ -75,6 +79,17 @@ export function CreateUpdateTables(props) {
         modal.style.zIndex = -1;//send the modal to the background 
         //setCanvasWidth(width)
         window.addEventListener('resize', resizeCanvas)
+        //
+        let url = window.location.href
+        let urlArray = url.split('/')
+        let idUrl;
+        if (urlArray[urlArray.length - 1] === "") {//Since router does not get rendered by django I will have to use raw urls
+            idUrl = urlArray[urlArray.length - 2]
+        }
+        else {
+            idUrl = urlArray[urlArray.length - 1]
+        }
+        setRoom(idUrl)
         return () => {
             console.log("Component unmounted")
             window.removeEventListener('resize', resizeCanvas)
@@ -83,27 +98,56 @@ export function CreateUpdateTables(props) {
     }, [])
 
     let addTable = (entries) => {
-        console.log(entries)
+        //console.log(entries)
         setNewTable({
+            room:room,
             id: entries.table_number,
             table_number: entries.table_number,
             capacity: entries.capacity,
             x: Math.random() * canvasWidth,
             y: Math.random() * canvasWidth / 2,
             sides: entries.sides,
-            rotation:entries.rotation,
+            rotation: entries.rotation,
             shape: entries.shape,
+            available:entries.available
         })
     }
 
     let handleConfirmCreation = () => {
         let table = newTable;
         console.log("The table created is: ", table)
+        if (table.x <= 1200 || table.y <= 700 || table.x > 0 || table.y > 0) {
+            apiCreateTable(handleTableCreation, table)
+        } else {
+            toast.error(`There was an error in the table position, try again`,
+                {
+                    theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                    progress: undefined,
+                }
+            )
+        }
+    }
+
+    let handleTableCreation = (response, data) => {
+        console.log(response)
+        if (response.status === 201) {
+            toast.success(data.message,
+                {
+                    theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                    progress: undefined,
+                }
+            )
+            let final = [...tables].concat(newTable)
+            setTables(final)
+            setNewTable({})
+        }
+        else{
+            console.log(data)
+        }
     }
 
     let handleDragStart = (e) => {
         let id = e.target.id()
-        console.log(id)
         setTables(
             tables.map((table) => {
                 return {
@@ -142,7 +186,7 @@ export function CreateUpdateTables(props) {
 
     let handleClick = (e) => {
         console.log("The table id clicked is: ", e.target.id())
-        console.log("Position: ",e.target.x(), e.target.y())
+        console.log("Position: ", e.target.x(), e.target.y())
 
     }
     let handleFormSubmit = (entries) => {
@@ -156,10 +200,10 @@ export function CreateUpdateTables(props) {
     //console.log(tableForm)
     return (
         <div>
-            {isOpen && <TableCreationModal setIsOpen={setIsOpen} handleFormSubmit={handleFormSubmit} setTableForm={setTableForm} data={tables} />}
+            {isOpen && <TableCreationModal setIsOpen={setIsOpen} handleFormSubmit={handleFormSubmit} data={tables} />}
             <div className="container canvas-area">
                 <div id="canvas-wrapper" ref={parentRef}>
-                    <Stage width={1000} height={600} id="canvas-table-creation">
+                    <Stage width={1200} height={700} id="canvas-table-creation">
                         <Layer>
                             {tables.map((shape) => {
                                 if (shape.shape === "polygon") {
@@ -167,14 +211,15 @@ export function CreateUpdateTables(props) {
                                         <RegularPolygon
                                             key={shape.table_number}
                                             id={shape.id.toString()}
-                                            sides={shape.sides}
+                                            sides={parseInt(shape.sides)}
                                             x={shape.x}
                                             y={shape.y}
                                             draggable={editMode}
                                             width={100}
                                             height={150}
                                             fill="blue"
-                                            rotation={45}
+                                            rotation={parseInt(shape.rotation)}
+                                            shadowBlur={10}
                                             onDragStart={(e) => handleDragStart(e)}
                                             onDragEnd={(e) => handleDragEnd(e)}
                                             onClick={(e) => handleClick(e)}
@@ -191,7 +236,8 @@ export function CreateUpdateTables(props) {
                                             width={150}
                                             height={100}
                                             fill="blue"
-                                            rotation={90}
+                                            rotation={parseInt(shape.rotation)}
+                                            shadowBlur={10}
                                             onDragStart={(e) => handleDragStart(e)}
                                             onDragEnd={(e) => handleDragEnd(e)}
                                             onClick={(e) => handleClick(e)}
@@ -207,7 +253,8 @@ export function CreateUpdateTables(props) {
                                             draggable={editMode}
                                             width={100}
                                             height={100}
-                                            rotation={0}
+                                            rotation={parseInt(shape.rotation)}
+                                            shadowBlur={10}
                                             fill="blue"
                                             onDragStart={(e) => handleDragStart(e)}
                                             onDragEnd={(e) => handleDragEnd(e)}
@@ -215,8 +262,7 @@ export function CreateUpdateTables(props) {
                                         />)
                                 }
                             })}
-                            {console.log(newTable)}
-                            {newTable.shape==="rectangle" ? (
+                            {newTable.shape === "rectangle" ? (
                                 <>
                                     <Rect
                                         key={newTable.table_number}
@@ -234,7 +280,7 @@ export function CreateUpdateTables(props) {
                                     />
                                 </>
                             ) : ("")}
-                            {newTable.shape==="square" ? (
+                            {newTable.shape === "square" ? (
                                 <>
                                     <Rect
                                         key={newTable.table_number}
@@ -252,7 +298,7 @@ export function CreateUpdateTables(props) {
                                     />
                                 </>
                             ) : ("")}
-                            {newTable.shape==="polygon" ? (
+                            {newTable.shape === "polygon" ? (
                                 <>
                                     <RegularPolygon
                                         key={newTable.table_number}
@@ -260,10 +306,10 @@ export function CreateUpdateTables(props) {
                                         x={newTable.x}
                                         y={newTable.y}
                                         draggable={true}
-                                        sides = {parseInt(newTable.sides)}
+                                        sides={parseInt(newTable.sides)}
                                         width={100}
                                         height={150}
-                                        rotation= {parseInt(newTable.rotation+45)}
+                                        rotation={parseInt(newTable.rotation)}
                                         fill="red"
                                         onDragStart={(e) => handleDragStart(e)}
                                         onDragEnd={(e) => handleDragEndNew(e)}
@@ -302,7 +348,6 @@ function TableCreationModal({ setIsOpen, handleFormSubmit, data }) {
     let [shape, setShape] = useState("rectangle")
     useEffect(() => {
         console.log("Form component mounted")
-        let form = document.getElementById('table-creation-form')
         //form.classList.add('animate__backInDown')
         return () => {
 
@@ -313,17 +358,24 @@ function TableCreationModal({ setIsOpen, handleFormSubmit, data }) {
         let form = new FormData(e.target)
         let checkbox = document.getElementById("availability-checked")
         let rotation = document.getElementById("rotation-checked")
+        let available = document.getElementById("availability-checked")
         if (!checkbox.checked) {
             form.append(checkbox.name, false)
         }
         else {
             form.append(checkbox.name, true)
         }
-        if(!rotation.checked){
+        if (!rotation.checked) {
             form.append("rotation", 0)
         }
-        else{
+        else {
             form.append("rotation", 90)
+        }
+        if(!available.checked){
+            form.append("available", false)
+        }
+        else{
+            form.append("available", true)
         }
         form.append("shape", shape)
         let entries = Object.fromEntries(form.entries())
@@ -341,7 +393,7 @@ function TableCreationModal({ setIsOpen, handleFormSubmit, data }) {
             setError({ "sides": "Table sides are unreal" })
             return
         }
-        console.log(entries)
+        //console.log(entries)
         //if the end of loop is reached it means no error was found 
         handleFormSubmit(entries)
     }

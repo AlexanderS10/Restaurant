@@ -18,7 +18,7 @@ function App() {
         <Route path="/users" element={<UsersSearch />} />
         <Route path="/menu" element={<CategoriesList/>} />
         <Route exact path="/:userId" element={<UserPage/>} />
-        <Route exact path="/tables/create" element={<TableCreationComponent/>} />
+        <Route exact path="/tables/create/:roomId" element={<TableCreationComponent/>} />
         <Route exact path="/rooms/create" element={<RoomCreationContainer/>} />
       </Routes>
       
