@@ -11,16 +11,16 @@ class Room (models.Model):
         return self.name
 
 class Table ( models.Model):
-    id = models.AutoField(unique=True, primary_key=True)
+    id = models.IntegerField(primary_key=True, unique=True, blank=False)
     table_number = models.IntegerField(null=False, unique=True)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room,related_name="tables", on_delete=models.CASCADE)
     capacity = models.IntegerField(verbose_name="Capacity")
     available = models.BooleanField(verbose_name="Available")
     shape = models.CharField(max_length=10, blank=False)
     sides = models.IntegerField(blank=False)
     rotation = models.IntegerField(blank=False)
-    x_pos = models.DecimalField(default=0.0,max_digits=6, decimal_places=2)
-    y_pos = models.DecimalField(default=0.0, max_digits=6, decimal_places=2)
+    x = models.DecimalField(max_digits=8, decimal_places=3)
+    y = models.DecimalField(max_digits=8, decimal_places=3)
     def __str__(self):
         return str(self.table_number)
 

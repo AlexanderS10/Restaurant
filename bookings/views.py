@@ -1,6 +1,8 @@
+from xml.dom import ValidationErr
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from django.http.response import Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .serializers import *
@@ -38,23 +40,20 @@ class TablesListAPIView(generics.ListAPIView):
 
 class TableAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TableSerializer
-    queryset = Table.objects.all()
-    def put(self, request,id):
+    queryset = ''
+    def get_object(self, id):#Here we check if an object exists and return a 404 error if it does not 
         try:
-            instance = Table.objects.get(id = id)#get the instance 
-            if instance:#if the instance is found then it will update with the new data
-                serializer = self.get_serializer(instance, data = request.data, partial=True)
-                if serializer.is_valid():
-                    #serializer.save()
-                    return Response(serializer.data, status=status.HTTP_200_OK)
-                return Response({"message":"Invalid data submitted"}, status=status.HTTP_404_NOT_FOUND)
-            return Response({"message":"There was an error"}, status=status.HTTP_404_NOT_FOUND)
-        except:#An error will be thrown if the desired object is not found 
-            serializer = self.get_serializer(data = request.data)
-            if serializer.is_valid():#Check if the data sent is valid and create a new object
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response({"message":"Request error"}, status=status.HTTP_404_NOT_FOUND)     
+            return Table.objects.get(id=id)
+        except (Table.DoesNotExist):
+            raise Http404
+    def put(self, request):
+        tableList = request.data
+        instance = None
+        self.get_object(id=50)
+        # for table in tableList:
+        #     print(table['id'], self.get_object(id=table['id']))
+        return Response({"message":"Yeet"}, status=status.HTTP_200_OK)
+
     def get(self, request, id):
         try:
             instance = Table.objects.get(id=id)
@@ -63,11 +62,24 @@ class TableAPIView(generics.RetrieveUpdateDestroyAPIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response({"message":"There was an error"}, status=status.HTTP_404_NOT_FOUND)
+
+class TablesListAPIView(generics.ListAPIView):
+    serializer_class = TableSerializer
+    queryset=''
+    def get(self,request,room_id):
+        tables = Table.objects.filter(room=room_id)
+        serializer = self.get_serializer(tables, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK )
+
+
 class CreateTableAPIView(generics.CreateAPIView):
     serializer_class = TableSerializer
     def post(self, request):
         serializer = self.get_serializer(data = request.data)
-        print(request.data)
+        if(request.data['id']!=request.data['table_number']):#This will ensure that the id and the table number is unique
+            return Response({"message":"Table id problem found, try again"})
+        if(float(request.data['x'])>=1200 or float(request.data['x'])<0 or float(request.data['y'])>700 or float(request.data['y'])<0):
+            return Response({"message":"There was an error in the table position"}, status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             #serializer.save()
             return Response({"message":"Table created successfully"}, status=status.HTTP_201_CREATED)

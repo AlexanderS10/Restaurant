@@ -4,7 +4,9 @@ from functools import wraps
 def admin_only(view_function):
     @wraps(view_function)
     def wrap(request, *args, **kwargs):
-        if request.user.is_user_superuser():
+        if request.user.is_anonymous:
+            return render(request, "pages/404.html")
+        elif request.user.is_user_superuser():
             return view_function(request, *args, **kwargs)
         else:
             #Instead of redirecting to a certain page, I will redirect them to the 404 page leaving it ambiguous if users other than admins guessed a link
@@ -14,7 +16,9 @@ def admin_only(view_function):
 
 def customer_only(view_function):
     def wrap(request, *args, **kwargs):
-        if request.user.is_user_customer():
+        if request.user.is_anonymous:
+            return render(request, "pages/404.html")
+        elif request.user.is_user_customer():
             return view_function(request, *args, **kwargs)
         else:
             #Instead of redirecting to a certain page, I will redirect them to the 404 page leaving it ambiguous if exterior users guessed links 
@@ -23,7 +27,9 @@ def customer_only(view_function):
 
 def staff_only(view_function):
     def wrap(request, *args, **kwargs):
-        if request.user.is_user_staff():
+        if request.user.is_anonymous:
+            return render(request, "pages/404.html")
+        elif request.user.is_user_staff():
             return view_function(request, *args, **kwargs)
         else:
             #Instead of redirecting to a certain page, I will redirect them to the 404 page leaving it ambiguous if users other than staff guessed a link

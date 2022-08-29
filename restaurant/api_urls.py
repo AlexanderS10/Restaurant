@@ -20,8 +20,8 @@ urlpatterns = [
     path('default_profile_image/', reset_default_profile_image),
     path('reset_profile/', reset_profile_image),
     path('rooms/', RoomsAPIView.as_view()),
-    path('tables/', TablesListAPIView.as_view()),
-    path('tables/<int:id>/', TableAPIView.as_view()),
+    path('tables/<int:room_id>', TablesListAPIView.as_view()),
+    path('tables/update-list/', TableAPIView.as_view()),
     path('tables/create/', CreateTableAPIView.as_view()),
     path('rooms/create/', CreateRoomAPIView.as_view()),
     path('rooms/add-image/', CreateRoomImageAPIView.as_view())

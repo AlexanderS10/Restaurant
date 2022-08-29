@@ -3,53 +3,7 @@ import { useEffect, useState } from 'react';
 import { Stage, Layer, Rect, RegularPolygon } from "react-konva";
 import { ToastContainer, toast } from 'react-toastify';
 import { ConfirmContextProvider, ConfirmModal, useConfirm } from "../components";
-import { apiCreateTable } from './backEndLookUp'
-let apiData = [
-    {
-        id: 7,
-        table_number: 7,
-        sides: 8,
-        rotation:90,
-        isDraggin: false,
-        shape: 'polygon',
-        x: 284.22,
-        y: 86.34,
-        capacity: 8
-    },
-    {
-        id: 6,
-        table_number: 6,
-        sides: 4,
-        rotation:0,
-        isDraggin: false,
-        shape: 'square',
-        x: 84.61,
-        y: 212.64,
-        capacity: 2
-    },
-    {
-        id: 4,
-        table_number: 4,
-        sides: 4,
-        rotation:90,
-        isDraggin: false,
-        shape: 'rectangle',
-        x: 189.96,
-        y: 398.43,
-        capacity: 4
-    },
-    {
-        id: 3,
-        table_number: 3,
-        sides: 4,
-        rotation:90,
-        isDraggin: false,
-        shape: 'rectangle',
-        x: 380.61,
-        y: 398.00,
-        capacity: 6
-    }
-]
+import { apiCreateTable, apiGetTables, apiUpdateTableList} from './backEndLookUp'
 export function TableCreationComponent() {
 
     return (
@@ -60,25 +14,18 @@ export function TableCreationComponent() {
     )
 }
 export function CreateUpdateTables(props) {
-    let [canvasWidth, setCanvasWidth] = useState(300)
-    let [tables, setTables] = useState(apiData)
+    let [tables, setTables] = useState([])
     let [editMode, setEditMode] = useState(false)
     let [isOpen, setIsOpen] = useState(false)
     let [room, setRoom] = useState(null)
     let [newTable, setNewTable] = useState({})
+    let [modifiedTables, setModifiedTables] = useState([])
     let parentRef = React.createRef()
-    let resizeCanvas = () => {
-        // let parent = document.getElementById("canvas-wrapper")
-        // let width = parent.offsetWidth
-        // setCanvasWidth(width)
-    }
+
     useEffect(() => {
-        console.log("Component mounted")
-        //let width = parentRef.current.offsetWidth
+
         let modal = document.getElementById("modal")
         modal.style.zIndex = -1;//send the modal to the background 
-        //setCanvasWidth(width)
-        window.addEventListener('resize', resizeCanvas)
         //
         let url = window.location.href
         let urlArray = url.split('/')
@@ -90,26 +37,39 @@ export function CreateUpdateTables(props) {
             idUrl = urlArray[urlArray.length - 1]
         }
         setRoom(idUrl)
-        return () => {
-            console.log("Component unmounted")
-            window.removeEventListener('resize', resizeCanvas)
+        let fetchTables = (response, data) => {
+            console.log(data, response)
+            if (response.status === 200) {
+                setTables(data)
+            }
+            else {
+                toast.error(`There was an error fetching the data`,
+                    {
+                        theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                        progress: undefined,
+                    }
+                )
+            }
         }
+        apiGetTables(fetchTables, idUrl)
 
+        return () => {
+
+        }
     }, [])
 
     let addTable = (entries) => {
-        //console.log(entries)
         setNewTable({
-            room:room,
+            room: room,
             id: entries.table_number,
             table_number: entries.table_number,
             capacity: entries.capacity,
-            x: Math.random() * canvasWidth,
-            y: Math.random() * canvasWidth / 2,
+            x: parseFloat((Math.random() * (1100 - 100) + 100).toFixed(3)),
+            y: parseFloat((Math.random() * (600 - 100) + 100).toFixed(3)),
             sides: entries.sides,
             rotation: entries.rotation,
             shape: entries.shape,
-            available:entries.available
+            available: entries.available
         })
     }
 
@@ -141,8 +101,13 @@ export function CreateUpdateTables(props) {
             setTables(final)
             setNewTable({})
         }
-        else{
-            console.log(data)
+        else {
+            toast.success(data.message,
+                {
+                    theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                    progress: undefined,
+                }
+            )
         }
     }
 
@@ -157,15 +122,16 @@ export function CreateUpdateTables(props) {
             })
         )
     }
+
     let handleDragEnd = (e) => {
-        //console.log("Finished drag=>", `(${e.target.x()},${e.target.y()})`)
+        console.log("Finished drag=>", `(${e.target.x()},${e.target.y()})`)
         setTables(
             tables.map((table) => {
-                if (table.id === e.target.id()) {//execute only if the ids match or the table being dragged
+                if (parseInt(table.id) === parseInt(e.target.id())) {//execute only if the ids match or the table being dragged
                     return {
                         ...table,//copy all other attributes from table
-                        x: e.target.x(),//update x and y to the new position
-                        y: e.target.y(),
+                        x: parseFloat((e.target.x()).toFixed(3)),//update x and y to the new position
+                        y: parseFloat((e.target.y()).toFixed(3)),
                     }
                 }
                 return {
@@ -173,31 +139,70 @@ export function CreateUpdateTables(props) {
                 }
             })
         )
+        if(modifiedTables.length===0){//Here I will record all the tables that have changed so I do not have to send all the tables but just the ones that have changed
+            setModifiedTables([...modifiedTables].concat(e.target.id()))
+            
+        }
+        else{
+            let exists = false
+            for (let x of modifiedTables){
+                if (x===e.target.id()){
+                    exists=true
+                }
+                else{
+                    continue
+                }
+            }
+            if (!exists){
+                setModifiedTables([...modifiedTables].concat(e.target.id()))
+            }
+            
+        }
     }
 
     let handleDragEndNew = (e) => {//Here I will set the ending position of the new table and update the state
         let table = newTable
         setNewTable({
             ...table, //copies all attributes of the table
-            x: e.target.x(),//modify x and y position 
-            y: e.target.y()
+            x: parseFloat((e.target.x()).toFixed(3)),//update x and y to the new position
+            y: parseFloat((e.target.y()).toFixed(3)),
         })
     }
 
     let handleClick = (e) => {
         console.log("The table id clicked is: ", e.target.id())
-        console.log("Position: ", e.target.x(), e.target.y())
+        console.log("Position: ", parseFloat((e.target.x()).toFixed(3)), e.target.y())
 
     }
+
     let handleFormSubmit = (entries) => {
-        //setTableForm(JSON.stringify(entries))//Put the object in the state so it can be used later
-        //console.log(entries)
         setIsOpen(false)//close the modal form 
         addTable(entries)
         document.getElementById('cancel-table-creation').style.display = "block"
         document.getElementById('confirm-table-creation').style.display = "block"
     }
-    //console.log(tableForm)
+
+    let updateTablePositions = ()=>{//update the new positions of the tables = > record the tables that changed and send those as a list
+        let final = []
+        for (let x of modifiedTables){
+            for(let j of tables){
+                if(parseInt(x)===parseInt(j.id)){
+                    final.push(j)
+                    break//breaks the current loop so it does not finish looking the rest of the array after it found the element
+                }
+                else{
+                    continue
+                }
+            }
+        }
+        console.log("The tables that changed are:", JSON.stringify(final))
+        let handleListUpdate = (response,data)=>{
+            setModifiedTables([])
+            console.log(data, response)
+        }
+        apiUpdateTableList(handleListUpdate, final)
+    }
+
     return (
         <div>
             {isOpen && <TableCreationModal setIsOpen={setIsOpen} handleFormSubmit={handleFormSubmit} data={tables} />}
@@ -212,8 +217,8 @@ export function CreateUpdateTables(props) {
                                             key={shape.table_number}
                                             id={shape.id.toString()}
                                             sides={parseInt(shape.sides)}
-                                            x={shape.x}
-                                            y={shape.y}
+                                            x={parseFloat(shape.x)}
+                                            y={parseFloat(shape.y)}
                                             draggable={editMode}
                                             width={100}
                                             height={150}
@@ -230,8 +235,8 @@ export function CreateUpdateTables(props) {
                                         <Rect
                                             key={shape.table_number}
                                             id={shape.id.toString()}
-                                            x={shape.x}
-                                            y={shape.y}
+                                            x={parseFloat(shape.x)}
+                                            y={parseFloat(shape.y)}
                                             draggable={editMode}
                                             width={150}
                                             height={100}
@@ -248,8 +253,8 @@ export function CreateUpdateTables(props) {
                                         <Rect
                                             key={shape.table_number}
                                             id={shape.id.toString()}
-                                            x={shape.x}
-                                            y={shape.y}
+                                            x={parseFloat(shape.x)}
+                                            y={parseFloat(shape.y)}
                                             draggable={editMode}
                                             width={100}
                                             height={100}
@@ -260,6 +265,9 @@ export function CreateUpdateTables(props) {
                                             onDragEnd={(e) => handleDragEnd(e)}
                                             onClick={(e) => handleClick(e)}
                                         />)
+                                }
+                                else {
+                                    return ("")
                                 }
                             })}
                             {newTable.shape === "rectangle" ? (
@@ -320,15 +328,36 @@ export function CreateUpdateTables(props) {
                         </Layer>
                     </Stage>
                 </div>
-                <button className="btn btn-primary" id="create-table-btn" onClick={() => {
-                    setIsOpen(true)
-                    document.getElementById("create-table-btn").style.display = "none"
-                }}>Create Table</button>
+            </div>
+            <div className="container">
+                <div className="d-flex edit-btns">
+                    <button className="btn btn-primary" id="create-table-btn" onClick={() => {
+                        setIsOpen(true)
+                        document.getElementById("create-table-btn").style.display = "none"
+                        document.getElementById("edit-tables-btn").style.display = "none"
+                    }}>Create Table</button>
+                    <button className="btn btn-primary" id="edit-tables-btn" onClick={()=>{
+                        setEditMode(true)
+                        document.getElementById("create-table-btn").style.display = "none"
+                        document.getElementById("edit-tables-btn").style.display = "none"
+                        document.getElementById("done-table-edits").style.display = "block"
+                    }}>Edit Tables</button>
+                </div>
+                <div className="d-flex justify-content-center" >
+                    <button className="btn btn-success" id="done-table-edits" style={{display:"none"}} onClick={()=>{
+                        document.getElementById("create-table-btn").style.display = "block"
+                        document.getElementById("edit-tables-btn").style.display = "block"
+                        document.getElementById("done-table-edits").style.display = "none"
+                        setEditMode(false)
+                        updateTablePositions()
+                    }}>Done <i className="bi bi-check2"></i></button>
+                </div>
                 <div className="button-group">
                     <button className="btn btn-cofirm" type="button" id="confirm-table-creation" style={{ display: "none" }} onClick={() => {
                         document.getElementById('confirm-table-creation').style.display = "none"
                         document.getElementById('cancel-table-creation').style.display = "none"
                         document.getElementById("create-table-btn").style.display = "block"
+                        document.getElementById("edit-tables-btn").style.display = "block"
                         handleConfirmCreation()
                     }}>Confirm</button>
                     <button className="btn btn-danger" type="button" id="cancel-table-creation" style={{ display: "none" }} onClick={() => {
@@ -355,6 +384,7 @@ function TableCreationModal({ setIsOpen, handleFormSubmit, data }) {
     }, [])
     let handleSubmit = (e) => {//check errors in the front end first that way an instant response is received rather than wait for the server and relieves load from the backend
         e.preventDefault()
+        
         let form = new FormData(e.target)
         let checkbox = document.getElementById("availability-checked")
         let rotation = document.getElementById("rotation-checked")
@@ -371,19 +401,23 @@ function TableCreationModal({ setIsOpen, handleFormSubmit, data }) {
         else {
             form.append("rotation", 90)
         }
-        if(!available.checked){
+        if (!available.checked) {
             form.append("available", false)
         }
-        else{
+        else {
             form.append("available", true)
         }
         form.append("shape", shape)
         let entries = Object.fromEntries(form.entries())
         for (let x of data) {//if the same table number is found then this will be checked in the frontend as well as the backend 
-            if (x.table_number == entries.table_number) {
+            if (parseInt(x.table_number) === parseInt(entries.table_number)) {
                 setError({ "table_number": "This table number already exists" })
                 return//break the loop and exit the function
             }
+        }
+        if(entries.table_number>500){
+            setError({"table_number":"Table number is too high"})
+            return
         }
         if (entries.capacity > 50 || entries.capacity < 1) {
             setError({ "capacity": "Table capacity is exaggerated" })
@@ -402,6 +436,7 @@ function TableCreationModal({ setIsOpen, handleFormSubmit, data }) {
             <div className="" id="table-creation-form-bg" onClick={() => {
                 setIsOpen(false)
                 document.getElementById("create-table-btn").style.display = "block"
+                document.getElementById("edit-tables-btn").style.display = "block"
             }}
             ></div>
             <div id="table-creation-form-wrapper">
@@ -485,11 +520,13 @@ function TableCreationModal({ setIsOpen, handleFormSubmit, data }) {
                     </div>
                     <div className="row ">
                         <div className="col-md-12 d-flex button-container">
-                            <button className="btn btn-primary">Create Table</button>
+                            <button className="btn btn-primary" onClick={()=>{
+                            }}>Create Table</button>
                             <button onClick={() => {
                                 document.getElementById('table-creation-form').animate({ animation: 'backOutUp' })
                                 setIsOpen(false)
                                 document.getElementById("create-table-btn").style.display = "block"
+                                document.getElementById("edit-tables-btn").style.display = "block"
                             }
                             } type='button' className="btn btn-danger">Cancel</button>
                         </div>

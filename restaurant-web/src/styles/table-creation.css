@@ -102,3 +102,6 @@ THIS IS THE STYLES FOR THE TABLE EDIT AREA
 #availability-checked, #rotation-checked{
     margin-left: -1.7rem !important;
 }
+.d-flex.edit-btns{
+    justify-content: space-between;
+}
