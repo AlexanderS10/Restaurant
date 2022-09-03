@@ -117,7 +117,6 @@ export function CreateUpdateTables(props) {
             tables.map((table) => {
                 return {
                     ...table,
-                    isDraggin: table.id === id
                 }
             })
         )
@@ -141,7 +140,6 @@ export function CreateUpdateTables(props) {
         )
         if(modifiedTables.length===0){//Here I will record all the tables that have changed so I do not have to send all the tables but just the ones that have changed
             setModifiedTables([...modifiedTables].concat(e.target.id()))
-            
         }
         else{
             let exists = false
@@ -187,7 +185,7 @@ export function CreateUpdateTables(props) {
         for (let x of modifiedTables){
             for(let j of tables){
                 if(parseInt(x)===parseInt(j.id)){
-                    final.push(j)
+                    final.push({id:j.id, x:j.x, y:j.y})
                     break//breaks the current loop so it does not finish looking the rest of the array after it found the element
                 }
                 else{
@@ -195,12 +193,43 @@ export function CreateUpdateTables(props) {
                 }
             }
         }
+        final.push({id:50, x:123.22, y:234.00})
+        final.push({id:51, x:123.22, y:234.00})
         console.log("The tables that changed are:", JSON.stringify(final))
         let handleListUpdate = (response,data)=>{
             setModifiedTables([])
             console.log(data, response)
+            if (response.status===400){
+                for(let x of data){//Go through the data received and show the errors to the users
+                    toast.error(x.message,
+                        {
+                            theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                            progress: undefined,
+                        }
+                    )
+                }
+            }
+            else if (response.status===200){
+                toast.success(data.message,
+                    {
+                        theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                        progress: undefined,
+                    }
+                )
+            }
+            else{
+                toast.error("Unknown error has occurred",
+                    {
+                        theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                        progress: undefined,
+                    }
+                )
+            }
         }
-        apiUpdateTableList(handleListUpdate, final)
+        if (final.length!==0){//make api call only if there were changes and that way spam is avoided
+            apiUpdateTableList(handleListUpdate, final)
+        }
+        
     }
 
     return (

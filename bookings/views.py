@@ -1,3 +1,6 @@
+from distutils.log import error
+from functools import partial
+from os import stat
 from xml.dom import ValidationErr
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
@@ -45,14 +48,24 @@ class TableAPIView(generics.RetrieveUpdateDestroyAPIView):
         try:
             return Table.objects.get(id=id)
         except (Table.DoesNotExist):
-            raise Http404
-    def put(self, request):
+            return None
+    def patch(self, request):
         tableList = request.data
-        instance = None
-        self.get_object(id=50)
-        # for table in tableList:
-        #     print(table['id'], self.get_object(id=table['id']))
-        return Response({"message":"Yeet"}, status=status.HTTP_200_OK)
+        errors = []
+        for table in tableList:
+            print(table['id'], self.get_object(id=table['id']))
+            obj = self.get_object(table['id'])
+            if obj==None:
+                errors.append({"message":f"Table {table['id']} was not found"})
+            else: 
+                serializer = self.get_serializer(obj, data=table, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                else:
+                    errors.append({"message":f"There was an error saving table {table['id']}"})
+        if len(errors)!=0:
+            return Response(errors, status= status.HTTP_400_BAD_REQUEST)
+        return Response({"message":"All tables updated successfully"}, status=status.HTTP_200_OK)
 
     def get(self, request, id):
         try:

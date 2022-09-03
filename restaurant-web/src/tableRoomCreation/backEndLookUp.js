@@ -10,7 +10,7 @@ export function apiCreateRoom(callback, data){
 }
 
 export function apiUpdateTableList(callback, data){
-    searchlookup("PUT","tables/update-list/", callback, data)
+    searchlookup("PATCH","tables/update-list/", callback, data)
 }
 
 export async function apiAddImages(data){
