@@ -50,7 +50,8 @@ THIS IS THE STYLES FOR THE TABLE EDIT AREA
 
 #canvas-wrapper {
     background-color: antiquewhite;
-    width: 1200px;
+    width: 1300px;
+    margin: auto;
 }
 
 #canvas-table-creation {
@@ -104,4 +105,31 @@ THIS IS THE STYLES FOR THE TABLE EDIT AREA
 }
 .d-flex.edit-btns{
     justify-content: space-between;
+}
+
+.table-window-wrapper{
+    width: 100%;
+    height: 100%;
+    padding-bottom: 20px;
+	background: linear-gradient(45deg, #49a09d, #5f2c82);
+}
+#tables-list{
+    border-radius: 8px;
+    background: #c0c0c069;
+    box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;
+}
+#tables-list > th,td{
+    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#tables-list>thead{
+    background: #49a09d;
+}
+#tables-list>tbody>tr:hover{
+    background-color: #d3d3d393;
+}
+#table-list-wrapper{
+   overflow: auto;
 }

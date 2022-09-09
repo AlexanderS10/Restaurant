@@ -53,10 +53,22 @@ class TableAPIView(generics.RetrieveUpdateDestroyAPIView):
         tableList = request.data
         errors = []
         for table in tableList:
-            print(table['id'], self.get_object(id=table['id']))
+            print(table)
             obj = self.get_object(table['id'])
             if obj==None:
                 errors.append({"message":f"Table {table['id']} was not found"})
+                continue
+            elif float(table['y'])>600 or float(table['y'])< 0:
+                errors.append({"message":f"Table {table['id']} position cannot be bigger or smaller than the space provided"})
+                continue
+            elif int(table['rotation'])== 90:
+                if(float(table['x'])>1300 or float(table['x'])<100):
+                    errors.append({"message":f"Table {table['id']} position is smaller or bigger than the space provided"})
+                    continue
+            elif int(table['rotation'])==0:
+                if(float(table['x'])>1200 or float(table['x'])<0):
+                    errors.append({"message":f"Table {table['id']} position is smaller or bigger than the space provided"})
+                    continue
             else: 
                 serializer = self.get_serializer(obj, data=table, partial=True)
                 if serializer.is_valid():
@@ -89,10 +101,16 @@ class CreateTableAPIView(generics.CreateAPIView):
     serializer_class = TableSerializer
     def post(self, request):
         serializer = self.get_serializer(data = request.data)
-        if(request.data['id']!=request.data['table_number']):#This will ensure that the id and the table number is unique
-            return Response({"message":"Table id problem found, try again"})
-        if(float(request.data['x'])>=1200 or float(request.data['x'])<0 or float(request.data['y'])>700 or float(request.data['y'])<0):
-            return Response({"message":"There was an error in the table position"}, status=status.HTTP_400_BAD_REQUEST)
+        if(request.data['id']!=request.data['table_number']):#This will ensure that the id and the table number are the same
+            return Response({"message":"Table id problem found, try again"}, status=status.HTTP_400_BAD_REQUEST)
+        elif (float(request.data['y'])>600 or float(request.data['y'])<0):
+            return Response({"message":"Table position was smaller or bigger than the space provided"}, status=status.HTTP_400_BAD_REQUEST)
+        elif(int(request.data['rotation']) ==0):
+            if (float(request.data['x'])>1200 or float(request.data['x'])<0):
+                return Response({"message":"Table position was smaller or bigger than the space provided"}, status=status.HTTP_400_BAD_REQUEST)
+        elif(int(request.data['rotation']) ==90):
+            if(float(request.data['x'])>1300 or float(request.data['x'])<100):
+                return Response({"message":"Table position was smaller or bigger than the space provided"}, status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             #serializer.save()
             return Response({"message":"Table created successfully"}, status=status.HTTP_201_CREATED)

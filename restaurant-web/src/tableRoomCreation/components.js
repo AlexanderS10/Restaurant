@@ -1,11 +1,10 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Stage, Layer, Rect, RegularPolygon } from "react-konva";
+import { Stage, Layer, Rect, RegularPolygon, Group, Text } from "react-konva";
 import { ToastContainer, toast } from 'react-toastify';
 import { ConfirmContextProvider, ConfirmModal, useConfirm } from "../components";
-import { apiCreateTable, apiGetTables, apiUpdateTableList} from './backEndLookUp'
+import { apiCreateTable, apiGetTables, apiUpdateTableList } from './backEndLookUp'
 export function TableCreationComponent() {
-
     return (
         <ConfirmContextProvider>
             <CreateUpdateTables />
@@ -23,22 +22,9 @@ export function CreateUpdateTables(props) {
     let parentRef = React.createRef()
 
     useEffect(() => {
-
         let modal = document.getElementById("modal")
         modal.style.zIndex = -1;//send the modal to the background 
-        //
-        let url = window.location.href
-        let urlArray = url.split('/')
-        let idUrl;
-        if (urlArray[urlArray.length - 1] === "") {//Since router does not get rendered by django I will have to use raw urls
-            idUrl = urlArray[urlArray.length - 2]
-        }
-        else {
-            idUrl = urlArray[urlArray.length - 1]
-        }
-        setRoom(idUrl)
         let fetchTables = (response, data) => {
-            console.log(data, response)
             if (response.status === 200) {
                 setTables(data)
             }
@@ -51,12 +37,23 @@ export function CreateUpdateTables(props) {
                 )
             }
         }
-        apiGetTables(fetchTables, idUrl)
-
+        apiGetTables(fetchTables, getRoom())
         return () => {
-
         }
     }, [])
+    let getRoom = () => {
+        let url = window.location.href
+        let urlArray = url.split('/')
+        let idUrl;
+        if (urlArray[urlArray.length - 1] === "") {//Since router does not get rendered by django I will have to use raw urls
+            idUrl = urlArray[urlArray.length - 2]
+        }
+        else {
+            idUrl = urlArray[urlArray.length - 1]
+        }
+        setRoom(idUrl)
+        return idUrl
+    }
 
     let addTable = (entries) => {
         setNewTable({
@@ -64,7 +61,7 @@ export function CreateUpdateTables(props) {
             id: entries.table_number,
             table_number: entries.table_number,
             capacity: entries.capacity,
-            x: parseFloat((Math.random() * (1100 - 100) + 100).toFixed(3)),
+            x: parseFloat((Math.random() * (1200 - 100) + 100).toFixed(3)),
             y: parseFloat((Math.random() * (600 - 100) + 100).toFixed(3)),
             sides: entries.sides,
             rotation: entries.rotation,
@@ -76,15 +73,17 @@ export function CreateUpdateTables(props) {
     let handleConfirmCreation = () => {
         let table = newTable;
         console.log("The table created is: ", table)
-        if (table.x <= 1200 || table.y <= 700 || table.x > 0 || table.y > 0) {
-            apiCreateTable(handleTableCreation, table)
-        } else {
+        
+        if ((parseInt(table.rotation) ===90 && table.x > 1300) || (parseInt(table.rotation) ===0 && table.x > 1200) || (parseInt(table.rotation) ===0 && table.x < 0) || (parseInt(table.rotation)===90 && table.x < 100) || (table.y > 600) || (table.y < 0)) {
             toast.error(`There was an error in the table position, try again`,
                 {
                     theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                     progress: undefined,
                 }
             )
+            setNewTable({})
+        } else {
+            apiCreateTable(handleTableCreation, table)
         }
     }
 
@@ -102,7 +101,8 @@ export function CreateUpdateTables(props) {
             setNewTable({})
         }
         else {
-            toast.success(data.message,
+            setNewTable({})
+            toast.error(data.message,
                 {
                     theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
                     progress: undefined,
@@ -138,29 +138,29 @@ export function CreateUpdateTables(props) {
                 }
             })
         )
-        if(modifiedTables.length===0){//Here I will record all the tables that have changed so I do not have to send all the tables but just the ones that have changed
+        if (modifiedTables.length === 0) {//Here I will record all the tables that have changed so I do not have to send all the tables but just the ones that have changed
             setModifiedTables([...modifiedTables].concat(e.target.id()))
         }
-        else{
+        else {
             let exists = false
-            for (let x of modifiedTables){
-                if (x===e.target.id()){
-                    exists=true
+            for (let x of modifiedTables) {
+                if (x === e.target.id()) {
+                    exists = true
                 }
-                else{
+                else {
                     continue
                 }
             }
-            if (!exists){
+            if (!exists) {
                 setModifiedTables([...modifiedTables].concat(e.target.id()))
             }
-            
+
         }
     }
 
     let handleDragEndNew = (e) => {//Here I will set the ending position of the new table and update the state
         let table = newTable
-        setNewTable({
+            setNewTable({
             ...table, //copies all attributes of the table
             x: parseFloat((e.target.x()).toFixed(3)),//update x and y to the new position
             y: parseFloat((e.target.y()).toFixed(3)),
@@ -180,27 +180,25 @@ export function CreateUpdateTables(props) {
         document.getElementById('confirm-table-creation').style.display = "block"
     }
 
-    let updateTablePositions = ()=>{//update the new positions of the tables = > record the tables that changed and send those as a list
+    let updateTablePositions = () => {//update the new positions of the tables = > record the tables that changed and send those as a list
         let final = []
-        for (let x of modifiedTables){
-            for(let j of tables){
-                if(parseInt(x)===parseInt(j.id)){
-                    final.push({id:j.id, x:j.x, y:j.y})
+        for (let x of modifiedTables) {
+            for (let j of tables) {
+                if (parseInt(x) === parseInt(j.id)) {
+                    final.push({ id: j.id, x: j.x, y: j.y, rotation: j.rotation })
                     break//breaks the current loop so it does not finish looking the rest of the array after it found the element
                 }
-                else{
+                else {
                     continue
                 }
             }
         }
-        final.push({id:50, x:123.22, y:234.00})
-        final.push({id:51, x:123.22, y:234.00})
         console.log("The tables that changed are:", JSON.stringify(final))
-        let handleListUpdate = (response,data)=>{
+        let handleListUpdate = (response, data) => {
             setModifiedTables([])
             console.log(data, response)
-            if (response.status===400){
-                for(let x of data){//Go through the data received and show the errors to the users
+            if (response.status === 400) {
+                for (let x of data) {//Go through the data received and show the errors to the users
                     toast.error(x.message,
                         {
                             theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
@@ -209,7 +207,7 @@ export function CreateUpdateTables(props) {
                     )
                 }
             }
-            else if (response.status===200){
+            else if (response.status === 200) {
                 toast.success(data.message,
                     {
                         theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
@@ -217,7 +215,7 @@ export function CreateUpdateTables(props) {
                     }
                 )
             }
-            else{
+            else {
                 toast.error("Unknown error has occurred",
                     {
                         theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
@@ -226,74 +224,114 @@ export function CreateUpdateTables(props) {
                 )
             }
         }
-        if (final.length!==0){//make api call only if there were changes and that way spam is avoided
+        if (final.length !== 0) {//make api call only if there were changes and that way spam is avoided
             apiUpdateTableList(handleListUpdate, final)
         }
-        
+
     }
 
     return (
-        <div>
+        <div className="table-window-wrapper">
             {isOpen && <TableCreationModal setIsOpen={setIsOpen} handleFormSubmit={handleFormSubmit} data={tables} />}
             <div className="container canvas-area">
                 <div id="canvas-wrapper" ref={parentRef}>
-                    <Stage width={1200} height={700} id="canvas-table-creation">
+                    <Stage width={1300} height={700} id="canvas-table-creation">
                         <Layer>
                             {tables.map((shape) => {
                                 if (shape.shape === "polygon") {
                                     return (
-                                        <RegularPolygon
-                                            key={shape.table_number}
+                                        <Group
                                             id={shape.id.toString()}
-                                            sides={parseInt(shape.sides)}
+                                            key={shape.table_number}
                                             x={parseFloat(shape.x)}
                                             y={parseFloat(shape.y)}
                                             draggable={editMode}
-                                            width={100}
-                                            height={150}
-                                            fill="blue"
-                                            rotation={parseInt(shape.rotation)}
-                                            shadowBlur={10}
                                             onDragStart={(e) => handleDragStart(e)}
                                             onDragEnd={(e) => handleDragEnd(e)}
-                                            onClick={(e) => handleClick(e)}
-                                        />)
+                                            onClick={(e) => handleClick(e)}>
+                                            <RegularPolygon
+                                                sides={parseInt(shape.sides)}
+                                                width={150}
+                                                height={150}
+                                                fill="blue"
+                                                rotation={parseInt(shape.rotation)}
+                                                shadowBlur={10}
+                                            />
+                                            <Text
+                                                x={shape.table_number.toString().length < 2 ? -5 : -10}
+                                                y={-8}
+                                                text={shape.table_number}
+                                                align="center"
+
+                                                fontSize={20}
+                                            />
+                                        </Group>)
                                 }
                                 else if (shape.shape === "rectangle") {
                                     return (
-                                        <Rect
+                                        <Group
                                             key={shape.table_number}
                                             id={shape.id.toString()}
                                             x={parseFloat(shape.x)}
                                             y={parseFloat(shape.y)}
                                             draggable={editMode}
-                                            width={150}
-                                            height={100}
-                                            fill="blue"
-                                            rotation={parseInt(shape.rotation)}
-                                            shadowBlur={10}
                                             onDragStart={(e) => handleDragStart(e)}
                                             onDragEnd={(e) => handleDragEnd(e)}
                                             onClick={(e) => handleClick(e)}
-                                        />)
+                                            width={150}
+                                            height={100}>
+
+                                            <Rect
+                                                width={150}
+                                                height={100}
+                                                fill="blue"
+                                                rotation={parseInt(shape.rotation)}
+                                                shadowBlur={10}
+                                            />
+                                            <Text
+                                                x={shape.rotation === 0 ? 0 : shape.table_number.toString().length < 2 ? -59 : -60}
+                                                y={shape.rotation === 0 ? 0 : shape.table_number.toString().length < 2 ? 75 : 75}
+                                                verticalAlign="middle"
+                                                text={shape.table_number}
+                                                fontSize={20}
+                                                align="center"
+                                                width={shape.rotation === 0 ? 150 : 24}
+                                                height={shape.rotation === 0 ? 100 : 0}
+                                            />
+                                        </Group>)
                                 }
                                 else if (shape.shape === "square") {
                                     return (
-                                        <Rect
+                                        <Group
                                             key={shape.table_number}
                                             id={shape.id.toString()}
                                             x={parseFloat(shape.x)}
                                             y={parseFloat(shape.y)}
                                             draggable={editMode}
-                                            width={100}
-                                            height={100}
-                                            rotation={parseInt(shape.rotation)}
-                                            shadowBlur={10}
-                                            fill="blue"
                                             onDragStart={(e) => handleDragStart(e)}
                                             onDragEnd={(e) => handleDragEnd(e)}
-                                            onClick={(e) => handleClick(e)}
-                                        />)
+                                            onClick={(e) => handleClick(e)}>
+                                            <Rect
+                                                width={100}
+                                                height={100}
+                                                rotation={parseInt(shape.rotation)}
+                                                shadowBlur={10}
+                                                fill="blue"
+                                                onDragStart={(e) => handleDragStart(e)}
+                                                onDragEnd={(e) => handleDragEnd(e)}
+                                                onClick={(e) => handleClick(e)}
+                                            />
+                                            <Text
+                                                x={shape.rotation === 0 ? 0 : shape.table_number.toString().length < 2 ? -60 : -60}
+                                                y={shape.rotation === 0 ? 0 : 50}
+                                                text={shape.table_number}
+                                                fontSize={20}
+                                                width={shape.rotation === 0 ? 100 : 24}
+                                                height={shape.rotation === 0 ? 100 : 0}
+                                                align="center"
+                                                verticalAlign="middle"
+                                            />
+                                        </Group>)
                                 }
                                 else {
                                     return ("")
@@ -365,7 +403,7 @@ export function CreateUpdateTables(props) {
                         document.getElementById("create-table-btn").style.display = "none"
                         document.getElementById("edit-tables-btn").style.display = "none"
                     }}>Create Table</button>
-                    <button className="btn btn-primary" id="edit-tables-btn" onClick={()=>{
+                    <button className="btn btn-primary" id="edit-tables-btn" onClick={() => {
                         setEditMode(true)
                         document.getElementById("create-table-btn").style.display = "none"
                         document.getElementById("edit-tables-btn").style.display = "none"
@@ -373,7 +411,7 @@ export function CreateUpdateTables(props) {
                     }}>Edit Tables</button>
                 </div>
                 <div className="d-flex justify-content-center" >
-                    <button className="btn btn-success" id="done-table-edits" style={{display:"none"}} onClick={()=>{
+                    <button className="btn btn-success" id="done-table-edits" style={{ display: "none" }} onClick={() => {
                         document.getElementById("create-table-btn").style.display = "block"
                         document.getElementById("edit-tables-btn").style.display = "block"
                         document.getElementById("done-table-edits").style.display = "none"
@@ -395,9 +433,48 @@ export function CreateUpdateTables(props) {
                         document.getElementById('confirm-table-creation').style.display = "none"
                         document.getElementById('cancel-table-creation').style.display = "none"
                         document.getElementById("create-table-btn").style.display = "block"
+                        document.getElementById("edit-tables-btn").style.display = "block"
                     }}>Cancel</button>
                 </div>
             </div>
+            <TableList tables={tables} setTables={setTables} />
+        </div>
+    )
+}
+function TableList(props) {
+    console.log(props.tables)
+    return (
+        <div className="container mt-5 mb-5" id="table-list-wrapper">
+            <table className="" style={{ width: "100%" }} id="tables-list">
+                <thead>
+                    <tr>
+                        <th>Table</th>
+                        <th>Available</th>
+                        <th>Rotation</th>
+                        <th>Capacity</th>
+                        <th>Sides</th>
+                        <th>Shape</th>
+                        <th>Delete/Confirm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {props.tables.map((table) => {
+                        return (
+                            <tr key={table.table_number} >
+                                <td>{table.table_number}</td>
+                                <td>{table.available.toString()}</td>
+                                <td>{table.rotation}</td>
+                                <td>{table.capacity}</td>
+                                <td>{table.sides}</td>
+                                <td>{table.shape}</td>
+                                <td>Delete</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+
+            </table>
+
         </div>
     )
 }
@@ -413,7 +490,7 @@ function TableCreationModal({ setIsOpen, handleFormSubmit, data }) {
     }, [])
     let handleSubmit = (e) => {//check errors in the front end first that way an instant response is received rather than wait for the server and relieves load from the backend
         e.preventDefault()
-        
+
         let form = new FormData(e.target)
         let checkbox = document.getElementById("availability-checked")
         let rotation = document.getElementById("rotation-checked")
@@ -444,8 +521,8 @@ function TableCreationModal({ setIsOpen, handleFormSubmit, data }) {
                 return//break the loop and exit the function
             }
         }
-        if(entries.table_number>500){
-            setError({"table_number":"Table number is too high"})
+        if (entries.table_number > 500) {
+            setError({ "table_number": "Table number is too high" })
             return
         }
         if (entries.capacity > 50 || entries.capacity < 1) {
@@ -549,7 +626,7 @@ function TableCreationModal({ setIsOpen, handleFormSubmit, data }) {
                     </div>
                     <div className="row ">
                         <div className="col-md-12 d-flex button-container">
-                            <button className="btn btn-primary" onClick={()=>{
+                            <button className="btn btn-primary" onClick={() => {
                             }}>Create Table</button>
                             <button onClick={() => {
                                 document.getElementById('table-creation-form').animate({ animation: 'backOutUp' })

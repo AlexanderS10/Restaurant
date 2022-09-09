@@ -188,7 +188,7 @@ export function UserPage({ match, location }) {
             idUrl = urlArray[urlArray.length - 1]
         }
         let hadleResponse = (response, data) => {
-            //console.log(data)
+            console.log(data)
             setUserData(data)
         }
         apiGetUserInfo(idUrl, hadleResponse)
