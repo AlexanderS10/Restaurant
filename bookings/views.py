@@ -52,28 +52,30 @@ class TableAPIView(generics.RetrieveUpdateDestroyAPIView):
     def patch(self, request):
         tableList = request.data
         errors = []
+        print("Patch")
         for table in tableList:
             print(table)
             obj = self.get_object(table['id'])
             if obj==None:
                 errors.append({"message":f"Table {table['id']} was not found"})
-                continue
+                print('Not found error')
             elif float(table['y'])>600 or float(table['y'])< 0:
                 errors.append({"message":f"Table {table['id']} position cannot be bigger or smaller than the space provided"})
-                continue
-            elif int(table['rotation'])== 90:
-                if(float(table['x'])>1300 or float(table['x'])<100):
-                    errors.append({"message":f"Table {table['id']} position is smaller or bigger than the space provided"})
-                    continue
-            elif int(table['rotation'])==0:
-                if(float(table['x'])>1200 or float(table['x'])<0):
-                    errors.append({"message":f"Table {table['id']} position is smaller or bigger than the space provided"})
-                    continue
+                print('y error')
+            elif ((int(table['rotation'])==90 and float(table['x'])>1300) or (int(table['rotation'])==90 and float(table['x'])<100)):
+                print('90 error')
+                errors.append({"message":f"Table {table['id']} position is smaller or bigger than the space provided"})
+            elif (int(table['rotation'])==0 and float(table['x'])>1200) or (int(table['rotation'])==0 and float(table['x'])<0):
+                print('0 error')
+                errors.append({"message":f"Table {table['id']} position is smaller or bigger than the space provided"})
             else: 
+                print("else started")
                 serializer = self.get_serializer(obj, data=table, partial=True)
                 if serializer.is_valid():
                     serializer.save()
+                    print("It should work")
                 else:
+                    print('It did not work')
                     errors.append({"message":f"There was an error saving table {table['id']}"})
         if len(errors)!=0:
             return Response(errors, status= status.HTTP_400_BAD_REQUEST)
@@ -105,12 +107,10 @@ class CreateTableAPIView(generics.CreateAPIView):
             return Response({"message":"Table id problem found, try again"}, status=status.HTTP_400_BAD_REQUEST)
         elif (float(request.data['y'])>600 or float(request.data['y'])<0):
             return Response({"message":"Table position was smaller or bigger than the space provided"}, status=status.HTTP_400_BAD_REQUEST)
-        elif(int(request.data['rotation']) ==0):
-            if (float(request.data['x'])>1200 or float(request.data['x'])<0):
-                return Response({"message":"Table position was smaller or bigger than the space provided"}, status=status.HTTP_400_BAD_REQUEST)
-        elif(int(request.data['rotation']) ==90):
-            if(float(request.data['x'])>1300 or float(request.data['x'])<100):
-                return Response({"message":"Table position was smaller or bigger than the space provided"}, status=status.HTTP_400_BAD_REQUEST)
+        elif(int(request.data['rotation'])==0 and float(request.data['x'])>1200) or (int(request.data['rotation'])==0 and float(request.data['x'])<0):
+            return Response({"message":"Table position was smaller or bigger than the space provided"}, status=status.HTTP_400_BAD_REQUEST)
+        elif(int(request.data['rotation'])==90 and float(request.data['x'])>1300) or (int(request.data['rotation'])==90 and float(request.data['x'])<100):
+            return Response({"message":"Table position was smaller or bigger than the space provided"}, status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             #serializer.save()
             return Response({"message":"Table created successfully"}, status=status.HTTP_201_CREATED)
