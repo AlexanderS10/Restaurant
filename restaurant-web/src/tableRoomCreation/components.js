@@ -9,10 +9,11 @@ export function TableCreationComponent() {
         <ConfirmContextProvider>
             <CreateUpdateTables />
             <ToastContainer />
+            <ConfirmModal />
         </ConfirmContextProvider>
     )
 }
-export function CreateUpdateTables(props) {
+export function CreateUpdateTables() {
     let [tables, setTables] = useState([])
     let [editMode, setEditMode] = useState(false)
     let [isOpen, setIsOpen] = useState(false)
@@ -73,8 +74,8 @@ export function CreateUpdateTables(props) {
     let handleConfirmCreation = () => {
         let table = newTable;
         console.log("The table created is: ", table)
-        
-        if ((parseInt(table.rotation) ===90 && table.x > 1300) || (parseInt(table.rotation) ===0 && table.x > 1200) || (parseInt(table.rotation) ===0 && table.x < 0) || (parseInt(table.rotation)===90 && table.x < 100) || (table.y > 600) || (table.y < 0)) {
+
+        if ((parseInt(table.rotation) === 90 && table.x > 1300) || (parseInt(table.rotation) === 0 && table.x > 1200) || (parseInt(table.rotation) === 0 && table.x < 0) || (parseInt(table.rotation) === 90 && table.x < 100) || (table.y > 600) || (table.y < 0)) {
             toast.error(`There was an error in the table position, try again`,
                 {
                     theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
@@ -160,7 +161,7 @@ export function CreateUpdateTables(props) {
 
     let handleDragEndNew = (e) => {//Here I will set the ending position of the new table and update the state
         let table = newTable
-            setNewTable({
+        setNewTable({
             ...table, //copies all attributes of the table
             x: parseFloat((e.target.x()).toFixed(3)),//update x and y to the new position
             y: parseFloat((e.target.y()).toFixed(3)),
@@ -229,9 +230,23 @@ export function CreateUpdateTables(props) {
         }
 
     }
+    let { isConfirmed } = useConfirm()
+    let handleDelete = async (index, table_number)=>{
+        let confirm = await isConfirmed(`Are you sure you want to delete table ${table_number}?`)
+        if (confirm){
+            let array = tables
+            array.splice(index,1)
+            console.log("tables", array)
+            setTables(array)
+            console.log(tables)
+        }else{
+            console.log("Naaaa")
+        }
+    }
 
     return (
         <div className="table-window-wrapper">
+            {console.log(tables)}
             {isOpen && <TableCreationModal setIsOpen={setIsOpen} handleFormSubmit={handleFormSubmit} data={tables} />}
             <div className="container canvas-area">
                 <div id="canvas-wrapper" ref={parentRef}>
@@ -437,12 +452,60 @@ export function CreateUpdateTables(props) {
                     }}>Cancel</button>
                 </div>
             </div>
-            <TableList tables={tables} setTables={setTables} />
+            <TableList tables={tables} setTables={setTables} handleDelete = {handleDelete}/>
         </div>
     )
 }
 function TableList(props) {
-    console.log(props.tables)
+    //console.log(props.tables)
+    let { isConfirmed } = useConfirm()
+    let handleInputChange = (index, table_number)=>{
+        console.log(index)
+        document.getElementById(`confirm-${table_number}`).style.display="block"
+
+    }
+    let handleDelete = (index, table_number)=>{
+        props.handleDelete(index, table_number)
+    }
+    let handleConfirm = (e,index, table_number)=>{
+        let entries = document.querySelectorAll(`.table-input-${table_number}`)//here we get all the value that correspond to the table number 
+        let data = {}
+        let error = []
+        for (let i of entries){//iterate through the data and validate 
+            if(i.id==="checkbox-rotation"){
+                if(i.checked){
+                    data['available'] = true
+                }
+                else{
+                    data['available'] = false
+                }
+            }
+            else if(i.name==="capacity" && (i.value <=0 || i.value>50)){
+                error.push("The capacity is not within parameters")
+                break
+            }
+            else if(i.name === "sides" && (i.value<4 || i.value>20)){
+                error.push("The sides are not within parameters")
+                break
+            }
+            else{
+                data[`${i.name}`]=i.value 
+            }
+            
+        }
+        
+        if (error.length!==0){
+            toast.error(error[0],
+                    {
+                        theme: "colored", closeButton: false, position: "bottom-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                        progress: undefined,
+                    }
+                )
+        }
+        else{
+            document.getElementById(`confirm-${table_number}`).style.display="none"
+        }
+    }
     return (
         <div className="container mt-5 mb-5" id="table-list-wrapper">
             <table className="" style={{ width: "100%" }} id="tables-list">
@@ -458,17 +521,26 @@ function TableList(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.tables.map((table) => {
+                    {props.tables.map((table,index) => {
                         return (
-                            <tr key={table.table_number} >
-                                <td>{table.table_number}</td>
-                                <td>{table.available.toString()}</td>
-                                <td>{table.rotation}</td>
-                                <td>{table.capacity}</td>
-                                <td>{table.sides}</td>
-                                <td>{table.shape}</td>
-                                <td>Delete</td>
-                            </tr>
+                                <tr key={table.table_number} >
+                                    <td>{table.table_number}</td>
+                                    <td className={`form-switch d-flex`}><input type="checkbox" className={`form-check-input table-input-${table.table_number}`} id="checkbox-rotation" defaultChecked={table.available} defaultValue={table.available} onChange={()=>handleInputChange(index, table.table_number)}/></td>
+                                    <td><select name="rotation" className={`table-input-${table.table_number} form-control`} onChange={()=>handleInputChange(index, table.table_number)} defaultValue={table.rotation}>
+                                            <option value={0}>0</option>
+                                            <option value={90}>90</option>
+                                        </select></td>
+                                    <td><input className={`table-input-${table.table_number} form-control`} name="capacity" defaultValue={table.capacity} onChange={()=>handleInputChange(index, table.table_number)}/></td>
+                                    <td><input className={`table-input-${table.table_number} form-control`} name="sides" defaultValue={table.sides} onChange={()=>handleInputChange(index, table.table_number)}/></td>
+                                    <td><select className={`table-input-${table.table_number} form-control`} name="shape" defaultValue={table.shape} onChange={()=>handleInputChange(index, table.table_number)}>
+                                        <option value={'rectangle'}>Rectangle</option>
+                                        <option value={'square'}>Square</option>
+                                        <option value={'polygon'}>Polygon</option>
+                                        </select></td>
+                                    <td className="d-flex "><button onClick={()=>props.handleDelete(index, table.table_number)} className="btn btn-danger">Delete</button>
+                                        <button type="submit" className="btn btn-success" id={`confirm-${table.table_number}`} style={{display:"none"}} onClick={(e)=>handleConfirm(e,index, table.table_number)}>Confirm</button>
+                                    </td>
+                                </tr>
                         )
                     })}
                 </tbody>
