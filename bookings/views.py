@@ -1,5 +1,7 @@
 from distutils.log import error
 from functools import partial
+from gc import get_objects
+import json
 from os import stat
 from xml.dom import ValidationErr
 from django.shortcuts import redirect, render
@@ -89,6 +91,14 @@ class TableAPIView(generics.RetrieveUpdateDestroyAPIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response({"message":"There was an error"}, status=status.HTTP_404_NOT_FOUND)
+    def delete(self, request, *args, **kwargs):
+        print(request.data)
+        obj = self.get_object(request.data["table_number"])
+        if obj == None:
+            return Response({"message":"Table was no found"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            obj.delete()
+            return Response({"message":"The table was deleted successfully"}, status=status.HTTP_202_ACCEPTED)
 
 class TablesListAPIView(generics.ListAPIView):
     serializer_class = TableSerializer
@@ -102,6 +112,9 @@ class TablesListAPIView(generics.ListAPIView):
 class CreateTableAPIView(generics.CreateAPIView):
     serializer_class = TableSerializer
     def post(self, request):
+        qs = Table.objects.filter(id=request.data['id'])
+        if qs.exists():
+            return Response({"message":f"Table {request.data['id']} already exists"}, status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(data = request.data)
         if(request.data['id']!=request.data['table_number']):#This will ensure that the id and the table number are the same
             return Response({"message":"Table id problem found, try again"}, status=status.HTTP_400_BAD_REQUEST)
@@ -112,7 +125,7 @@ class CreateTableAPIView(generics.CreateAPIView):
         elif(int(request.data['rotation'])==90 and float(request.data['x'])>1300) or (int(request.data['rotation'])==90 and float(request.data['x'])<100):
             return Response({"message":"Table position was smaller or bigger than the space provided"}, status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
-            #serializer.save()
+            serializer.save()
             return Response({"message":"Table created successfully"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class CreateRoomAPIView(generics.CreateAPIView):

@@ -13,6 +13,10 @@ export function apiUpdateTableList(callback, data){
     searchlookup("PATCH","tables/update-list/", callback, data)
 }
 
+export function apiDeleteTable(callback, table){
+    searchlookup("DELETE", "tables/update-list/", callback, table)
+}
+
 export async function apiAddImages(data){
     return await searchlookupImageRoom("POST", "rooms/add-image/", data)
 } 

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Stage, Layer, Rect, RegularPolygon, Group, Text } from "react-konva";
 import { ToastContainer, toast } from 'react-toastify';
 import { ConfirmContextProvider, ConfirmModal, useConfirm } from "../components";
-import { apiCreateTable, apiGetTables, apiUpdateTableList } from './backEndLookUp'
+import { apiCreateTable, apiGetTables, apiUpdateTableList, apiDeleteTable } from './backEndLookUp'
 export function TableCreationComponent() {
     return (
         <ConfirmContextProvider>
@@ -72,6 +72,17 @@ export function CreateUpdateTables() {
     }
 
     let handleConfirmCreation = () => {
+        let mock_table={
+            "available":true,
+            "capacity": 4,
+            "id": "1",
+            "room": 1,
+            "rotation": 90,
+            "shape": "square",
+            "sides": 4,
+            "table_number": "1",
+            "x": "778.131",
+            "y": "557.724"}
         let table = newTable;
         console.log("The table created is: ", table)
 
@@ -89,7 +100,7 @@ export function CreateUpdateTables() {
     }
 
     let handleTableCreation = (response, data) => {
-        console.log(response)
+        console.log(response, data)
         if (response.status === 201) {
             toast.success(data.message,
                 {
@@ -194,7 +205,7 @@ export function CreateUpdateTables() {
                 }
             }
         }
-        console.log("The tables that changed are:", JSON.stringify(final))
+        //console.log("The tables that changed are:", JSON.stringify(final))
         let handleListUpdate = (response, data) => {
             setModifiedTables([])
             console.log(data, response)
@@ -231,22 +242,41 @@ export function CreateUpdateTables() {
 
     }
     let { isConfirmed } = useConfirm()
-    let handleDelete = async (index, table_number)=>{
+    let handleDelete = async (e, index, table_number) => {
+        e.preventDefault()
         let confirm = await isConfirmed(`Are you sure you want to delete table ${table_number}?`)
-        if (confirm){
-            let array = tables
-            array.splice(index,1)
-            console.log("tables", array)
-            setTables(array)
-            console.log(tables)
-        }else{
+        if (confirm) {
+            let handleDeleteFrontend = (response, data) => {
+                if (response.status === 202) {
+                    toast.success(data.message,
+                        {
+                            theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                            progress: undefined,
+                        }
+                    )
+                    let array = [...tables]
+                    array.splice(index, 1)
+                    setTables(array)
+                }
+                else {
+                    toast.error(data.message,
+                        {
+                            theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                            progress: undefined,
+                        }
+                    )
+                }
+                console.log(response)
+            }
+            apiDeleteTable(handleDeleteFrontend, { "table_number": table_number })
+        } else {
             console.log("Naaaa")
         }
+
     }
 
     return (
         <div className="table-window-wrapper">
-            {console.log(tables)}
             {isOpen && <TableCreationModal setIsOpen={setIsOpen} handleFormSubmit={handleFormSubmit} data={tables} />}
             <div className="container canvas-area">
                 <div id="canvas-wrapper" ref={parentRef}>
@@ -304,14 +334,14 @@ export function CreateUpdateTables() {
                                                 shadowBlur={10}
                                             />
                                             <Text
-                                                x={shape.rotation === 0 ? 0 : shape.table_number.toString().length < 2 ? -59 : -60}
-                                                y={shape.rotation === 0 ? 0 : shape.table_number.toString().length < 2 ? 75 : 75}
+                                                x={parseInt(shape.rotation) === 0 ? 0 : shape.table_number.toString().length < 2 ? -59 : -60}
+                                                y={parseInt(shape.rotation) === 0 ? 0 : shape.table_number.toString().length < 2 ? 75 : 75}
                                                 verticalAlign="middle"
                                                 text={shape.table_number}
                                                 fontSize={20}
                                                 align="center"
-                                                width={shape.rotation === 0 ? 150 : 24}
-                                                height={shape.rotation === 0 ? 100 : 0}
+                                                width={parseInt(shape.rotation) === 0 ? 150 : 24}
+                                                height={parseInt(shape.rotation) === 0 ? 100 : 0}
                                             />
                                         </Group>)
                                 }
@@ -337,12 +367,12 @@ export function CreateUpdateTables() {
                                                 onClick={(e) => handleClick(e)}
                                             />
                                             <Text
-                                                x={shape.rotation === 0 ? 0 : shape.table_number.toString().length < 2 ? -60 : -60}
-                                                y={shape.rotation === 0 ? 0 : 50}
+                                                x={parseInt(shape.rotation) === 0 ? 0 : shape.table_number.toString().length < 2 ? -60 : -60}
+                                                y={parseInt(shape.rotation) === 0 ? 0 : 50}
                                                 text={shape.table_number}
                                                 fontSize={20}
-                                                width={shape.rotation === 0 ? 100 : 24}
-                                                height={shape.rotation === 0 ? 100 : 0}
+                                                width={parseInt(shape.rotation) === 0 ? 100 : 24}
+                                                height={parseInt(shape.rotation) === 0 ? 100 : 0}
                                                 align="center"
                                                 verticalAlign="middle"
                                             />
@@ -452,58 +482,53 @@ export function CreateUpdateTables() {
                     }}>Cancel</button>
                 </div>
             </div>
-            <TableList tables={tables} setTables={setTables} handleDelete = {handleDelete}/>
+            <TableList tables={tables} setTables={setTables} handleDelete={handleDelete} />
         </div>
     )
 }
 function TableList(props) {
     //console.log(props.tables)
-    let { isConfirmed } = useConfirm()
-    let handleInputChange = (index, table_number)=>{
+    let handleInputChange = (index, table_number) => {
         console.log(index)
-        document.getElementById(`confirm-${table_number}`).style.display="block"
+        document.getElementById(`confirm-${table_number}`).style.display = "block"
+    }
 
-    }
-    let handleDelete = (index, table_number)=>{
-        props.handleDelete(index, table_number)
-    }
-    let handleConfirm = (e,index, table_number)=>{
+    let handleConfirm = (e, index, table_number) => {
         let entries = document.querySelectorAll(`.table-input-${table_number}`)//here we get all the value that correspond to the table number 
         let data = {}
         let error = []
-        for (let i of entries){//iterate through the data and validate 
-            if(i.id==="checkbox-rotation"){
-                if(i.checked){
+        for (let i of entries) {//iterate through the data and validate 
+            if (i.id === "checkbox-rotation") {
+                if (i.checked) {
                     data['available'] = true
                 }
-                else{
+                else {
                     data['available'] = false
                 }
             }
-            else if(i.name==="capacity" && (i.value <=0 || i.value>50)){
+            else if (i.name === "capacity" && (i.value <= 0 || i.value > 50)) {
                 error.push("The capacity is not within parameters")
                 break
             }
-            else if(i.name === "sides" && (i.value<4 || i.value>20)){
+            else if (i.name === "sides" && (i.value < 4 || i.value > 20)) {
                 error.push("The sides are not within parameters")
                 break
             }
-            else{
-                data[`${i.name}`]=i.value 
+            else {
+                data[`${i.name}`] = i.value
             }
-            
+
         }
-        
-        if (error.length!==0){
+        if (error.length !== 0) {
             toast.error(error[0],
-                    {
-                        theme: "colored", closeButton: false, position: "bottom-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
-                        progress: undefined,
-                    }
-                )
+                {
+                    theme: "colored", closeButton: false, position: "bottom-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                    progress: undefined,
+                }
+            )
         }
-        else{
-            document.getElementById(`confirm-${table_number}`).style.display="none"
+        else {
+            document.getElementById(`confirm-${table_number}`).style.display = "none"
         }
     }
     return (
@@ -521,26 +546,28 @@ function TableList(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.tables.map((table,index) => {
+                    {props.tables.map((table, index) => {
                         return (
-                                <tr key={table.table_number} >
-                                    <td>{table.table_number}</td>
-                                    <td className={`form-switch d-flex`}><input type="checkbox" className={`form-check-input table-input-${table.table_number}`} id="checkbox-rotation" defaultChecked={table.available} defaultValue={table.available} onChange={()=>handleInputChange(index, table.table_number)}/></td>
-                                    <td><select name="rotation" className={`table-input-${table.table_number} form-control`} onChange={()=>handleInputChange(index, table.table_number)} defaultValue={table.rotation}>
-                                            <option value={0}>0</option>
-                                            <option value={90}>90</option>
-                                        </select></td>
-                                    <td><input className={`table-input-${table.table_number} form-control`} name="capacity" defaultValue={table.capacity} onChange={()=>handleInputChange(index, table.table_number)}/></td>
-                                    <td><input className={`table-input-${table.table_number} form-control`} name="sides" defaultValue={table.sides} onChange={()=>handleInputChange(index, table.table_number)}/></td>
-                                    <td><select className={`table-input-${table.table_number} form-control`} name="shape" defaultValue={table.shape} onChange={()=>handleInputChange(index, table.table_number)}>
+                            <tr key={table.table_number} >
+                                <td>{table.table_number}</td>
+                                <td className={`form-switch d-flex`}><input type="checkbox" className={`form-check-input table-input-${table.table_number}`} id="checkbox-rotation" defaultChecked={table.available} defaultValue={table.available} onChange={() => handleInputChange(index, table.table_number)} /></td>
+                                <td><select name="rotation" className={`table-input-${table.table_number} form-select`} onChange={() => handleInputChange(index, table.table_number)} defaultValue={table.rotation}>
+                                    <option value={0}>0</option>
+                                    <option value={90}>90</option>
+                                </select></td>
+                                <td><input type="number" className={`table-input-${table.table_number} form-control`} name="capacity" defaultValue={table.capacity} onChange={() => handleInputChange(index, table.table_number)} /></td>
+                                <td><input type="number" className={`table-input-${table.table_number} form-control`} name="sides" defaultValue={table.sides} onChange={() => handleInputChange(index, table.table_number)} /></td>
+                                <td><select className={`table-input-${table.table_number} form-select`} name="shape" defaultValue={table.shape} onChange={() => handleInputChange(index, table.table_number)}>
                                         <option value={'rectangle'}>Rectangle</option>
                                         <option value={'square'}>Square</option>
                                         <option value={'polygon'}>Polygon</option>
-                                        </select></td>
-                                    <td className="d-flex "><button onClick={()=>props.handleDelete(index, table.table_number)} className="btn btn-danger">Delete</button>
-                                        <button type="submit" className="btn btn-success" id={`confirm-${table.table_number}`} style={{display:"none"}} onClick={(e)=>handleConfirm(e,index, table.table_number)}>Confirm</button>
-                                    </td>
-                                </tr>
+                                    </select>
+                                </td>
+                                <td className="d-flex ">
+                                    <button type="button" onClick={(e) => props.handleDelete(e, index, table.table_number)} className="btn btn-danger">Delete</button>
+                                    <button type="submit" className="btn btn-success" id={`confirm-${table.table_number}`} style={{ display: "none" }} onClick={(e) => handleConfirm(e, index, table.table_number)}>Confirm</button>
+                                </td>
+                            </tr>
                         )
                     })}
                 </tbody>
@@ -693,7 +720,7 @@ function TableCreationModal({ setIsOpen, handleFormSubmit, data }) {
                             <h6>Rotate 90°:</h6>
                         </div>
                         <div className="col-md-9 form-switch " >
-                            <input type="checkbox" defaultChecked="false" name="rotation" className="form-check-input" id="rotation-checked" />
+                            <input type="checkbox" defaultChecked={false} name="rotation" className="form-check-input" id="rotation-checked" />
                         </div>
                     </div>
                     <div className="row ">

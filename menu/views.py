@@ -89,7 +89,6 @@ class DishCategory(APIView):
         qs = Dish.objects.filter(category=category)#A category cannot be deleted if dishes contain such category
         if qs.exists():
             return Response({"message":"Category does not exists or some dishes contain this category"}, status = status.HTTP_400_BAD_REQUEST)
-        
         category.delete()
         return Response(id, status=status.HTTP_202_ACCEPTED)
     @permission_classes([IsAuthenticated])
