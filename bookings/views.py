@@ -46,39 +46,48 @@ class TablesListAPIView(generics.ListAPIView):
 class TableAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TableSerializer
     queryset = ''
-    def get_object(self, id):#Here we check if an object exists and return a 404 error if it does not 
+    def get_object(self, id):#Here we check if an object exists and return a None obj if it does not 
         try:
             return Table.objects.get(id=id)
         except (Table.DoesNotExist):
             return None
     def patch(self, request):
-        tableList = request.data
         errors = []
-        print("Patch")
-        for table in tableList:
-            print(table)
-            obj = self.get_object(table['id'])
-            if obj==None:
-                errors.append({"message":f"Table {table['id']} was not found"})
-                print('Not found error')
-            elif float(table['y'])>600 or float(table['y'])< 0:
-                errors.append({"message":f"Table {table['id']} position cannot be bigger or smaller than the space provided"})
-                print('y error')
-            elif ((int(table['rotation'])==90 and float(table['x'])>1300) or (int(table['rotation'])==90 and float(table['x'])<100)):
-                print('90 error')
-                errors.append({"message":f"Table {table['id']} position is smaller or bigger than the space provided"})
-            elif (int(table['rotation'])==0 and float(table['x'])>1200) or (int(table['rotation'])==0 and float(table['x'])<0):
-                print('0 error')
-                errors.append({"message":f"Table {table['id']} position is smaller or bigger than the space provided"})
-            else: 
-                print("else started")
-                serializer = self.get_serializer(obj, data=table, partial=True)
+        if type(request.data)==list:# if the data submitted is a list then it means it is the table postitions 
+            tableList = request.data
+            print(type(request.data)==list)
+            for table in tableList:
+                print(table)
+                obj = self.get_object(table['id'])
+                if obj==None:
+                    errors.append({"message":f"Table {table['id']} was not found"})
+                    print('Not found error')
+                elif float(table['y'])>600 or float(table['y'])< 0:
+                    errors.append({"message":f"Table {table['id']} position cannot be bigger or smaller than the space provided"})
+                    print('y error')
+                elif ((int(table['rotation'])==90 and float(table['x'])>1300) or (int(table['rotation'])==90 and float(table['x'])<100)):
+                    print('90 error')
+                    errors.append({"message":f"Table {table['id']} position is smaller or bigger than the space provided"})
+                elif (int(table['rotation'])==0 and float(table['x'])>1200) or (int(table['rotation'])==0 and float(table['x'])<0):
+                    print('0 error')
+                    errors.append({"message":f"Table {table['id']} position is smaller or bigger than the space provided"})
+                else: 
+                    serializer = self.get_serializer(obj, data=table, partial=True)
+                    if serializer.is_valid(): 
+                        serializer.save()
+                    else:
+                        errors.append({"message":f"There was an error saving table {table['id']}"})
+        else:
+            print("Data is not a list", request.data)
+            obj = self.get_object(request.data['table_number'])
+            if obj is None:
+                print("The table was not found")
+                return Response({"message":f"Table {request.data['table_number']} was not found"}, status=status.HTTP_404_NOT_FOUND)
+            else:
+                serializer = self.get_serializer(obj, data = request.data, partial=True)
                 if serializer.is_valid():
                     serializer.save()
-                    print("It should work")
-                else:
-                    print('It did not work')
-                    errors.append({"message":f"There was an error saving table {table['id']}"})
+                    return Response({"message": f"Table {request.data['table_number']} successfully updated"}, status=status.HTTP_202_ACCEPTED)
         if len(errors)!=0:
             return Response(errors, status= status.HTTP_400_BAD_REQUEST)
         return Response({"message":"All tables updated successfully"}, status=status.HTTP_200_OK)

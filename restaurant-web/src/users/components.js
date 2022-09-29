@@ -189,7 +189,19 @@ export function UserPage({ match, location }) {
         }
         let hadleResponse = (response, data) => {
             console.log(data)
-            setUserData(data)
+            if (response.status === 200) {
+                setUserData(data)
+                document.getElementById("confirm-user-changes").disabled = true
+            }
+            else {
+                toast.error("An error has occured",
+                    {
+                        theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                        progress: undefined,
+                    }
+                )
+            }
+
         }
         apiGetUserInfo(idUrl, hadleResponse)
     }, [])
@@ -226,6 +238,7 @@ export function UserPage({ match, location }) {
                     progress: undefined,
                 }
             )
+            document.getElementById("confirm-user-changes").disabled=true
         }
         else {
             toast.error(handleErrorResponse(data),
@@ -234,6 +247,7 @@ export function UserPage({ match, location }) {
                     progress: undefined,
                 }
             )
+            document.getElementById("confirm-user-changes").disabled=true
         }
     }
     let handleErrorResponse = (data) => {
@@ -247,11 +261,15 @@ export function UserPage({ match, location }) {
             return data.phone_number[0]
         }
     }
+    let handleOnChange = () => {
+        console.log("On change")
+        document.getElementById("confirm-user-changes").disabled = false
+    }
     return (
         <ConfirmContextProvider>
             <ConfirmModal />
             <div className="container">
-            <ReservationMaker />
+                <ReservationMaker />
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="card">
@@ -271,7 +289,7 @@ export function UserPage({ match, location }) {
                                             <h6 className="">Email</h6>
                                         </div>
                                         <div className="col-sm-7">
-                                            <input defaultValue={userData.email} className="form-control" id="user-email-input" readOnly ref={inputRef} name="email" maxLength="60" />
+                                            <input defaultValue={userData.email} className="form-control" readOnly ref={inputRef} name="email" maxLength="60" onChange={() => handleOnChange()} id="user-email-input"/>
                                         </div>
                                         <div className="col-sm-2">
                                             <button className="form-control" onClick={(e) => toggleEmailEdit(e)}><i className="bi bi-pencil"></i></button>
@@ -282,7 +300,7 @@ export function UserPage({ match, location }) {
                                             <h6>First Name</h6>
                                         </div>
                                         <div className="col-sm-9">
-                                            <input defaultValue={userData.first_name} className="form-control" name="first_name" maxLength="20" />
+                                            <input defaultValue={userData.first_name} className="form-control" name="first_name" maxLength="20" onChange={() => handleOnChange()} />
                                         </div>
                                     </div>
                                     <div className="row mb-3">
@@ -298,7 +316,7 @@ export function UserPage({ match, location }) {
                                             <h6>Phone Number</h6>
                                         </div>
                                         <div className="col-sm-9">
-                                            <input defaultValue={userData.phone_number} name="phone_number" className="form-control" />
+                                            <input defaultValue={userData.phone_number} name="phone_number" className="form-control" onChange={() => handleOnChange()} />
                                         </div>
                                     </div>
                                     <div className="row mb-3">
@@ -306,7 +324,7 @@ export function UserPage({ match, location }) {
                                             <h6>Comments</h6>
                                         </div>
                                         <div className="col-sm-9">
-                                            <textarea defaultValue={userData.comments} name="comments" rows="7" className="form-control" />
+                                            <textarea defaultValue={userData.comments} name="comments" rows="7" className="form-control" onChange={() => handleOnChange()} />
                                         </div>
                                     </div>
                                     <div className="row mb-3">
@@ -314,7 +332,7 @@ export function UserPage({ match, location }) {
                                             <h6>Active</h6>
                                         </div>
                                         <div className="col-sm-9 form-switch">
-                                            <input defaultChecked={userData.is_active} defaultValue={userData.is_active} name="is_active" type="checkbox" id="is-active-checkbox" className="form-check-input checkbox" />
+                                            <input defaultChecked={userData.is_active} defaultValue={userData.is_active} onChange={handleOnChange} name="is_active" type="checkbox" id="is-active-checkbox" className="form-check-input checkbox" />
                                         </div>
                                     </div>
                                     <div className="row mb-3">
@@ -322,7 +340,7 @@ export function UserPage({ match, location }) {
                                             <h6>Customer</h6>
                                         </div>
                                         <div className="col-sm-9 form-switch">
-                                            <input defaultChecked={userData.is_customer} defaultValue={userData.is_customer} name="is_customer" id="is-customer-checkbox" type="checkbox" className="form-check-input checkbox" />
+                                            <input defaultChecked={userData.is_customer} defaultValue={userData.is_customer} onChange={() => handleOnChange()} name="is_customer" id="is-customer-checkbox" type="checkbox" className="form-check-input checkbox" />
                                         </div>
                                     </div>
                                     <div className="row mb-3">
@@ -330,7 +348,7 @@ export function UserPage({ match, location }) {
                                             <h6>Staff</h6>
                                         </div>
                                         <div className="col-sm-9 form-switch">
-                                            <input defaultChecked={userData.is_staff} defaultValue={userData.is_staff} name="is_staff" id="is-staff-checkbox" type="checkbox" className="form-check-input checkbox" />
+                                            <input defaultChecked={userData.is_staff} defaultValue={userData.is_staff} onChange={() => handleOnChange()} name="is_staff" id="is-staff-checkbox" type="checkbox" className="form-check-input checkbox" />
                                         </div>
                                     </div>
                                     <div className="row mb-3">
@@ -338,7 +356,7 @@ export function UserPage({ match, location }) {
                                             <h6>Admin</h6>
                                         </div>
                                         <div className="col-sm-9 form-switch">
-                                            <input defaultChecked={userData.is_admin} defaultValue={userData.is_admin} type="checkbox" id="is-admin-checkbox" name="is_admin" className="form-check-input checkbox" />
+                                            <input defaultChecked={userData.is_admin} defaultValue={userData.is_admin} type="checkbox" id="is-admin-checkbox" onChange={() => handleOnChange()} name="is_admin" className="form-check-input checkbox" />
                                         </div>
                                     </div>
                                     <div className="row mb-3">
@@ -346,11 +364,11 @@ export function UserPage({ match, location }) {
                                             <h6>Superuser</h6>
                                         </div>
                                         <div className="col-sm-9 form-switch">
-                                            <input defaultChecked={userData.is_superuser} defaultValue={userData.is_superuser} type="checkbox" id="is-superuser-checkbox" name="is_superuser" className="form-check-input checkbox" />
+                                            <input defaultChecked={userData.is_superuser} defaultValue={userData.is_superuser} type="checkbox" id="is-superuser-checkbox" onChange={() => handleOnChange()} name="is_superuser" className="form-check-input checkbox" />
                                         </div>
                                     </div>
                                     <div className="row mb-4">
-                                        <button className="btn btn-primary form-control">Confirm Changes</button>
+                                        <button className="btn btn-primary form-control" id="confirm-user-changes">Confirm Changes</button>
                                     </div>
                                     <ResetImage user={userData} />
                                 </form>

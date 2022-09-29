@@ -13,6 +13,8 @@ node_modules/
 
 # production
 /build
+restaurant-web/src/assets
+restaurant-web/public/static
 
 # misc
 .DS_Store

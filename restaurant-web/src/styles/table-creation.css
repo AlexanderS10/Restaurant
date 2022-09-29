@@ -117,6 +117,8 @@ THIS IS THE STYLES FOR THE TABLE EDIT AREA
     border-radius: 8px;
     background: #c0c0c069;
     box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;
+    margin-bottom: inherit;
+    overflow: hidden;
 }
 #tables-list > th,td{
     padding: 10px;

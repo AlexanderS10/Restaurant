@@ -5,6 +5,7 @@ import { CategoriesList } from './categories'
 import {UserPage} from './users'
 import {TableCreationComponent} from './tableRoomCreation'
 import {RoomCreationContainer} from './tableRoomCreation'
+import {LandingPage} from './Templates/landing'
 // import {CalendarComponent} from './customer/calendar'
 // import {WheatherWidget} from './customer/wheatherWidget'
 // import ReactWeather, {useOpenWeather} from 'react-open-weather';
@@ -14,7 +15,7 @@ function App() {
   return (
    <div className="App">
       <Routes>
-      <Route path="/" element={<UsersSearch />} />
+      <Route path="/" element={<LandingPage/>} />
         <Route path="/users" element={<UsersSearch />} />
         <Route path="/menu" element={<CategoriesList/>} />
         <Route exact path="/:userId" element={<UserPage/>} />

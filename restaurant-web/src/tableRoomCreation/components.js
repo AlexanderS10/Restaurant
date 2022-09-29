@@ -72,17 +72,6 @@ export function CreateUpdateTables() {
     }
 
     let handleConfirmCreation = () => {
-        let mock_table={
-            "available":true,
-            "capacity": 4,
-            "id": "1",
-            "room": 1,
-            "rotation": 90,
-            "shape": "square",
-            "sides": 4,
-            "table_number": "1",
-            "x": "778.131",
-            "y": "557.724"}
         let table = newTable;
         console.log("The table created is: ", table)
 
@@ -124,7 +113,6 @@ export function CreateUpdateTables() {
     }
 
     let handleDragStart = (e) => {
-        let id = e.target.id()
         setTables(
             tables.map((table) => {
                 return {
@@ -135,7 +123,7 @@ export function CreateUpdateTables() {
     }
 
     let handleDragEnd = (e) => {
-        console.log("Finished drag=>", `(${e.target.x()},${e.target.y()})`)
+        // console.log("Finished drag=>", `(${e.target.x()},${e.target.y()})`)
         setTables(
             tables.map((table) => {
                 if (parseInt(table.id) === parseInt(e.target.id())) {//execute only if the ids match or the table being dragged
@@ -239,6 +227,10 @@ export function CreateUpdateTables() {
         if (final.length !== 0) {//make api call only if there were changes and that way spam is avoided
             apiUpdateTableList(handleListUpdate, final)
         }
+        else{
+            console.log("List is empty")
+        }
+        
 
     }
     let { isConfirmed } = useConfirm()
@@ -495,7 +487,7 @@ function TableList(props) {
 
     let handleConfirm = (e, index, table_number) => {
         let entries = document.querySelectorAll(`.table-input-${table_number}`)//here we get all the value that correspond to the table number 
-        let data = {}
+        let data = {"table_number":table_number}
         let error = []
         for (let i of entries) {//iterate through the data and validate 
             if (i.id === "checkbox-rotation") {
@@ -529,6 +521,45 @@ function TableList(props) {
         }
         else {
             document.getElementById(`confirm-${table_number}`).style.display = "none"
+            let handleTableUpdate = (response, data_response)=>{
+                console.log(data_response)
+                if (response.status===202){
+                    toast.success(data_response.message,
+                        {
+                            theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                            progress: undefined,
+                        }
+                    )
+                    props.setTables(
+                        props.tables.map((table)=>{
+                            if(table.table_number===parseInt(table_number)){
+                                return{
+                                    ...table,
+                                    available:data.available,
+                                    rotation:data.rotation,
+                                    capacity:data.capacity,
+                                    sides:data.sides,
+                                    shape:data.shape
+                                }
+                            }
+                            else{
+                                return{
+                                    ...table
+                                }
+                            }
+                        })
+                    )
+
+                }else{
+                    toast.error(data_response.message,
+                        {
+                            theme: "colored", closeButton: false, position: "top-center", autoClose: 3000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true,
+                            progress: undefined,
+                        }
+                    )
+                }
+            }
+            apiUpdateTableList(handleTableUpdate, data)
         }
     }
     return (
