@@ -1,12 +1,8 @@
-from ast import Delete
-from functools import partial
-from urllib import request
-from django.db import reset_queries
+from multiprocessing import context
+from knox.models import AuthToken
 from rest_framework.decorators import api_view
 from rest_framework import generics, filters, status, pagination
 from rest_framework.response import Response
-from rest_framework.renderers import JSONRenderer
-from accounts.decorators import admin_only
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import *
@@ -151,3 +147,31 @@ def reset_profile_image(request):
     #         response.renderer_context = {}
     #         return response
     #     return super().dispatch(request,*args, **kwargs)
+class RegisterUserAPI(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
+    def post(self, request,*args, **kwargs):
+        print(request.data)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({
+            "user":userSerializer(user, context=self.get_serializer_context()).data,
+            "token":AuthToken.objects.create(user)[1]
+            })
+class LoginAPI(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+    def post(self, request):
+        serializer = self.get_serializer(data = request.data)
+        serializer.is_valid(raise_exception = True)
+        user = serializer.validated_data
+        return Response({
+            "user":userSerializer(user, context=self.get_serializer_context()).data,
+            "token":AuthToken.objects.create(user)[1]
+            })
+class UserAPI(generics.RetrieveAPIView):
+    permission_classes = [
+        IsAuthenticated,
+    ]
+    serializer_class = userSerializer
+    def get_object(self):
+        return self.request.user

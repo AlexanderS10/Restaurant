@@ -202,6 +202,9 @@ DISHES STYLES
   justify-content: center;
   margin-top: 2em;
 }
+.row-menu{
+  width: inherit;
+}
 
 #menu-filters li{
   cursor: pointer;

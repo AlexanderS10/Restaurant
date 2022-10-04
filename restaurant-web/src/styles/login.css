@@ -1,0 +1,86 @@
+:root{
+    --bronze-tone: #FF5733;
+  }
+  .login-body {
+    position: absolute;
+    width: 100% !important;
+    height: 100% !important;
+    color: white;
+    background: no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+  }
+  
+  
+  .container-login {
+    border-radius: 2%;
+    background-color: rgba(0, 0, 0, 0.74);
+  }
+  
+  .login-container {
+    background-color: #532c2570;
+    height: 100%;
+  }
+  
+  .vertical-center {
+    min-height: 100%;
+    /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh;
+    /* These two lines are counted as one :-)       */
+    display: flex;
+    align-items: center;
+  }
+  
+  h1 {
+    color: var(--bronze-tone);
+  }
+  
+  p {
+    color: white;
+  }
+  
+  label {
+    color: white;
+  }
+  
+  .back-home {
+    background: transparent !important;
+    border-radius: 50px;
+    -webkit-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+    border: 2px solid var(--bronze-tone);
+  }
+  
+  .back-home:hover {
+    border: var(--bronze-tone) 2px solid;
+    border-radius: 50px;
+    background: var(--bronze-tone) !important;
+  }
+  
+  .alert {
+    line-height: 1;
+  }
+  
+  ul.errorlist {
+    padding: 0;
+    margin-bottom: 0;
+  }
+  
+  li {
+    margin: 0;
+    text-align: left;
+    list-style-type: none;
+    margin-bottom: 0;
+  }
+  
+  .back-btn {
+    background-color: var(--bronze-tone)!important;
+    border: 0;
+  }
+  
+  .login-container.vertical-center{
+    position:relative;
+    overflow: auto;
+  }

@@ -3,17 +3,18 @@ import '../assets/animate/animate.min.css'
 import '../assets/boxicons/css/boxicons.min.css'
 import '../assets/glightbox/css/glightbox.min.css'
 import '../styles/landing.css'
-import {DishListView} from '../dishes'
+import { DishListView } from '../dishes'
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
+import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import GLightbox from 'glightbox';
-import {EffectFade, Autoplay, Pagination, Navigation } from "swiper"
+import { EffectFade, Autoplay, Pagination, Navigation } from "swiper"
 export function LandingPage() {
-    (function () {
-        /**
+    useEffect(() => {
+         /**
          * Easy selector helper function
          */
         const select = (el, all = false) => {
@@ -102,10 +103,9 @@ export function LandingPage() {
             window.addEventListener('load', headerScrolled)
             onscroll(document, headerScrolled)
         }
-
         /**
-         * Back to top button
-         */
+        * Back to top button
+        **/
         let backtotop = select('.back-to-top')
         if (backtotop) {
             const toggleBacktotop = () => {
@@ -118,33 +118,12 @@ export function LandingPage() {
             window.addEventListener('load', toggleBacktotop)
             onscroll(document, toggleBacktotop)
         }
-
         /**
-         * Mobile nav toggle
-         */
-        on('click', '.mobile-nav-toggle', function (e) {
-            select('#navbar').classList.toggle('navbar-mobile')
-            this.classList.toggle('bi-list')
-            this.classList.toggle('bi-x')
-        })
-
-        /**
-         * Mobile nav dropdowns activate
-         */
-        on('click', '.navbar .dropdown > a', function (e) {
-            if (select('#navbar').classList.contains('navbar-mobile')) {
-                e.preventDefault()
-                this.nextElementSibling.classList.toggle('dropdown-active')
-            }
-        }, true)
-
-        /**
-         * Scrool with ofset on links with a class name .scrollto
-         */
+        * Scrool with ofset on links with a class name .scrollto
+        **/
         on('click', '.scrollto', function (e) {
-            if (select(this.hash)) {
+            if (select(this.hash)){
                 e.preventDefault()
-
                 let navbar = select('#navbar')
                 if (navbar.classList.contains('navbar-mobile')) {
                     navbar.classList.remove('navbar-mobile')
@@ -166,135 +145,24 @@ export function LandingPage() {
                 }
             }
         });
+        /**
+         * Mobile nav toggle
+         */
+         on('click', '.mobile-nav-toggle', function (e) {
+            select('#navbar').classList.toggle('navbar-mobile')
+            this.classList.toggle('bi-list')
+            this.classList.toggle('bi-x')
+        })
 
         /**
-         * Hero carousel indicators
+         * Mobile nav dropdowns activate
          */
-        // let heroCarouselIndicators = select("#hero-carousel-indicators")
-        // let heroCarouselItems = select('#heroCarousel .carousel-item', true)
-
-        // heroCarouselItems.forEach((item, index) => {
-        //     (index === 0) ?
-        //         heroCarouselIndicators.innerHTML += "<li data-bs-target='#heroCarousel' data-bs-slide-to='" + index + "' class='active'></li>" :
-        //         heroCarouselIndicators.innerHTML += "<li data-bs-target='#heroCarousel' data-bs-slide-to='" + index + "'></li>"
-        // });
-
-        /**
-         * Testimonials slider
-         */
-        // new Swiper('.events-slider', {
-        //     speed: 600,
-        //     loop: true,
-        //     autoplay: {
-        //         delay: 5000,
-        //         disableOnInteraction: false
-        //     },
-        //     slidesPerView: 'auto',
-        //     pagination: {
-        //         el: '.swiper-pagination',
-        //         type: 'bullets',
-        //         clickable: true
-        //     }
-        // });
-
-        /**
-         * Initiate gallery lightbox 
-         */
-        // const galleryLightbox = GLightbox({
-        //     selector: '.gallery-lightbox'
-        // });
-
-
-
-    })()
-    useEffect(() => {
-        const select = (el, all = false) => {
-            el = el.trim()
-            if (all) {
-                return [...document.querySelectorAll(el)]
-            } else {
-                return document.querySelector(el)
+        on('click', '.navbar .dropdown > a', function (e) {
+            if (select('#navbar').classList.contains('navbar-mobile')) {
+                e.preventDefault()
+                this.nextElementSibling.classList.toggle('dropdown-active')
             }
-        }
-
-        /**
-         * Easy event listener function
-         */
-        const on = (type, el, listener, all = false) => {
-            let selectEl = select(el, all)
-            if (selectEl) {
-                if (all) {
-                    selectEl.forEach(e => e.addEventListener(type, listener))
-                } else {
-                    selectEl.addEventListener(type, listener)
-                }
-            }
-        }
-
-        /**
-         * Easy on scroll event listener 
-         */
-        const onscroll = (el, listener) => {
-            el.addEventListener('scroll', listener)
-        }
-
-        /**
-         * Navbar links active state on scroll
-         */
-        let navbarlinks = select('#navbar .scrollto', true)
-        const navbarlinksActive = () => {
-            let position = window.scrollY + 200
-            navbarlinks.forEach(navbarlink => {
-                if (!navbarlink.hash) return
-                let section = select(navbarlink.hash)
-                if (!section) return
-                if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-                    navbarlink.classList.add('active')
-                } else {
-                    navbarlink.classList.remove('active')
-                }
-            })
-        }
-        window.addEventListener('load', navbarlinksActive)
-        onscroll(document, navbarlinksActive)
-
-        /**
-         * Scrolls to an element with header offset
-         */
-        const scrollto = (el) => {
-            let header = select('#header')
-            let offset = header.offsetHeight
-
-            let elementPos = select(el).offsetTop
-            window.scrollTo({
-                top: elementPos - offset,
-                behavior: 'smooth'
-            })
-        }
-
-        /**
-         * Toggle .header-scrolled class to #header when page is scrolled
-         */
-        let selectHeader = select('#header')
-        let selectTopbar = select('#topbar')
-        if (selectHeader) {
-            const headerScrolled = () => {
-                if (window.scrollY > 100) {
-                    selectHeader.classList.add('header-scrolled')
-                    if (selectTopbar) {
-                        selectTopbar.classList.add('topbar-scrolled')
-                    }
-                } else {
-                    selectHeader.classList.remove('header-scrolled')
-                    if (selectTopbar) {
-                        selectTopbar.classList.remove('topbar-scrolled')
-                    }
-                }
-            }
-            window.addEventListener('load', headerScrolled)
-            onscroll(document, headerScrolled)
-        }
-
+        }, true)
     })
     return (
         <div>
@@ -306,13 +174,11 @@ export function LandingPage() {
             </section>
             <header id="header" className="fixed-top d-flex align-items-center ">
                 <div className="container-fluid container-xl d-flex align-items-center justify-content-between">
-
                     <div className="logo me-auto">
-                        <h1><a href="home.html">Restaurant</a></h1>
+                        <h1><a href="#hero">Restaurant</a></h1>
                         {/* If I want to use a image logo instead then I can use the bottom part --> */}
                         {/* <!-- <a href="index.html"><img src="landing/logo.png'%}" alt="" className="img-fluid"></a>--> */}
                     </div>
-
                     <nav id="navbar" className="navbar order-last order-lg-0">
                         <ul>
                             <li><a className="nav-link scrollto active" href="#hero">Home</a></li>
@@ -323,25 +189,24 @@ export function LandingPage() {
                         </ul>
                         <i className="bi bi-list mobile-nav-toggle"></i>
                     </nav>
-                    <a className="login-btn" href="{% url 'login' %}" role="button">Log in</a>
-                    {/* {% comment %} <a className="login-btn" href="login" role="button">Log in</a> {% endcomment %} */}
-
+                    <Link className="login-btn" to='login'>Log In</Link>
+                    {/*<a className="login-btn" href="login" role="button">Log in</a>*/}
                 </div>
             </header>
             {/* <!-- End Header --> */}
-            {/* <!-- ======= Main Slide Section ======= --> */}
+            {/* <!-- Main Slide Section --> */}
             <section id="hero">
-                <Swiper 
-                centeredSlides={true} 
-                loop={true} 
-                spaceBetween={30} 
-                autoplay={{ delay: 5000, disableOnInteraction: false }} 
-                pagination={{ clickable: true }} 
-                navigation={true} 
-                modules={[Navigation, Pagination, Autoplay,EffectFade]} 
-                effect={"fade"}
-                speed={2000}
-                className="mySwiper"
+                <Swiper
+                    centeredSlides={true}
+                    loop={true}
+                    spaceBetween={30}
+                    autoplay={{ delay: 5000, disableOnInteraction: false }}
+                    pagination={{ clickable: true }}
+                    navigation={true}
+                    modules={[Navigation, Pagination, Autoplay, EffectFade]}
+                    effect={"fade"}
+                    speed={2000}
+                    className="mySwiper"
                 >
                     <SwiperSlide>
                         <div className="carousel-item active" style={{ background: `url(static/landing/slide/view1.jpeg)` }}>
@@ -406,7 +271,7 @@ export function LandingPage() {
                             <p>Features why you can confidently choose us can be summarized in the following:</p>
                         </div>
 
-                        <div className="row">
+                        <div className="row row-landing">
 
                             <div className="col-lg-4">
                                 <div className="box">
@@ -441,123 +306,8 @@ export function LandingPage() {
                 {/* <!-- End Why Section --> */}
 
                 {/* <!--MENU SECTION--> */}
-                <DishListView/>
-
-                
+                <DishListView />
                 {/* <!-- End Menu Section --> */}
-
-                {/* <!--SPECIALS SECTION--> */}
-                <section id="specials" className="specials">
-                    <div className="container">
-
-                        <div className="section-title">
-                            <h2><span>Take a look at our special dishes</span></h2>
-                            <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae
-                                autem.</p>
-                        </div>
-
-                        <div className="row">
-                            <div className="col-lg-3">
-                                <ul className="nav nav-tabs flex-column">
-                                    <li className="nav-item">
-                                        <a className="nav-link active show" data-bs-toggle="tab" href="#tab-1">Dish 1 Name</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" data-bs-toggle="tab" href="#tab-2">Dish 2 Name</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" data-bs-toggle="tab" href="#tab-3">Dish 3 Name</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" data-bs-toggle="tab" href="#tab-4">Dish 4 Name</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" data-bs-toggle="tab" href="#tab-5">Dish 5 Name</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="col-lg-9 mt-4 mt-lg-0">
-                                <div className="tab-content">
-                                    <div className="tab-pane active show" id="tab-1">
-                                        <div className="row">
-                                            <div className="col-lg-8 details order-2 order-lg-1">
-                                                <h3>Dish Name and Some Description</h3>
-                                                <p className="fst-italic">Dish's ingredients or descriptions can be included here for customers to take a look </p>
-                                                <p>This can be modifie as needed and if a dish changes there can be a database table dedicated to show this off which can
-                                                    be modified by the staff or the admin more securely. If needed this can be an entire new page page for QR code use.
-                                                </p>
-                                            </div>
-                                            <div className="col-lg-4 text-center order-1 order-lg-2">
-                                                <img src="static/landing/dishes/dish-1.jpeg" alt="" className="img-fluid" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="tab-pane" id="tab-2">
-                                        <div className="row">
-                                            <div className="col-lg-8 details order-2 order-lg-1">
-                                                <h3>Et blanditiis nemo veritatis excepturi</h3>
-                                                <p className="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde sonata raqer
-                                                    a videna mareta paulona marka</p>
-                                                <p>Ea ipsum voluptatem consequatur quis est. Illum error ullam omnis quia et reiciendis sunt sunt
-                                                    est. Non aliquid repellendus itaque accusamus eius et velit ipsa voluptates. Optio nesciunt eaque
-                                                    beatae accusamus lerode pakto madirna desera vafle de nideran pal</p>
-                                            </div>
-                                            <div className="col-lg-4 text-center order-1 order-lg-2">
-                                                <img src="static/landing/dishes/dish-2.jpeg" alt="" className="img-fluid" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="tab-pane" id="tab-3">
-                                        <div className="row">
-                                            <div className="col-lg-8 details order-2 order-lg-1">
-                                                <h3>Impedit facilis occaecati odio neque aperiam sit</h3>
-                                                <p className="fst-italic">Eos voluptatibus quo. Odio similique illum id quidem non enim fuga. Qui natus
-                                                    non sunt dicta dolor et. In asperiores velit quaerat perferendis aut</p>
-                                                <p>Iure officiis odit rerum. Harum sequi eum illum corrupti culpa veritatis quisquam. Neque
-                                                    necessitatibus illo rerum eum ut. Commodi ipsam minima molestiae sed laboriosam a iste odio. Earum
-                                                    odit nesciunt fugiat sit ullam. Soluta et harum voluptatem optio quae</p>
-                                            </div>
-                                            <div className="col-lg-4 text-center order-1 order-lg-2">
-                                                <img src="static/landing/dishes/dish-3.jpeg" alt="" className="img-fluid" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="tab-pane" id="tab-4">
-                                        <div className="row">
-                                            <div className="col-lg-8 details order-2 order-lg-1">
-                                                <h3>Fuga dolores inventore laboriosam ut est accusamus laboriosam dolore</h3>
-                                                <p className="fst-italic">Totam aperiam accusamus. Repellat consequuntur iure voluptas iure porro quis
-                                                    delectus</p>
-                                                <p>Eaque consequuntur consequuntur libero expedita in voluptas. Nostrum ipsam necessitatibus aliquam
-                                                    fugiat debitis quis velit. Eum ex maxime error in consequatur corporis atque. Eligendi asperiores
-                                                    sed qui veritatis aperiam quia a laborum inventore</p>
-                                            </div>
-                                            <div className="col-lg-4 text-center order-1 order-lg-2">
-                                                <img src="static/landing/dishes/dish-4.jpeg" alt="" className="img-fluid" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="tab-pane" id="tab-5">
-                                        <div className="row">
-                                            <div className="col-lg-8 details order-2 order-lg-1">
-                                                <h3>Est eveniet ipsam sindera pad rone matrelat sando reda</h3>
-                                                <p className="fst-italic">Omnis blanditiis saepe eos autem qui sunt debitis porro quia.</p>
-                                                <p>Exercitationem nostrum omnis. Ut reiciendis repudiandae minus. Omnis recusandae ut non quam ut
-                                                    quod eius qui. Ipsum quia odit vero atque qui quibusdam amet. Occaecati sed est sint aut vitae
-                                                    molestiae voluptate vel</p>
-                                            </div>
-                                            <div className="col-lg-4 text-center order-1 order-lg-2">
-                                                <img src="static/landing/dishes/dish-5.jpg" alt="" className="img-fluid" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-                {/* <!-- End Specials Section --> */}
 
                 {/* <!-- ======= Events Section ======= --> */}
                 <section id="events" className="events" style={{ backgroundImage: `url(static/landing/events/events-b.jpeg)` }}>
@@ -567,12 +317,22 @@ export function LandingPage() {
                             <h2>Organize Your <span>Events</span> in our Restaurant</h2>
                         </div>
 
-                        <div className="events-slider swiper-container">
-                            <div className="swiper-wrapper">
-                                <Swiper centeredSlides={true} autoplay={{ delay: 5000, disableOnInteraction: false }} pagination={{ clickable: true }} navigation={true} modules={[Navigation, Pagination, Autoplay]} className="mySwiper">
+                        <div className=" swiper-container">
+                            <div className="">
+                                <Swiper
+                                    centeredSlides={true}
+                                    loop={true}
+                                    spaceBetween={30}
+                                    autoplay={{ delay: 5000, disableOnInteraction: false }}
+                                    pagination={{ clickable: true }}
+                                    navigation={true}
+                                    modules={[Navigation, Pagination, Autoplay]}
+                                    speed={2000}
+                                    className="mySwiper"
+                                >
                                     <SwiperSlide>
                                         <div className="swiper-slide">
-                                            <div className="row event-item">
+                                            <div className="row event-item row-landing">
                                                 <div className="col-lg-6">
                                                     <img src="static/landing/events/events-3.jpeg" className="img-fluid" alt="" />
                                                 </div>
@@ -603,7 +363,7 @@ export function LandingPage() {
                                     </SwiperSlide>
                                     <SwiperSlide>
                                         <div className="swiper-slide">
-                                            <div className="row event-item">
+                                            <div className="row event-item row-landing">
                                                 <div className="col-lg-6">
                                                     <img src="static/landing/events/events-2.jpeg" className="img-fluid" alt="" />
                                                 </div>
@@ -634,7 +394,7 @@ export function LandingPage() {
                                     </SwiperSlide>
                                     <SwiperSlide>
                                         <div className="swiper-slide">
-                                            <div className="row event-item">
+                                            <div className="row event-item row-landing">
                                                 <div className="col-lg-6">
                                                     <img src="static/landing/events/events-1.jpeg" className="img-fluid" alt="" />
                                                 </div>
@@ -663,7 +423,7 @@ export function LandingPage() {
                                             </div>
                                         </div>
                                     </SwiperSlide>
-                                    
+
                                 </Swiper>
                             </div>
                             <div className="swiper-pagination"></div>
@@ -673,77 +433,19 @@ export function LandingPage() {
                 </section>
                 {/* <!-- END EVENTS SECTION--> */}
 
-                {/* <!-- BOOK A RAPID TABLE SECTION --> */}
-                <section id="book-a-table" className="book-a-table">
-                    <div className="container">
 
-                        <div className="section-title">
-                            <h2><span>Rapid</span> table booking</h2>
-                            <p><i className="bi bi-exclamation-triangle-fill"></i> Requesting a table here although possible may not work due to several
-                                reasons. To select a more specific table and check availibility create an account. </p>
-                        </div>
-
-                        <form action="forms/book-a-table.php" method="post" className="php-email-form">
-                            <div className="row">
-                                <div className="col-lg-4 col-md-6 form-group">
-                                    <input type="text" name="name" className="form-control" id="name" placeholder="Your Name" data-rule="minlen:4"
-                                        data-msg="Please enter at least 4 chars" />
-                                    <div className="validate"></div>
-                                </div>
-                                <div className="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-                                    <input type="email" className="form-control" name="email" id="email" placeholder="Your Email"
-                                        data-rule="email" data-msg="Please enter a valid email" />
-                                    <div className="validate"></div>
-                                </div>
-                                <div className="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-                                    <input type="text" className="form-control" name="phone" id="phone" placeholder="Your Phone"
-                                        data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                                    <div className="validate"></div>
-                                </div>
-                                <div className="col-lg-4 col-md-6 form-group mt-3">
-                                    <input type="text" name="date" className="form-control" id="date" placeholder="Date" data-rule="minlen:4"
-                                        data-msg="Please enter at least 4 chars" />
-                                    <div className="validate"></div>
-                                </div>
-                                <div className="col-lg-4 col-md-6 form-group mt-3">
-                                    <input type="text" className="form-control" name="time" id="time" placeholder="Time" data-rule="minlen:4"
-                                        data-msg="Please enter at least 4 chars" />
-                                    <div className="validate"></div>
-                                </div>
-                                <div className="col-lg-4 col-md-6 form-group mt-3">
-                                    <input type="number" className="form-control" name="people" id="people" placeholder="# of people"
-                                        data-rule="minlen:1" data-msg="Please enter at least 1 chars" />
-                                    <div className="validate"></div>
-                                </div>
-                            </div>
-                            <div className="form-group mt-3">
-                                <textarea className="form-control" name="message" rows="5" placeholder="Message"></textarea>
-                                <div className="validate"></div>
-                            </div>
-                            <div className="mb-3">
-                                <div className="loading">Loading</div>
-                                <div className="error-message"></div>
-                                <div className="sent-message">Your booking request was sent. We will call back or send an Email to confirm your
-                                    reservation. Thank you!</div>
-                            </div>
-                            <div className="text-center"><button type="submit">Send Message</button></div>
-                        </form>
-
-                    </div>
-                </section>
-                {/* <!-- END RAPID TABLE BOOKING --> */}
 
                 {/* <!-- GALLERY SECTION --> */}
                 <section id="gallery" className="gallery">
                     <div className="container-fluid">
 
                         <div className="section-title">
-                            <h2><span>Some images of our restaurant</span></h2>
+                            <h2><span>Gallery</span></h2>
                             <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae
                                 autem.</p>
                         </div>
 
-                        <div className="row no-gutters">
+                        <div className="row no-gutters row-landing">
 
                             <div className="col-lg-3 col-md-4">
                                 <div className="gallery-item">
@@ -822,10 +524,10 @@ export function LandingPage() {
                         <div className="section-title">
                             <h2><span>Kitchen Staff</span></h2>
                             <p>Meet the people behind every amazing dish and desert that is served to our dear customers. Years of experience and dedication
-                                has resulted in a world-className="taff.</p>
+                                has resulted in a world class staff.</p>
                         </div>
 
-                        <div className="row">
+                        <div className="row row-landing">
 
                             <div className="col-lg-4 col-md-6">
                                 <div className="member">
@@ -869,7 +571,16 @@ export function LandingPage() {
 
                         <div className="reviews-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
                             <div className="swiper-wrapper">
-                                <Swiper centeredSlides={true} autoplay={{ delay: 5000, disableOnInteraction: false }} pagination={{ clickable: true }} navigation={true} modules={[Navigation, Pagination, Autoplay]} className="mySwiper">
+                                <Swiper
+                                    centeredSlides={true}
+                                    loop={true}
+                                    spaceBetween={30}
+                                    autoplay={{ delay: 5000, disableOnInteraction: false }}
+                                    pagination={{ clickable: true }}
+                                    navigation={true}
+                                    modules={[Navigation, Pagination, Autoplay]}
+                                    speed={2000}
+                                    className="mySwiper" >
                                     <SwiperSlide>
                                         <div className="swiper-slide">
                                             <div className="reviews-item">
@@ -965,11 +676,10 @@ export function LandingPage() {
                                             </div>
                                         </div>
                                     </SwiperSlide>
+                                    <div className="swiper-pagination"></div>
                                 </Swiper>
                             </div>
-                            <div className="swiper-pagination"></div>
                         </div>
-
                     </div>
                 </section>
                 {/* <!-- END OF REVIEWS SECTION--> */}
@@ -977,18 +687,15 @@ export function LandingPage() {
                 {/* <!-- START OF CONTACT SECTION --> */}
                 <section id="contact" className="contact">
                     <div className="container">
-
                         <div className="section-title">
                             <h2><span>Reach Us</span></h2>
                             <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae
                                 autem.</p>
                         </div>
                     </div>
-
                     <div className="container mt-5">
-
                         <div className="info-wrap">
-                            <div className="row">
+                            <div className="row row-landing">
                                 <div className="col-lg-3 col-md-6 info">
                                     <i className="bi bi-geo-alt"></i>
                                     <h4>Location:</h4>
@@ -1014,10 +721,9 @@ export function LandingPage() {
                                 </div>
                             </div>
                         </div>
-                        {/* {% comment %} Here a contact form I see it as redundant as there is a lot of information provided on the page already hence if a customer
-                        needs to ask something they can do it from their personal email {% endcomment %} */}
+
                         <form action="forms/contact.php" method="post" className="php-email-form">
-                            <div className="row">
+                            <div className="row row-landing">
                                 <div className="col-md-6 form-group">
                                     <input type="text" name="name" className="form-control" id="name" placeholder="Your Name" required />
                                 </div>
@@ -1050,18 +756,16 @@ export function LandingPage() {
                 <div className="container">
                     <h3>Restaurant</h3>
                     <p>Et aut eum quis fuga eos sunt ipsa nihil. Labore corporis magni eligendi fuga maxime saepe commodi placeat.</p>
-
                     <div className="copyright">
                         &copy; Copyright <strong><span></span></strong>.
                     </div>
                     <div className="credits">
-
                     </div>
                 </div>
             </footer>
             {/* <!-- End Footer --> */}
 
-            <a href="#topbar" className="back-to-top d-flex align-items-center justify-content-center"><i
+            <a href="#hero" className="back-to-top d-flex align-items-center justify-content-center scrollto"><i
                 className="bi bi-arrow-up-short"></i></a>
         </div>
     )

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     #Internal   
     'rest_framework',
     "corsheaders",
+    "knox",
 ]
 
 MIDDLEWARE = [
@@ -162,7 +163,7 @@ CORS_ALLOW_HEADERS = [
 
 #REST FRAMEWORK AND DEBUG OPTIONS 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True #Close the session when the browser used is closed 
-DEFAULT_AUTHENTICATION_CLASSES=['rest_framework.authentication.SessionAuthentication']
+DEFAULT_AUTHENTICATION_CLASSES=['knox.auth.TokenAuthentication']
 DEFAULT_RENDER_CLASSES = []
 
 if DEBUG: #This is for development only 
@@ -185,3 +186,6 @@ REST_FRAMEWORK = {
 }
 
 LOGIN_URL = "/login"
+
+REST_AUTH_TOKEN_MODEL = 'knox.models.AuthToken'
+REST_AUTH_TOKEN_CREATOR = 'project.apps.accounts.utils.create_knox_token'

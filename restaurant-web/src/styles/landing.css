@@ -95,7 +95,7 @@ a:hover {
 
 #header.header-scrolled {
   top: 0;
-  background-color: #37191175;
+  background-color: #371911d2;
 }
 
 
@@ -396,6 +396,12 @@ li.nav-item.register-tab .active{
   margin: 0;
   height: 100%;
   color: white;
+}
+.swiper-button-next, .swiper-button-prev{
+  color: white !important;
+}
+.swiper-button-prev:hover, .swiper-button-next:hover{
+  color: var(--bronze-tone) !important;
 }
 
 /*
@@ -1581,6 +1587,10 @@ Footer
 
 #footer .credits {
   font-size: 13px;
+}
+
+.row-landing{
+  margin: auto !important;
 }
 
 

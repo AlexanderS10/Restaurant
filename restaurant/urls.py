@@ -25,6 +25,7 @@ from accounts.views import login_view
 from profiles.views import *
 from accounts.forms import *
 from django.views.generic import TemplateView
+from accounts import urls
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('', home_view, name=""),
@@ -45,6 +46,7 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_success.html'), name='password_reset_complete'),
     #API paths
     path('api/', include('restaurant.api_urls')),
+    path('api/', include('accounts.urls')),
     path('404/', handler404_view),
     path('csrf_cookie', GetCSRFToken.as_view()),
     path('csrf/',csrf),
