@@ -1,0 +1,14 @@
+export let GET_LEADS = 'GET_LEADS';
+export let DELETE_LEAD = 'DELETE_LEAD';
+export let ADD_LEAD = 'ADD_LEAD';
+export let GET_ERRORS = 'GET_ERRORS';
+export let CREATE_MESSAGE = 'CREATE_MESSAGE';
+export let USER_LOADING = 'USER_LOADING';
+export let USER_LOADED = 'USER_LOADED';
+export let AUTH_ERROR = 'AUTH_ERROR';
+export let LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export let LOGIN_FAIL = 'LOGIN_FAIL';
+export let LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export let REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export let REGISTER_FAIL = 'REGISTER_FAIL';
+export let CLEAR_LEADS = 'CLEAR_LEADS';

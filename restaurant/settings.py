@@ -159,6 +159,7 @@ CORS_ALLOW_HEADERS = [
 'user-agent',
 'x-csrftoken',
 'x-requested-with',
+'http_x_request_with'
 ]
 
 #REST FRAMEWORK AND DEBUG OPTIONS 
@@ -173,7 +174,7 @@ if DEBUG: #This is for development only
     'rest_framework.renderers.BrowsableAPIRenderer',
     'rest_framework.renderers.JSONRenderer',
     'rest_framework.renderers.HTMLFormRenderer']
-    DEFAULT_AUTHENTICATION_CLASSES += ['restaurant.rest_api.dev.DevAuthentication']
+    #DEFAULT_AUTHENTICATION_CLASSES += ['restaurant.rest_api.dev.DevAuthentication']
 
 
 REST_FRAMEWORK = {

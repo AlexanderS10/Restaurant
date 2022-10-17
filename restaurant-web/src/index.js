@@ -11,6 +11,8 @@ import {
 import './styles/messages-component.css'
 import 'react-toastify/dist/ReactToastify.css';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux'
+import store from './store'
 //import {CalendarComponent} from './customer/calendar'
 //import {WeatherWidget} from './customer/weatherWidget'
 import { CategoriesList } from './categories'
@@ -53,9 +55,11 @@ if(categoriesListWidget){
 let root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     <Router>
       <App />
     </Router>
+    </Provider>
   </React.StrictMode>
 );
 

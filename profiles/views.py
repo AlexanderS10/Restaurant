@@ -39,8 +39,8 @@ def user_details_api(request, *args, **kwargs): #REST API for detailing some bas
     status = 200
     try:
         obj = CustomUser.objects.get(id=id)
-        data = userSerializer(obj)
-        return Response(data.data, status=status)
+        serializer = userSerializer(obj)
+        return Response(serializer.data, status=status)
     except:
         status = 404
         return Response(status=404)

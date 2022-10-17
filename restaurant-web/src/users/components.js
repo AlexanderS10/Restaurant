@@ -121,6 +121,7 @@ export function UserResults(props) {
     }
     return (
         <div className="user-results-container">
+            {console.log(users?.length)}
             <div className="user-results-wrapper col-lg-8 col-sm-11 col-xs">
                 <table className="user-results">
                     <thead className="results-heading">
@@ -133,7 +134,8 @@ export function UserResults(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((users, index) => {
+                        
+                        {users?.length===0?(users.map((users, index) => {
                             let date = new Date(users.date_joined)
                             return (
                                 <tr key={users.id}>
@@ -144,7 +146,7 @@ export function UserResults(props) {
                                     <td>{date.toDateString()}</td>
                                 </tr>
                             )
-                        })}
+                        })):(<tr></tr>)}
                     </tbody>
                 </table>
                 <div className="pagination-wrapper">

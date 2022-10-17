@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from 'react';
 import { apiGetCategories } from "../categories/backEndLookUp";
-import { apiGetDishes, apiPostDish, apiDeleteDish, apiPatchDish } from "./backEndLookUp";
+import { apiGetDishes, apiPostDish, apiDeleteDish, apiPatchDish} from "./backEndLookUp";
 import { toast } from "react-toastify";
 import { useConfirm } from "../components";
 
@@ -244,7 +244,7 @@ function Dish(props) {
     )
 }
 
-export function DishListView() {//This will display the menu how a customer will see it 
+export function DishListView() {//This will display the menu how a customer will see it in the landing page
     let [isSet, setIsSet] = useState(false)
     let [dishes, setDishes] = useState([])
     let [categories, setCategories] = useState([])
@@ -255,7 +255,7 @@ export function DishListView() {//This will display the menu how a customer will
                     setDishes(response)
                     setIsSet(true)
                 } else {
-                    alert("An error while fetching dishes ")
+                    alert(response)
                 }
             }
             let pullCategories = (response, status) => {

@@ -3,7 +3,7 @@ from knox.models import AuthToken
 from rest_framework.decorators import api_view
 from rest_framework import generics, filters, status, pagination
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import *
 from restaurant.settings import ALLOWED_HOSTS
@@ -89,11 +89,12 @@ class SearchUsersAPIView(generics.ListAPIView,pagination.PageNumberPagination): 
     search_fields = ['email', 'first_name', 'last_name', 'phone_number']
     filter_backends = (filters.SearchFilter,)
     queryset = CustomUser.objects.get_queryset().order_by('-date_joined')
-    authentication_classes = [restaurant.rest_api.dev.DevAuthentication]
+    #authentication_classes = [restaurant.rest_api.dev.DevAuthentication]
     permission_classes=[IsAuthenticated]
     serializer_class = userSerializer
     pagination_class = CustomPagination
     ordering = ['date_joined']
+
 class AdminUserInfoUpdate(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = userDetailedSerializer
     #queryset = CustomUser.objects.all()
@@ -148,6 +149,7 @@ def reset_profile_image(request):
     #         return response
     #     return super().dispatch(request,*args, **kwargs)
 class RegisterUserAPI(generics.GenericAPIView):
+    permission_classes =[AllowAny]
     serializer_class = RegisterSerializer
     def post(self, request,*args, **kwargs):
         print(request.data)
@@ -158,7 +160,8 @@ class RegisterUserAPI(generics.GenericAPIView):
             "user":userSerializer(user, context=self.get_serializer_context()).data,
             "token":AuthToken.objects.create(user)[1]
             })
-class LoginAPI(generics.GenericAPIView):
+class LoginAPI(generics.GenericAPIView): 
+    permission_classes =[AllowAny]
     serializer_class = LoginSerializer
     def post(self, request):
         serializer = self.get_serializer(data = request.data)
@@ -167,7 +170,7 @@ class LoginAPI(generics.GenericAPIView):
         return Response({
             "user":userSerializer(user, context=self.get_serializer_context()).data,
             "token":AuthToken.objects.create(user)[1]
-            })
+            }, status=status.HTTP_200_OK)
 class UserAPI(generics.RetrieveAPIView):
     permission_classes = [
         IsAuthenticated,

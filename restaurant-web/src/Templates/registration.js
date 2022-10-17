@@ -1,7 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import '../styles/login.css'
 import { Link } from 'react-router-dom';
 export function RegistrationPage() {
+    let [error, setError] = useState(null)
+    let handleSubmit = (e)=>{
+        e.preventDefault()
+        let form = new FormData(e.target)
+        let entries = Object.fromEntries(form.entries())
+        console.log(entries)
+        if(entries.password !== entries.password2){//check if passwords match
+            setError({error:"Passwords do not match"})
+            document.getElementById("password").value=""
+            document.getElementById("password2").value=""
+        }
+        else if(String(entries.password).length<8){
+            setError({error:"Password should be at least 8 characters long"})
+        }
+        else{
+            delete entries["password2"]
+            console.log(entries)
+        }
+    }
 
     return (
         <div className="login-body" style={{ background: 'url(static/landing/slide/view1.jpeg)' }}>
@@ -16,59 +35,62 @@ export function RegistrationPage() {
                                 <p className="login-card-description">Register here</p>
                                 <Link className="btn btn-secondary back-home" to="/"><i className="bi bi-house-fill"></i></Link>
 
-                                <form action="{%url 'register'%}" className="mx-3" method="post">
+                                <form onSubmit={handleSubmit} className="mx-3" method="post">
 
                                     <div className="emailAddressLog">
-                                        <label data-error="wrong" data-success="right" htmlFor="modalLRInput10" className="mt-3">Email
+                                        <label htmlFor="modalLRInput10" className="mt-3">Email
                                             Address:</label>
                                         <div className="input-group mb-3">
                                             <i className="bi bi-envelope-fill input-group-text"></i>
-                                            <input className="form-control"/>
+                                            <input className="form-control" name="email" required/>
                                         </div>
                                     </div>
                                     <div className="emailAddressLog">
-                                        <label data-error="wrong" data-success="right" htmlFor="modalLRInput10">First Name:</label>
+                                        <label htmlFor="modalLRInput10">First Name:</label>
                                         <div className="input-group mb-3">
                                             <i className="bi bi-person-fill input-group-text"></i>
-                                            <input className="form-control"/>
+                                            <input className="form-control" name="first_name" required/>
                                         </div>
                                     </div>
                                     <div className="emailAddressLog ">
-                                        <label data-error="wrong" data-success="right" htmlFor="modalLRInput10">Last Name:</label>
+                                        <label htmlFor="modalLRInput10">Last Name:</label>
                                         <div className="input-group mb-3">
                                             <i className="bi bi-person-fill input-group-text"></i>
-                                            <input className="form-control"/>
+                                            <input className="form-control" name="last_name" required/>
                                         </div>
                                     </div>
                                     <div className="emailAddressLog ">
-                                        <label data-error="wrong" data-success="right" htmlFor="modalLRInput10">Phone Number:</label>
+                                        <label htmlFor="modalLRInput10">Phone Number:</label>
                                         <div className="input-group mb-3">
                                             <i className="bi bi-phone-fill input-group-text"></i>
-                                            <input className="form-control"/>
+                                            <input className="form-control" name="phone_number" required/>
                                         </div>
                                     </div>
                                     <div className="passwordLog ">
-                                        <label data-error="wrong" data-success="right" htmlFor="modalLRInput11">Password:</label>
+                                        <label htmlFor="modalLRInput11">Password:</label>
                                         <div className="input-group mb-3">
                                             <i className="bi bi-lock-fill input-group-text"></i>
-                                            <input className="form-control"/>
+                                            <input className="form-control" name="password" id="password" type="password"/>
                                         </div>
                                     </div>
                                     <div className="passwordLog ">
-                                        <label data-error="wrong" data-success="right" htmlFor="modalLRInput11">Confirm
+                                        <label htmlFor="modalLRInput11">Confirm
                                             Password:</label>
                                         <div className="input-group mb-3">
                                             <i className="bi bi-lock-fill input-group-text"></i>
-                                            <input className="form-control"/>
+                                            <input className="form-control" name="password2" id="password2" type="password" required/>
                                         </div>
                                     </div>
-
-                                    <button type="submit" className="btn btn-success col-12 mb-3" value="login"><i
+                                    {error!==null?(
+                                        <div className="alert alert-danger col-12 alert-custom">
+                                            {error.error}
+                                        </div>
+                                    ):("")}
+                                    <button type="submit" className="btn btn-success col-12 mb-3"><i
                                         className="bi bi-person-plus"> Register</i></button>
-                                    <input type="hidden" name="next" value="{{ next }}" />
                                 </form>
-                                <p className="login-card-footer-text">Already have an account? <a href="{% url 'login' %}"
-                                    className="text-reset">Login here</a></p>
+                                <p className="login-card-footer-text">Already have an account? <Link to="/login"
+                                    className="">Login here</Link></p>
                             </div>
                         </div>
                     </div>

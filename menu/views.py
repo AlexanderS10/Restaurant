@@ -2,9 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.http.response import Http404, JsonResponse
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.views import APIView
 from accounts.decorators import admin_only
 from .serializers import *
@@ -124,14 +124,14 @@ def create_dish(request, *args, **kwargs):
     return Response({"message":"Something went wrong, check the information provided and try again"},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def dish_list_view(request, *args, **kwargs):
     qs = Dish.objects.all()
     serializer = DishSerializer(qs, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def category_list_view(request, *args, **kwargs):
     qs = Dish_Category.objects.all().order_by('date_created')
     serializer = DishCategorySerializer(qs, many=True)

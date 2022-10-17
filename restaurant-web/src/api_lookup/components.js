@@ -26,7 +26,6 @@ export function lookup(method, endpoint, callback, data) {
   const csrftoken = getCookie('csrftoken');
   if (csrftoken) {
     xhr.setRequestHeader("HTTP_X_REQUEST_WITH", "XMLHttpRequest");
-    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xhr.setRequestHeader("X-CSRFToken", csrftoken);
   }
   xhr.onload = function () {
@@ -57,8 +56,8 @@ export function searchlookup(method, endpoint, callback, data) {//This time I wi
     }
   )
   fetch((request))
-    .then(response => response.json().then(data => callback(response,data)))
-    .catch((error) => {alert(error)}) 
+    .then(response => response.json().then(data => callback(response, data)))
+    .catch((error) => { alert(error) })
 }
 export function searchlookupLink(method, endpoint, callback, data) {//This time I will expriment with the fetch api rather than xml
   let jsonData;
@@ -79,13 +78,13 @@ export function searchlookupLink(method, endpoint, callback, data) {//This time 
     }
   )
   fetch((request))
-    .then(response => response.json().then(data => callback(response,data)))
-    .catch((error) => alert(error)) 
+    .then(response => response.json().then(data => callback(response, data)))
+    .catch((error) => alert(error))
 }
 export async function searchlookupImageRoom(method, endpoint, data, responseReturn) {//This time I will expriment with the fetch api rather than xml
   let formData;
   let csrftoken = getCookie('csrftoken');
-  let headers = new Headers({"Content-Type": "multipart/form-data; boundary=123456"},{"Accept":"*/*"})//initialize the headers
+  let headers = new Headers({ "Content-Type": "multipart/form-data; boundary=123456" }, { "Accept": "*/*" })//initialize the headers
   if (data) {
     formData = data
     //console.log(Object.fromEntries(formData))
@@ -100,18 +99,18 @@ export async function searchlookupImageRoom(method, endpoint, data, responseRetu
       body: formData//headers are not neccesary since the fetch api will figure out the correct headers a content type as well as boundary if needed
     }
   )
-  try{
-    let response=await fetch((request))
+  try {
+    let response = await fetch((request))
     responseReturn = response
     //console.log(response.status)
-    if(response.status===201){
-     // console.log("The image upload")
+    if (response.status === 201) {
+      // console.log("The image upload")
       return true //if the response is not ok then false is returned from the function
     }
-    else if(response.status!==201){
+    else if (response.status !== 201) {
       return false
     }
-  }catch(error){
+  } catch (error) {
     alert(error)
-  } 
+  }
 }
