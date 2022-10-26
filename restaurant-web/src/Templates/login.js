@@ -6,10 +6,15 @@ import { apiLogin } from './backEndLookup'
 import { connect } from "react-redux"
 import { Login } from "../api_lookup/frontendAuth";
 import { useDispatch, useSelector } from 'react-redux'
+import { LoadUser } from "../api_lookup/frontendAuth";
 export function LoginPage(props) {
     let dispatch = useDispatch()
+    let state = useSelector((state) => state)
+    useEffect(() => {
+        LoadUser(dispatch, state)
+    }, [dispatch])
     let [error, setError] = useState(null)
-    const isAuthenticated = useSelector((state)=>state.auth.isAuthenticated)
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
     let handleFormSubmit = (e) => {
         e.preventDefault()
         let form = new FormData(e.target)
@@ -35,11 +40,9 @@ export function LoginPage(props) {
         //console.log(isAuthenticated)
     }
     return (
-        // {if(){
 
-        // }}
         <div className="login-body" style={{ background: 'url(static/landing/slide/view1.jpeg)' }}>
-            {/* {isAuthenticated?(<Navigate to="/portal"></Navigate>):("")} */}
+            {isAuthenticated ? (<Navigate to="/portal"></Navigate>) : ("")}
             <div className="login-container vertical-center ">
                 <div className="container container-login col-xl-3 col-lg-4 col-md-6 col-sm-7 col-xs-12 px-0">
                     <div className="row no-gutters px-0">

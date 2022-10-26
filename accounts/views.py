@@ -1,4 +1,6 @@
 from multiprocessing import context
+from urllib import response
+from django.http import HttpResponse
 from knox.models import AuthToken
 from rest_framework.decorators import api_view
 from rest_framework import generics, filters, status, pagination
@@ -164,13 +166,19 @@ class LoginAPI(generics.GenericAPIView):
     permission_classes =[AllowAny]
     serializer_class = LoginSerializer
     def post(self, request):
+        response = HttpResponse()
         serializer = self.get_serializer(data = request.data)
         serializer.is_valid(raise_exception = True)
         user = serializer.validated_data
-        return Response({
-            "user":userSerializer(user, context=self.get_serializer_context()).data,
-            "token":AuthToken.objects.create(user)[1]
-            }, status=status.HTTP_200_OK)
+        response.set_cookie(
+            'key', AuthToken.objects.create(user)[1]
+        )
+        return response
+        # return Response({
+        #     "user":userSerializer(user, context=self.get_serializer_context()).data,
+        #     "token":AuthToken.objects.create(user)[1]
+        #     }, status=status.HTTP_200_OK)
+            
 class UserAPI(generics.RetrieveAPIView):
     permission_classes = [
         IsAuthenticated,

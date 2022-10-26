@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Routes, Route } from "react-router-dom";
 import { UsersSearch } from "./users"
 import { CategoriesList } from './categories'
@@ -21,10 +21,6 @@ import store from "./store";
 // import ReactWeather, {useOpenWeather} from 'react-open-weather';
 //import { ConfirmContextProvider, ConfirmModal } from "./components";
 function App() {
-  let dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(LoadUser)
-  })
   return (
     <div className="App">
       <Routes>

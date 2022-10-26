@@ -1,5 +1,6 @@
 import { USER_LOADING, AUTH_ERROR, USER_LOADED, LOGIN_SUCCESS, LOGIN_FAIL } from "../reducers/types";
 export function LoadUser(dispatch, getState) {
+    console.log(getState)
     dispatch({ type: USER_LOADING })
     let request = new Request(
         'http://127.0.0.1:8000/api/auth/user', {
@@ -20,7 +21,6 @@ export function LoadUser(dispatch, getState) {
                     payload: data
                 })
             }
-
         }))
         .catch(error => {
             alert(error.data)
@@ -31,7 +31,7 @@ export function LoadUser(dispatch, getState) {
 }
 export let tokenConfig = (getState) => {
     //get the token from the state
-    let token = getState().auth.token
+    let token = getState.auth.token
     let headers = new Headers(
         { 'Content-Type': 'application/json' }
     )
