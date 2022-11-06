@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name , phone_number, password, **other_fields):
+    def create(self, email, first_name, last_name , phone_number, password, **other_fields):
         if not email:
             raise ValueError(_("Users must have an email address."))
         email = self.normalize_email(email)
@@ -24,7 +24,7 @@ class MyAccountManager(BaseUserManager):
             raise ValueError("Superuser must be assigned to is_staff=True.")
         if other_fields.get('is_superuser') is not True:
             raise ValueError("Superuser must be assigned to is_superuser=True.")
-        return self.create_user(email,first_name,last_name,phone_number,password,**other_fields)
+        return self.create(email,first_name,last_name,phone_number,password,**other_fields)
 
     def create_staff(self, email, first_name, last_name , phone_number, password, **other_fields):
         other_fields.setdefault('is_staff', True)
@@ -34,7 +34,7 @@ class MyAccountManager(BaseUserManager):
             raise ValueError("Staff must be assigned to is_staff=True.")
         if other_fields.get('is_superuser') is not False:
             raise ValueError("Staff must not be set as is_superuser=False.")
-        return self.create_user(email,first_name,last_name,phone_number,password,**other_fields)
+        return self.create(email,first_name,last_name,phone_number,password,**other_fields)
 
 def get_profile_image_filepath(self,a):
     return f'profile_images/{self.pk}/{"profile_image.png"}'

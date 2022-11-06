@@ -148,7 +148,8 @@ TEMP = os.path.join(BASE_DIR, 'media_root/temp')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = ['http://localhost:3000','http://127.0.0.1:3000','http://192.168.1.12:3000']
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000','http://localhost:3000','http://192.168.1.12:3000']
-SESSION_COOKIE_DOMAIN = '.127.0.0.1:3000'
+CORS_ALLOW_CREDENTIALS = True
+SESSION_COOKIE_DOMAIN = '127.0.0.1'
 CORS_URLS_REGEX = r'^/api/.*$'
 CORS_ALLOW_HEADERS = [
 'accept',
@@ -165,7 +166,7 @@ CORS_ALLOW_HEADERS = [
 
 #REST FRAMEWORK AND DEBUG OPTIONS 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True #Close the session when the browser used is closed 
-DEFAULT_AUTHENTICATION_CLASSES=['knox.auth.TokenAuthentication']
+DEFAULT_AUTHENTICATION_CLASSES=['restaurant.rest_api.dev.CookieAuthetication']
 DEFAULT_RENDER_CLASSES = []
 
 if DEBUG: #This is for development only 
@@ -175,7 +176,7 @@ if DEBUG: #This is for development only
     'rest_framework.renderers.BrowsableAPIRenderer',
     'rest_framework.renderers.JSONRenderer',
     'rest_framework.renderers.HTMLFormRenderer']
-    #DEFAULT_AUTHENTICATION_CLASSES += ['restaurant.rest_api.dev.DevAuthentication']
+    #DEFAULT_AUTHENTICATION_CLASSES += ['restaurant.rest_api.dev.CookieAuthetication']
 
 
 REST_FRAMEWORK = {

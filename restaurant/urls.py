@@ -17,11 +17,10 @@ from django.contrib import admin
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from accounts.views import handler404_view, home_view, logout_view, register_view
+from accounts.views import handler404_view, home_view
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from accounts.views import login_view
 from profiles.views import *
 from accounts.forms import *
 from django.views.generic import TemplateView
@@ -30,12 +29,9 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('', home_view, name=""),
     path('home/', home_view, name='home'),
-    path('register/', register_view, name='register'),
-    path('login/',login_view, name='login'),
     # path('accounts/login/'),
     path('',include('profiles.urls')),
     path('staff/', staff_view),
-    path('logout/',logout_view,name='logout'),
     #here the users can input the email for the account they want to reset the passaword for
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset.html'), name='password_reset'),
     #This is displayed after the user has successfully started the reset proccess

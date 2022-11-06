@@ -5,7 +5,8 @@ export function LoadUser(dispatch, getState) {
     let request = new Request(
         'http://127.0.0.1:8000/api/auth/user', {
         method: "GET",
-        headers: tokenConfig(getState)
+        headers: tokenConfig(getState),
+        credentials:'include'
     }
     )
     fetch(request)
@@ -53,6 +54,7 @@ export function Login(data, callback) {
         {
             method: "POST",
             headers: headers,
+            credentials:'include',
             body: jsonData
         }
     )

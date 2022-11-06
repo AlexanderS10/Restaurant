@@ -9,134 +9,154 @@ from rest_framework.views import APIView
 from accounts.decorators import admin_only
 from .serializers import *
 # Create your views here.
-#
-#ADMIN MENU VIEW
-#
+
 @login_required(login_url='login')
 @admin_only
 def admin_menu(request, *args, **kwargs):
     return render(request, 'portals/administrator/admin_menu.html')
+
 
 def admin_dish_api(request, *args, **kwargs):
     data = request.POST or None
     serializer = DishSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
-    return JsonResponse({},status=400)
+    return JsonResponse({}, status=400)
 #
-#DISH CLASS VIEW will be used to minimize code when writing the views 
+# DISH CLASS VIEW will be used to minimize code when writing the views
 #
 class DishDetail(APIView):
-    def check_admin(self,request):
+    def check_admin(self, request):
         if request.user.is_user_superuser():
             return True
         else:
             return False
-    def get_dish(self,pk):
+    
+    def get_dish(self, pk):
         try:
             return Dish.objects.get(id=pk)
         except Dish.DoesNotExist:
             raise Http404
+
     @permission_classes([IsAuthenticated])
     def get(self, request, dish_id, *args, **kwargs):
         dish = self.get_dish(dish_id)
         serializer = DishSerializer(dish)
         return Response(serializer.data)
-    
+
     @permission_classes([IsAuthenticated])
     def delete(self, request, dish_id, *args, **kwargs):
-        if self.check_admin(request)==False:
-            return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
+        if self.check_admin(request) == False:
+            return Response({"message": "Action denied"}, status=status.HTTP_400_BAD_REQUEST)
         dish = self.get_dish(dish_id)
         dish.delete()
-        return Response(dish_id,status=status.HTTP_202_ACCEPTED)
+        return Response(dish_id, status=status.HTTP_202_ACCEPTED)
+
     @permission_classes([IsAuthenticated])
-    def patch(self,request,dish_id,*args, **kwargs):
-        if self.check_admin(request)==False:
-            return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
-        dish = Dish.objects.get(id = dish_id)
-        serializer = DishSerializer(instance=dish, data = request.data)
+    def patch(self, request, dish_id, *args, **kwargs):
+        if self.check_admin(request) == False:
+            return Response({"message": "Action denied"}, status=status.HTTP_400_BAD_REQUEST)
+        dish = Dish.objects.get(id=dish_id)
+        serializer = DishSerializer(instance=dish, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
-        return Response({"message":"This name is too long or already exists!"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response({"message": "This name is too long or already exists!"}, status=status.HTTP_400_BAD_REQUEST)
 #
-#Since there are not many admins generally speaking the validation will be handled in the backend while for data that needs
-#to be accessed by the users which are undefined will be handled by the front end as well as the backend
+# Since there are not many admins generally speaking the validation will be handled in the backend while for data that needs
+# to be accessed by the users which are undefined will be handled by the front end as well as the backend
 #
-#DISH CATEGORY CLASS VIEW
+# DISH CATEGORY CLASS VIEW
 #
+
 class DishCategory(APIView):
     def get_category(self, id):
         try:
             return Dish_Category.objects.get(id=id)
         except:
             raise Http404
-    def check_admin(self,request):
+
+    def check_admin(self, request):
         if request.user.is_user_superuser():
             return True
         else:
             return False
-    def get(self,request,id,*args, **kwargs):
+    
+    def get(self, request, id, *args, **kwargs):
         category = self.get_category(id)
         serializer = DishCategorySerializer(category)
         return Response(serializer.data)
+
     @permission_classes([IsAuthenticated])
     def delete(self, request, id, *args, **kwargs):
-        if self.check_admin(request)==False:
-            return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
+        if self.check_admin(request) == False:
+            return Response({"message": "Action denied"}, status=status.HTTP_400_BAD_REQUEST)
         category = self.get_category(id)
-        qs = Dish.objects.filter(category=category)#A category cannot be deleted if dishes contain such category
+        # A category cannot be deleted if dishes contain such category
+        qs = Dish.objects.filter(category=category)
         if qs.exists():
-            return Response({"message":"Category does not exists or some dishes contain this category"}, status = status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "Category does not exists or some dishes contain this category"}, status=status.HTTP_400_BAD_REQUEST)
         category.delete()
         return Response(id, status=status.HTTP_202_ACCEPTED)
+
     @permission_classes([IsAuthenticated])
-    def patch(self, request, id , *args, **kwargs):
-        if self.check_admin(request)==False:
-            return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
+    def patch(self, request, id, *args, **kwargs):
+        if self.check_admin(request) == False:
+            return Response({"message": "Action denied"}, status=status.HTTP_400_BAD_REQUEST)
         category = self.get_category(id)
         serializer = DishCategorySerializer(instance=category, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"message":"This category name already exists or is too long"}, status= status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "This category name already exists or is too long"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_category(request, *args, **kwargs):
     print(request.user)
-    if request.user.is_user_superuser()==False:
-        return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
-    serializer = DishCategorySerializer(data = request.data)
+    if request.user.is_user_superuser() == False:
+        return Response({"message": "Action denied"}, status=status.HTTP_400_BAD_REQUEST)
+    serializer = DishCategorySerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response({"message":"This category name already exists or is too long"},status=status.HTTP_400_BAD_REQUEST)
+    return Response({"message": "This category name already exists or is too long"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_dish(request, *args, **kwargs):
-    if request.user.is_user_superuser()==False:
-        return Response({"message":"Action denied"}, status = status.HTTP_400_BAD_REQUEST)
-    serializer = DishSerializer(data = request.data)
+    if request.user.is_user_superuser() == False:
+        return Response({"message": "Action denied"}, status=status.HTTP_400_BAD_REQUEST)
+    serializer = DishSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response({"message":"Something went wrong, check the information provided and try again"},status=status.HTTP_400_BAD_REQUEST)
+    return Response({"message": "Something went wrong, check the information provided and try again"}, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def dish_list_view(request, *args, **kwargs):
-    qs = Dish.objects.all()
-    serializer = DishSerializer(qs, many=True)
-    return Response(serializer.data)
+class CategoryListAPI(generics.RetrieveAPIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    serializer_class = DishCategorySerializer
+    queryset = Dish_Category.objects.all()
+    def get(self, request):
+        try:
+            qs = Dish_Category.objects.all().order_by('date_created')#this will get allthe categories and order them
+            serializer = self.get_serializer(qs, many=True)
+            return Response(serializer.data, status = status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"message":"There was an error fetching the data"}, status=status.HTTP_404_NOT_FOUND)
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def category_list_view(request, *args, **kwargs):
-    qs = Dish_Category.objects.all().order_by('date_created')
-    serializer = DishCategorySerializer(qs, many=True)
-    return Response(serializer.data)
-
-
-
-
+class DishListAPI(generics.RetrieveAPIView):
+    serializer_class = DishSerializer
+    authentication_classes =[]#forces the authentication to be skipped since it goes directly to the custom authentication when not specified
+    queryset = Dish.objects.all()
+    permission_classes = [AllowAny]
+    def get(self, request):
+        try:
+            qs = Dish.objects.all()#
+            serializer = self.get_serializer(qs, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"message":"There was an error fetching the data"}, status = status.HTTP_404_NOT_FOUND)
